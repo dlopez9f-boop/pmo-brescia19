@@ -1,0 +1,35 @@
+# Entornos Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales de Office
+~$*.xlsx
+~$*.docx
+
+# Archivos grandes que no van a GitHub
+*.mp4
+*.avi
+*.mov
+CAÑAVERAL_II/
+RETIRO/
+BRESCIA_19/01_ANTEPROYECTO/
+BRESCIA_19/02_PROYECTO_EJECUTIVO/
+BRESCIA_19/04_CONTRATAS/
+BRESCIA_19/05_OBRAS/
+BRESCIA_19/06_INTALACIONES/
+BRESCIA_19/07_DISEÑO _INT_EXT/
+BRESCIA_19/08_EQUIPAMIENTO/
+BRESCIA_19/09_APERTURA/
+BRESCIA_19/10_POST_APERTURA/
