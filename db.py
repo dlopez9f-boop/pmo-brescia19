@@ -20,6 +20,7 @@ import streamlit as st
 # ─── RUTAS JSON EN EL REPO GITHUB ────────────────────────────────
 _GH_PATH_DIARIAS   = "actas_data/actas_diarias.json"
 _GH_PATH_SEMANALES = "actas_data/actas_semanales.json"
+_GH_PATH_REGISTRO  = "actas_data/registro_actas.json"
 
 # ─── DETECCIÓN DE BACKEND ────────────────────────────────────────
 
@@ -102,6 +103,7 @@ def _sqlite():
 _JSON_FIELDS = [
     "intervenciones", "definiciones_tecnicas", "agenda_proxima",
     "incidencias", "gremios_incidencia", "desviaciones_criticas", "hitos_cumplidos",
+    "acuerdos_tecnicos", "galeria_imagenes",
 ]
 
 def _to_dict(row) -> dict:
@@ -162,6 +164,26 @@ def init_db():
             aprobado_por          TEXT,
             created_at            TEXT DEFAULT (datetime('now'))
         );
+
+        CREATE TABLE IF NOT EXISTS registro_actas (
+            id                    TEXT PRIMARY KEY,
+            fecha                 TEXT NOT NULL,
+            obra                  TEXT DEFAULT 'Brescia 19',
+            semana_obra           INTEGER,
+            fase                  TEXT,
+            redactor              TEXT DEFAULT 'Dario A. Lopez',
+            estado_general        TEXT DEFAULT 'en_curso',
+            resumen_ejecutivo     TEXT,
+            intervenciones        TEXT,
+            definiciones_tecnicas TEXT,
+            acuerdos_tecnicos     TEXT,
+            agenda_proxima        TEXT,
+            incidencias           TEXT,
+            galeria_imagenes      TEXT,
+            created_at            TEXT DEFAULT (datetime('now')),
+            updated_at            TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_ra_fecha ON registro_actas(fecha);
         """)
         conn.commit()
         # Migrar actas_diarias.json si la tabla está vacía
@@ -309,3 +331,54 @@ def consolidar_semana(semana: int) -> dict:
         "estado_aprobacion":     "borrador",
         "aprobado_por":          None,
     }
+
+
+# ══════════════════════════════════════════════════════════════════
+#  CRUD — REGISTRO ACTAS (documentos oficiales)
+# ══════════════════════════════════════════════════════════════════
+
+def list_registro_actas(desde: str = "2026-01-01", hasta: str = "2026-12-31") -> list[dict]:
+    if _backend() == "github":
+        data, _ = _gh_read(_GH_PATH_REGISTRO)
+        result = [r for r in data if desde <= r.get("fecha", "") <= hasta]
+        return sorted(result, key=lambda x: x.get("fecha", ""), reverse=True)
+    else:
+        rows = _sqlite().execute(
+            "SELECT * FROM registro_actas WHERE fecha>=? AND fecha<=? ORDER BY fecha DESC",
+            [desde, hasta],
+        ).fetchall()
+        return [_to_dict(r) for r in rows]
+
+
+def get_registro_acta(rec_id: str) -> Optional[dict]:
+    if _backend() == "github":
+        data, _ = _gh_read(_GH_PATH_REGISTRO)
+        return next((r for r in data if r.get("id") == rec_id), None)
+    else:
+        row = _sqlite().execute(
+            "SELECT * FROM registro_actas WHERE id=?", [rec_id]
+        ).fetchone()
+        return _to_dict(row) if row else None
+
+
+def upsert_registro_acta(rec: dict):
+    rec["updated_at"] = datetime.now().isoformat()
+    if _backend() == "github":
+        _gh_upsert(_GH_PATH_REGISTRO, rec)
+    else:
+        conn = _sqlite()
+        s = _to_sql(rec)
+        conn.execute(
+            f"INSERT OR REPLACE INTO registro_actas ({','.join(s)}) VALUES ({','.join(['?']*len(s))})",
+            list(s.values()),
+        )
+        conn.commit()
+
+
+def delete_registro_acta(rec_id: str):
+    if _backend() == "github":
+        _gh_delete(_GH_PATH_REGISTRO, rec_id)
+    else:
+        conn = _sqlite()
+        conn.execute("DELETE FROM registro_actas WHERE id=?", [rec_id])
+        conn.commit()
