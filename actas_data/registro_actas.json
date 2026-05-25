@@ -1,1 +1,132 @@
-[]
+[
+  {
+    "id": "ACTA-20260525-0001",
+    "fecha": "2026-05-25",
+    "obra": "Brescia 19",
+    "semana_obra": 8,
+    "fase": "Instalaciones y Tabiquería Técnica",
+    "redactor": "Darío A. López",
+    "estado_general": "alerta",
+    "resumen_ejecutivo": "Incidencia en Electricidad por baja de operario — jornada improductiva. Climatización inicia instalación de conductos y habilita acceso a altillo. Replanteo completo con Mohamed (Munir): tabiquería técnica, PCI EI120, acabados y espejos. Definiciones técnicas cerradas para distribución de espacios, cuartos técnicos y elementos de fachada.",
+    "incidencias": [
+      {
+        "gremio": "⚡ Electricidad",
+        "descripcion": "No asistencia completa a primera hora. Equipo insuficiente: baja de 1 operario. Los presentes se retiran al no poder trabajar con cuadrilla mínima. Jornada improductiva.",
+        "prioridad": "alta"
+      }
+    ],
+    "intervenciones": [
+      {
+        "contrata": "⚡ Electricidad",
+        "responsable": "Luis (Elecrea)",
+        "estado": "incidencia",
+        "descripcion": "Asisten a primera hora pero se retiran por falta de personal (baja de un operario). Cuadrilla insuficiente para operar. Jornada improductiva."
+      },
+      {
+        "contrata": "❄️ Climatización",
+        "responsable": "Jose (Servitec)",
+        "estado": "en_curso",
+        "descripcion": "Acopio de material en planta e inicio del montaje de conductos. Apertura de hueco para acceso a altillo y conexión de conductos con máquina de retorno. Trabajo en curso, continúa jornadas siguientes."
+      },
+      {
+        "contrata": "🧱 Albañilería / Pladur",
+        "responsable": "Mohamed (Munir)",
+        "estado": "en_curso",
+        "descripcion": "Revisión en obra de replanteos y geometría de espacios. Definición de tabiquería técnica, cuartos y franja PCI."
+      }
+    ],
+    "definiciones_tecnicas": [
+      {
+        "categoria": "Distribución y accesos",
+        "elemento": "Salida de emergencia",
+        "detalle": "Desplazamiento de la salida a 2.50 m desde el fondo del local."
+      },
+      {
+        "categoria": "Distribución y accesos",
+        "elemento": "Cuarto técnico eléctrico",
+        "detalle": "Dimensiones finales cerradas: 2.30 × 2.00 m."
+      },
+      {
+        "categoria": "Distribución y accesos",
+        "elemento": "Cuarto de limpieza / Almacén",
+        "detalle": "Colindante al cuarto eléctrico. Mismas dimensiones: 2.30 × 2.00 m."
+      },
+      {
+        "categoria": "Protección contra incendios",
+        "elemento": "Franja perimetral EI120",
+        "detalle": "Ejecución de franja EI120 por el interior del trasdosado. Normativa DB-SI."
+      },
+      {
+        "categoria": "Tabiquería y estructuras",
+        "elemento": "Tabique Salas Colectivas",
+        "detalle": "Longitud: 5.50 m. Altura a definir según cota de falso techo una vez colocado."
+      },
+      {
+        "categoria": "Tabiquería y estructuras",
+        "elemento": "Tabique colindante espejos",
+        "detalle": "Doble Pladur. Montantes reforzados cada 60 cm para soporte de espejos perimetrales. Recrecido de apoyo para falsas vigas decorativas."
+      },
+      {
+        "categoria": "Acabados y estética",
+        "elemento": "Ventanas fachada",
+        "detalle": "Retirada de carpinterías existentes. Instalación de vinilo blanco opaco. Pendiente: buscar y cerrar proveedor de vinilos."
+      },
+      {
+        "categoria": "Acabados y estética",
+        "elemento": "Remate de fachada",
+        "detalle": "Perfil 48. Acabado interior a elegir entre: baldosa / PVC / Akaba madera. Pendiente decisión."
+      },
+      {
+        "categoria": "Acabados y estética",
+        "elemento": "Acabado septo",
+        "detalle": "Pendiente de definir. Revisar con dirección de obra."
+      },
+      {
+        "categoria": "Acabados y estética",
+        "elemento": "Vigas falsas — microcemento",
+        "detalle": "Se precisa ejecutar muestra/prueba de acabado en microcemento antes de generalizar."
+      }
+    ],
+    "acuerdos_tecnicos": [
+      {
+        "acuerdo": "Buscar y seleccionar proveedor de vinilo blanco opaco para fachada.",
+        "responsable": "Darío A. López",
+        "plazo": "S9 — antes 01/06"
+      },
+      {
+        "acuerdo": "Definir acabado interior remate fachada (baldosa / PVC / Akaba madera).",
+        "responsable": "Darío A. López",
+        "plazo": "S9 — antes 01/06"
+      },
+      {
+        "acuerdo": "Definir altura final tabique salas colectivas tras instalación de falso techo.",
+        "responsable": "Munir / Mohamed",
+        "plazo": "Tras instalación FT"
+      },
+      {
+        "acuerdo": "Ejecutar prueba de microcemento en muestra de viga falsa para validar acabado.",
+        "responsable": "Munir",
+        "plazo": "S9"
+      },
+      {
+        "acuerdo": "Electricidad: confirmar nueva fecha de incorporación con cuadrilla completa.",
+        "responsable": "Luis (Elecrea)",
+        "plazo": "Mañana 26/05"
+      }
+    ],
+    "agenda_proxima": [
+      {
+        "hora": "08:30",
+        "evento": "Reunión General de Contratas — Coordinación y Hitos S8.",
+        "obligatorio": true
+      },
+      {
+        "hora": "09:30",
+        "evento": "Visita técnica Pedro (Hersan) — Replanteo plataforma salvaescaleras PMR.",
+        "obligatorio": true
+      }
+    ],
+    "galeria_imagenes": [],
+    "created_at": "2026-05-25T09:36:00.000000"
+  }
+]
