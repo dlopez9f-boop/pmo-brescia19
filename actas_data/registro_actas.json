@@ -3,7 +3,7 @@
     "id": "ACTA-20260525-0001",
     "fecha": "2026-05-25",
     "obra": "Brescia 19",
-    "semana_obra": 8,
+    "semana_obra": 10,
     "fase": "Instalaciones y Tabiquería Técnica",
     "redactor": "Darío A. López",
     "estado_general": "alerta",
@@ -127,6 +127,7 @@
       }
     ],
     "galeria_imagenes": [],
-    "created_at": "2026-05-25T09:36:00.000000"
+    "created_at": "2026-05-25T09:36:00.000000",
+    "updated_at": "2026-05-25T22:09:35.996406"
   }
 ]
