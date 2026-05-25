@@ -4,19 +4,36 @@
     "fecha": "2026-05-25",
     "semana_obra": 8,
     "obra": "Brescia 19",
-    "fase": "",
+    "fase": "Instalaciones y Tabiquería Técnica",
     "intervenciones": {
-      "⚡ Electricidad": "No asistencia a primera hora. Equipo incompleto: faltó 1 obrero. El equipo tuvo que retirarse por insuficiencia de personal.",
-      "❄️ Climatización": "Introducción de material en obra. Inicio instalación de conductos. Se habilita acceso al altillo para conectar conductos con máquina de retorno. Trabajo en curso — continúa jornadas siguientes.",
-      "🧱 Albañilería": "Replanteo con Mohamed (encargado Munir):\n• Salida de emergencia desplazada a 2,5 m del fondo.\n• Cuarto eléctrico: 2,3 × 2 m.\n• Cuarto limpieza/almacenaje: misma dimensión, colindante.\n• Franja perimetral PCI: EI120 por dentro del trasdosado.\n• Tabique salas colectivas: 5,5 m de largo. Altura según falso techo (a definir).\n• Ventanas eliminadas → vinilo blanco (buscar proveedores).\n• Perfil 48 en fachada → acabado baldosa, PVC o Akaba madera.\n• Acabado septo: pendiente revisión.\n• Prueba microcemento para vigas falsas y resto de acabados del centro.\n• Tabique colindante doble Pladur: montantes a 60 cm para espejos + recrecimiento para vigas falsas.",
-      "🪵 Carpintería": "Montantes a 60 cm para soporte de espejos perimetrales. Recrecimiento de apoyo para vigas falsas decorativas. Pendiente prueba de microcemento en muestra."
+      "⚡ Electricidad": "Asisten a primera hora pero se retiran por falta de personal (baja de un operario). Estado: Incidencia — Jornada improductiva.",
+      "❄️ Climatización": "Acopio de material en planta e inicio del montaje de conductos. Apertura de hueco para acceso a altillo y conexión con máquina de retorno. Estado: En curso.",
+      "🧱 Albañilería": "Mohamed (Munir): Revisión en obra de replanteos y geometría de espacios. Estado: En curso."
     },
-    "definiciones_tecnicas": {},
+    "definiciones_tecnicas": {
+      "distribucion_y_accesos": [
+        { "elemento": "Salida de emergencia", "detalle": "Desplazamiento de la salida a 2.5 metros desde el fondo." },
+        { "elemento": "Cuarto técnico eléctrico", "detalle": "Dimensiones finales cerradas en 2.30 x 2.00 metros." },
+        { "elemento": "Cuarto de limpieza / Almacén", "detalle": "Dimensiones colindantes idénticas al cuarto eléctrico (2.30 x 2.00 metros)." }
+      ],
+      "proteccion_incendios_y_acustica": [
+        { "elemento": "Franja perimetral", "detalle": "Ejecución de franja EI120 por el interior del trasdosado (Normativa de Incendios)." }
+      ],
+      "tabiqueria_y_estructuras": [
+        { "elemento": "Tabique Salas Colectivas", "detalle": "Longitud de 5.5 metros. Altura final a definir según cota de falso techo una vez colocado." },
+        { "elemento": "Tabique colindante espejos", "detalle": "Estructura de doble placa de yeso laminado (Pladur). Montantes reforzados cada 60 cm para soporte de espejos y recrecido de apoyo con falsas vigas." }
+      ],
+      "acabados_y_estetica": [
+        { "elemento": "Ventanas fachada", "detalle": "Retirada de carpinterías e instalación de vinilo blanco opaco. Requerido buscar proveedor de vinilos." },
+        { "elemento": "Remate fachada", "detalle": "Perfil de 48. Acabado interior a definir entre baldosa, PVC o revestimiento de madera." },
+        { "elemento": "Vigas falsas", "detalle": "Se precisa realizar muestra/prueba de acabado en microcemento." }
+      ]
+    },
     "agenda_proxima": {
-      "texto": "08:30h — Reunión general de contratas (OBLIGATORIO todos los gremios activos).\n09:30h — Visita técnica Pedro (Hersan) para replanteo plataforma salvaescaleras PMR."
+      "texto": "08:30 Reunión General de Contratas (Coordinación y Hitos) — OBLIGATORIO\n09:30 Visita técnica Pedro (Proveedor Salvaescaleras Hersan) — OBLIGATORIO"
     },
     "incidencias": [
-      "⚡ ELECTRICIDAD — Ausencia primera hora. Equipo incompleto (falta 1 obrero). Trabajo paralizado."
+      "⚡ Electricidad — Baja de operario. Equipo insuficiente. Jornada improductiva completa."
     ],
     "gremios_incidencia": [
       "⚡ Electricidad"
@@ -24,8 +41,8 @@
     "prioridad": "alta",
     "estado": "borrador",
     "texto_original": "Acta diaria 25/05. En el día de hoy no ha asistido a primera hora gente de Electricidad, pero luego se han tenido que marchar porque no han sido suficientes, ha faltado un obrero. Por otra parte, los conductores del Clima han introducido el material y han empezado la instalación de los conductos. Se crea el espacio para poder subir al altillo y terminar de comunicar esos conductos con la máquina de retorno. Se revisa con Mohamed, encargado de obra por parte de Munir. Detalles: desplazamiento de la salida de emergencia a 2,5 m. Cuarto eléctrico 2,3 × 2 m, mismo dimensión colindante cuarto de limpieza/almacenaje. Se revisa franja perimetral PCI: EI120 por dentro del trasdosado. Tabique salas colectivas largo 5,5 m, altura según falso techo. Quitamos ventanas y ponemos vinilo blanco — buscar proveedores. Perfil 48 en fachada, acabado con baldosa, PVC o Akaba de madera. Ver acabado de septo. Prueba microcemento para vigas falsas y resto de acabados. Tabique colindante doble Pladur, montantes a 60 cm para espejos y recrecimiento para apoyo con vigas falsas. Mañana 08:30 reunión con contratas. 09:30 visita Pedro Hersan salvaescaleras.",
-    "resumen": "Incidencia Electricidad (falta obrero). Clima inicia conductos y altillo. Replanteo completo con Mohamed (Munir): tabiquería, PCI EI120, espejos, acabados.",
-    "creado_por": "Dario A. Lopez",
-    "created_at": "2026-05-25T17:39:16.586146"
+    "resumen": "S8 · 25/05/2026 — Incidencia Electricidad (baja operario, jornada improductiva). Climatización: inicio conductos y acceso altillo. Munir: replanteo geometría completo. Definiciones técnicas cerradas: tabiquería, PCI EI120, espejos, acabados.",
+    "creado_por": "Darío A. López",
+    "created_at": "2026-05-25T09:36:00.000000"
   }
 ]
