@@ -1,5 +1,21 @@
 [
   {
+    "id": "ACT-20260526-225417",
+    "fecha": "2026-05-26",
+    "semana_obra": 10,
+    "obra": "Brescia 19",
+    "texto_original": "Hola Claude. Tengo el texto en bruto de mis notas diarias a pie de obra tomadas hoy (25/05) para el proyecto Brescia 19 de Nine Fitness. Mi objetivo es automatizar por completo la ingesta de datos para que la app PMO Master procese estas notas y las guarde de forma estructurada.\n\nNecesito que desarrolles la lógica en Python (Streamlit + SQLite/Supabase) basada en los siguientes requerimientos:\n\n1. Función de Ingesta Inteligente (Parser API)\nEscribe una función llamada procesar_texto_bruto_a_json(texto_plano) que simule el comportamiento de un agente conversacional. Debe coger un párrafo desestructurado (como mis notas de voz) y mapearlo de forma estricta en variables de Python:\n\nincidencias: Detectar contratas que fallan (ej. Electricidad por falta de personal).\n\navances: Detectar qué gremios sí están trabajando (ej. Clima y conductos).\n\nreplanteos: Extraer arrays con claves elemento y detalle (distribución, medidas de cuartos, franja EI120, tabiques, montantes a 60cm).\n\nagenda: Identificar citas futuras con horas y nombres (ej. Pedro Salvaescaleras 9:30).\n\n2. Base de Datos y Consolidación Semanal\nDiseña la tabla actas_diarias y escribe la función para guardar este JSON indexado por la fecha (2026-05-25).\n\nEscribe la función de backend generar_acta_semanal(fecha_inicio, fecha_fin). Esta función debe hacer un SELECT de todas las actas de esos 5 días, extraer las \"incidencias\" acumuladas y los \"replanteos\" clave, y unificarlos en un solo texto técnico para mandárselo a la Dirección (Laura) sin que yo tenga que redactar nada el viernes.\n\n3. Interfaz de Ingesta Rápida en PMO Master\nEn la interfaz de nuestra app unificada, crea una sección con un área de texto expandible (st.text_area) donde yo pueda pegar directamente mis transcripciones de audio. Al hacer clic en un botón 'Procesar y Publicar', debe:\n\nEjecutar el parser.\n\nGuardarlo en la base de datos interna.\n\nActualizar el scroll visual de actas diarias automáticamente.\n\nProporcióname el código limpio, optimizado y listo para acoplar en el app.py que unificamos anteriormente.",
+    "resumen": "Ingesta rápida S10 · 26/05/2026",
+    "intervenciones": "{\"❄️ Climatización\": \"avances: Detectar qué gremios sí están trabajando (ej. Clima y conductos).\", \"🧱 Albañilería\": \"replanteos: Extraer arrays con claves elemento y detalle (distribución, medidas de cuartos, franja EI120, tabiques, montantes a 60cm).\", \"🪵 Carpintería\": \"Hola Claude. Tengo el texto en bruto de mis notas diarias a pie de obra tomadas hoy (25/05) para el proyecto Brescia 19 de Nine Fitness. Mi objetivo es automatizar por completo la ingesta de datos para que la app PMO Master procese estas notas y las guarde de forma estructurada.\\nEscribe una función llamada procesar_texto_bruto_a_json(texto_plano) que simule el comportamiento de un agente conversacional. Debe coger un párrafo desestructurado (como mis notas de voz) y mapearlo de forma estricta en variables de Python:\", \"🔥 PCI\": \"En la interfaz de nuestra app unificada, crea una sección con un área de texto expandible (st.text_area) donde yo pueda pegar directamente mis transcripciones de audio. Al hacer clic en un botón 'Procesar y Publicar', debe:\", \"♿ Accesibilidad\": \"agenda: Identificar citas futuras con horas y nombres (ej. Pedro Salvaescaleras 9:30).\"}",
+    "definiciones_tecnicas": "[{\"elemento\": \"replanteos\", \"detalle\": \"Extraer arrays con claves elemento y detalle (distribución, medidas de cuartos, franja EI120, tabiques, montantes a 60cm).\"}]",
+    "agenda_proxima": "{\"items\": [{\"hora\": \"9:30\", \"evento\": \"agenda: Identificar citas futuras con horas y nombres (ej. Pedro Salvaescaleras 9:30).\"}], \"texto\": \"9:30 — agenda: Identificar citas futuras con horas y nombres (ej. Pedro Salvaescaleras 9:30).\"}",
+    "incidencias": "[]",
+    "gremios_incidencia": "[]",
+    "prioridad": "normal",
+    "estado": "borrador",
+    "creado_por": "Darío A. López"
+  },
+  {
     "id": "ACT-20260525-0936",
     "fecha": "2026-05-25",
     "semana_obra": 8,
@@ -12,21 +28,48 @@
     },
     "definiciones_tecnicas": {
       "distribucion_y_accesos": [
-        { "elemento": "Salida de emergencia", "detalle": "Desplazamiento de la salida a 2.5 metros desde el fondo." },
-        { "elemento": "Cuarto técnico eléctrico", "detalle": "Dimensiones finales cerradas en 2.30 x 2.00 metros." },
-        { "elemento": "Cuarto de limpieza / Almacén", "detalle": "Dimensiones colindantes idénticas al cuarto eléctrico (2.30 x 2.00 metros)." }
+        {
+          "elemento": "Salida de emergencia",
+          "detalle": "Desplazamiento de la salida a 2.5 metros desde el fondo."
+        },
+        {
+          "elemento": "Cuarto técnico eléctrico",
+          "detalle": "Dimensiones finales cerradas en 2.30 x 2.00 metros."
+        },
+        {
+          "elemento": "Cuarto de limpieza / Almacén",
+          "detalle": "Dimensiones colindantes idénticas al cuarto eléctrico (2.30 x 2.00 metros)."
+        }
       ],
       "proteccion_incendios_y_acustica": [
-        { "elemento": "Franja perimetral", "detalle": "Ejecución de franja EI120 por el interior del trasdosado (Normativa de Incendios)." }
+        {
+          "elemento": "Franja perimetral",
+          "detalle": "Ejecución de franja EI120 por el interior del trasdosado (Normativa de Incendios)."
+        }
       ],
       "tabiqueria_y_estructuras": [
-        { "elemento": "Tabique Salas Colectivas", "detalle": "Longitud de 5.5 metros. Altura final a definir según cota de falso techo una vez colocado." },
-        { "elemento": "Tabique colindante espejos", "detalle": "Estructura de doble placa de yeso laminado (Pladur). Montantes reforzados cada 60 cm para soporte de espejos y recrecido de apoyo con falsas vigas." }
+        {
+          "elemento": "Tabique Salas Colectivas",
+          "detalle": "Longitud de 5.5 metros. Altura final a definir según cota de falso techo una vez colocado."
+        },
+        {
+          "elemento": "Tabique colindante espejos",
+          "detalle": "Estructura de doble placa de yeso laminado (Pladur). Montantes reforzados cada 60 cm para soporte de espejos y recrecido de apoyo con falsas vigas."
+        }
       ],
       "acabados_y_estetica": [
-        { "elemento": "Ventanas fachada", "detalle": "Retirada de carpinterías e instalación de vinilo blanco opaco. Requerido buscar proveedor de vinilos." },
-        { "elemento": "Remate fachada", "detalle": "Perfil de 48. Acabado interior a definir entre baldosa, PVC o revestimiento de madera." },
-        { "elemento": "Vigas falsas", "detalle": "Se precisa realizar muestra/prueba de acabado en microcemento." }
+        {
+          "elemento": "Ventanas fachada",
+          "detalle": "Retirada de carpinterías e instalación de vinilo blanco opaco. Requerido buscar proveedor de vinilos."
+        },
+        {
+          "elemento": "Remate fachada",
+          "detalle": "Perfil de 48. Acabado interior a definir entre baldosa, PVC o revestimiento de madera."
+        },
+        {
+          "elemento": "Vigas falsas",
+          "detalle": "Se precisa realizar muestra/prueba de acabado en microcemento."
+        }
       ]
     },
     "agenda_proxima": {
