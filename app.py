@@ -291,7 +291,35 @@ def procesar_texto_bruto_a_json(texto: str) -> dict:
 def parsear(texto: str) -> dict:
     return procesar_texto_bruto_a_json(texto)
 
-def html_acta_diaria(acta: dict) -> str:
+def _gallery_html(imagenes: list) -> str:
+    if not imagenes:
+        return ""
+    items = ""
+    for i, img in enumerate(imagenes[:3]):
+        cls = "gallery-item highlight" if i == 0 else "gallery-item"
+        items += (
+            f'<div class="{cls}">'
+            f'<img src="{img["src"]}" alt="{img["caption"]}">'
+            f'<div class="gallery-caption">{img["caption"]}</div>'
+            f'</div>'
+        )
+    return f'<div class="sec"><div class="sh">📸 Registro Fotográfico</div><div class="gallery">{items}</div></div>'
+
+
+def _imgs_b64(files: list) -> list:
+    """Convierte lista de UploadedFile a lista de {src, caption}."""
+    import base64
+    result = []
+    for f in (files or []):
+        if f is None:
+            continue
+        b64 = base64.b64encode(f.read()).decode()
+        mime = f.type or "image/jpeg"
+        result.append({"src": f"data:{mime};base64,{b64}", "caption": f.name})
+    return result
+
+
+def html_acta_diaria(acta: dict, imagenes: list | None = None) -> str:
     """HTML de previsualización para una acta diaria."""
     try:
         fecha_str = datetime.fromisoformat(acta["fecha"]).strftime("%A %d de %B de %Y").capitalize()
@@ -357,8 +385,23 @@ def html_acta_diaria(acta: dict) -> str:
   .sh{{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#1a1a2e;
        margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #e94560}}
   .sec{{margin-bottom:20px}}
+  .gallery{{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}}
+  .gallery-item{{position:relative;border-radius:8px;overflow:hidden;
+                 box-shadow:0 2px 8px rgba(0,0,0,.08);aspect-ratio:4/3;background:#f8f9ff}}
+  .gallery-item img{{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease}}
+  .gallery-item:hover img{{transform:scale(1.03)}}
+  .gallery-caption{{position:absolute;bottom:0;left:0;right:0;
+                    background:linear-gradient(transparent,rgba(26,26,46,.9));
+                    color:#fff;padding:24px 12px 10px;font-size:9px;
+                    text-transform:uppercase;letter-spacing:1px;font-weight:600}}
+  .gallery-item.highlight{{grid-column:span 2;grid-row:span 2}}
   .ftr{{background:#1a1a2e;padding:10px 28px;font-size:9px;color:rgba(255,255,255,.4);
         display:flex;justify-content:space-between}}
+  @media print{{
+    .gallery{{gap:8px}}
+    .gallery-item{{page-break-inside:avoid;box-shadow:none;border:1px solid #e2e8f0}}
+    .gallery-item:hover img{{transform:none}}
+  }}
 </style></head><body>
 <div class="doc">
   <div class="hdr">
@@ -383,6 +426,7 @@ def html_acta_diaria(acta: dict) -> str:
     {f'<div class="sec"><div class="sh">⚠ Incidencias</div>{inc_html}</div>' if inc_html else ''}
     {f'<div class="sec"><div class="sh">🔧 Intervenciones</div>{sec_html}</div>' if sec_html else ''}
     {f'<div class="sec"><div class="sh">📅 Agenda próxima jornada</div><div style="font-size:12px;color:#374151;line-height:1.7;">{ag_txt.replace(chr(10),"<br>")}</div></div>' if ag_txt else ''}
+    {_gallery_html(imagenes) if imagenes else ''}
   </div>
   <div class="ftr">
     <span>NINE FITNESS GROUP S.L. · Brescia 19, 28028 Madrid</span>
@@ -726,6 +770,8 @@ elif modulo == "📝 Actas Diarias":
                 texto_raw  = st.text_area("Notas de campo (texto libre)", height=260,
                                           placeholder="- Luis (Elecrea): cuadro CGMP pendiente.\n- Jose (Servitec): inicio conductos altillo.\n- Mañana 08:30 reunión contratas.")
                 resumen_m  = st.text_input("Resumen ejecutivo (opcional)")
+                fotos      = st.file_uploader("📸 Fotos (máx. 3)", type=["jpg","jpeg","png","webp"],
+                                              accept_multiple_files=True, key="fotos_nueva")
                 c1, c2 = st.columns(2)
                 with c1: prioridad = st.selectbox("Prioridad", ["normal","alta","urgente"])
                 with c2: estado    = st.selectbox("Estado",    ["borrador","revisado","firmado"])
@@ -735,8 +781,9 @@ elif modulo == "📝 Actas Diarias":
                 if not texto_raw.strip():
                     st.warning("Escribe las notas antes de guardar.")
                 else:
-                    p   = parsear(texto_raw)
-                    _id = f"ACT-{f_fecha.strftime('%Y%m%d')}-{datetime.now().strftime('%H%M%S')}"
+                    p    = parsear(texto_raw)
+                    imgs = _imgs_b64(fotos[:3] if fotos else [])
+                    _id  = f"ACT-{f_fecha.strftime('%Y%m%d')}-{datetime.now().strftime('%H%M%S')}"
                     nueva = {
                         "id":                    _id,
                         "fecha":                 f_fecha.isoformat(),
@@ -755,6 +802,7 @@ elif modulo == "📝 Actas Diarias":
                     }
                     upsert_acta_diaria(nueva)
                     st.session_state["acta_preview_nueva"] = nueva
+                    st.session_state["acta_preview_imgs"]  = imgs
                     st.success(f"✅ Acta **{_id}** guardada.")
                     st.rerun()
 
@@ -762,7 +810,7 @@ elif modulo == "📝 Actas Diarias":
             st.markdown("### 🔍 Preview")
             prev_nueva = st.session_state.get("acta_preview_nueva")
             if prev_nueva:
-                components.html(html_acta_diaria(prev_nueva), height=500, scrolling=True)
+                components.html(html_acta_diaria(prev_nueva, st.session_state.get("acta_preview_imgs")), height=500, scrolling=True)
             else:
                 st.info("El preview aparecerá aquí tras guardar.")
 
@@ -788,6 +836,8 @@ elif modulo == "📝 Actas Diarias":
                     "- Mañana 08:30 reunión general contratas."
                 ),
             )
+            ir_fotos  = st.file_uploader("📸 Fotos (máx. 3)", type=["jpg","jpeg","png","webp"],
+                                         accept_multiple_files=True, key="ir_fotos")
             ir_prio   = st.selectbox("Prioridad", ["normal", "alta", "urgente"], key="ir_prio")
             procesar  = st.button("🚀 Procesar y Publicar", use_container_width=True, type="primary", key="ir_btn")
 
@@ -798,6 +848,7 @@ elif modulo == "📝 Actas Diarias":
                     st.warning("Escribe las notas antes de procesar.")
                 else:
                     p    = procesar_texto_bruto_a_json(ir_texto)
+                    imgs = _imgs_b64(ir_fotos[:3] if ir_fotos else [])
                     _id  = f"ACT-{ir_fecha.strftime('%Y%m%d')}-{datetime.now().strftime('%H%M%S')}"
                     acta = {
                         "id":                    _id,
@@ -818,6 +869,7 @@ elif modulo == "📝 Actas Diarias":
                     upsert_acta_diaria(acta)
                     st.session_state["ir_resultado"] = p
                     st.session_state["ir_acta"]      = acta
+                    st.session_state["ir_imgs"]      = imgs
                     st.success(f"✅ **{_id}** guardada y publicada.")
 
             res = st.session_state.get("ir_resultado")
@@ -854,7 +906,10 @@ elif modulo == "📝 Actas Diarias":
 
                 if st.session_state.get("ir_acta"):
                     st.divider()
-                    components.html(html_acta_diaria(st.session_state["ir_acta"]), height=420, scrolling=True)
+                    components.html(
+                        html_acta_diaria(st.session_state["ir_acta"], st.session_state.get("ir_imgs")),
+                        height=420, scrolling=True,
+                    )
             else:
                 st.info("Aquí aparecerá el análisis estructurado tras procesar.")
 
