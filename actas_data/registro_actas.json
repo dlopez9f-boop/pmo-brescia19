@@ -702,6 +702,30 @@
     "updated_at": "2026-05-26T15:15:35.483103"
   },
   {
+    "id": "ACTA-20260526-223610",
+    "fecha": "2026-05-26",
+    "obra": "Brescia 19",
+    "semana_obra": 10,
+    "fase": "",
+    "redactor": "Darío A. López",
+    "estado_general": "en_curso",
+    "resumen_ejecutivo": "",
+    "incidencias": [],
+    "intervenciones": [],
+    "definiciones_tecnicas": [],
+    "acuerdos_tecnicos": [],
+    "agenda_proxima": [
+      {
+        "hora": "",
+        "evento": "",
+        "obligatorio": false
+      }
+    ],
+    "galeria_imagenes": [],
+    "created_at": "2026-05-26T22:36:10.482842",
+    "updated_at": "2026-05-26T22:36:10.482856"
+  },
+  {
     "id": "ACTA-20260525-0001",
     "fecha": "2026-05-25",
     "obra": "Brescia 19",
