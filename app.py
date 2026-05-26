@@ -6,6 +6,7 @@ Navegación lateral unificada: Gantt · Actas Diarias · Actas Semanales · Agen
 """
 
 import json
+import re
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -231,27 +232,64 @@ def ts(fecha_str: str) -> float:
 #  HELPERS ACTAS
 # ══════════════════════════════════════════════════════════════════
 
-def parsear(texto: str) -> dict:
-    lines = [l.strip() for l in texto.splitlines() if l.strip()]
-    secs: dict = {g: [] for g in GREMIO_KW}
-    incs, agenda = [], []
+_RE_HORA     = re.compile(r'\b(\d{1,2}[:.h]\d{2})\b')
+_RE_MEDIDA   = re.compile(r'\d+[\.,]?\d*\s*(?:m[²2]?|cm|ml)\b|\d+\s*[×x]\s*\d+|'
+                          r'\bdimensi|\breplanteo\b|\btabiq|\bmontante|\bmedid|\bhueco\b')
+_INC_ALTA_KW = ["no asist", "baja", "sin personal", "parado", "bloqueado",
+                "sin material", "improductiv", "ausencia", "no puede"]
+
+def procesar_texto_bruto_a_json(texto: str) -> dict:
+    lines       = [l.strip() for l in texto.splitlines() if l.strip()]
+    secs        = {g: [] for g in GREMIO_KW}
+    incidencias = []
+    avances     = []
+    replanteos  = []
+    agenda      = []
+
     for line in lines:
         ll = line.lower()
-        for g, kws in GREMIO_KW.items():
-            if any(k in ll for k in kws):
-                secs[g].append(line)
-                break
-        if any(k in ll for k in INC_KW):
-            incs.append(line)
-        if any(k in ll for k in AGENDA_KW):
-            agenda.append(line)
-    gremios_inc = [g for g in GREMIO_KW if secs[g] and any(k in " ".join(secs[g]).lower() for k in INC_KW)]
+
+        gremio = next((g for g, kws in GREMIO_KW.items() if any(k in ll for k in kws)), None)
+        is_inc = any(k in ll for k in INC_KW)
+        hora_m = _RE_HORA.search(ll)
+        is_agenda    = bool(hora_m) or any(k in ll for k in AGENDA_KW)
+        is_replanteo = bool(_RE_MEDIDA.search(ll))
+
+        if gremio:
+            secs[gremio].append(line)
+            if is_inc:
+                prioridad = "alta" if any(k in ll for k in _INC_ALTA_KW) else "normal"
+                incidencias.append({"gremio": gremio, "descripcion": line, "prioridad": prioridad})
+            else:
+                avances.append({"gremio": gremio, "descripcion": line})
+
+        if is_replanteo:
+            if ":" in line:
+                el, det = line.split(":", 1)
+                replanteos.append({"elemento": el.strip(), "detalle": det.strip()})
+            else:
+                replanteos.append({"elemento": "Replanteo", "detalle": line})
+
+        if is_agenda:
+            hora = hora_m.group(1) if hora_m else "—"
+            agenda.append({"hora": hora, "evento": line})
+
+    gremios_inc = list(dict.fromkeys(i["gremio"] for i in incidencias))
+    ag_texto    = "\n".join(f"{a['hora']} — {a['evento']}" for a in agenda)
+
     return {
+        "incidencias":        incidencias,
+        "avances":            avances,
+        "replanteos":         replanteos,
+        "agenda":             agenda,
         "intervenciones":     {g: "\n".join(v) for g, v in secs.items() if v},
-        "incidencias":        incs,
-        "agenda_proxima":     {"texto": "\n".join(agenda)},
         "gremios_incidencia": gremios_inc,
+        "agenda_proxima":     {"items": agenda, "texto": ag_texto},
     }
+
+# Alias para compatibilidad con código existente
+def parsear(texto: str) -> dict:
+    return procesar_texto_bruto_a_json(texto)
 
 def html_acta_diaria(acta: dict) -> str:
     """HTML de previsualización para una acta diaria."""
@@ -603,7 +641,7 @@ elif modulo == "📝 Actas Diarias":
     st.title("📝 Actas Diarias de Obra")
     st.caption(f"Backend: {backend_info()}")
 
-    tab_hist, tab_nueva = st.tabs(["📚 Histórico", "✍️ Nueva Acta"])
+    tab_hist, tab_nueva, tab_rapida = st.tabs(["📚 Histórico", "✍️ Nueva Acta", "⚡ Ingesta Rápida"])
 
     with tab_hist:
         fc1, fc2, fc3, fc4 = st.columns([1.2, 1.2, 1, 1])
@@ -727,6 +765,98 @@ elif modulo == "📝 Actas Diarias":
                 components.html(html_acta_diaria(prev_nueva), height=500, scrolling=True)
             else:
                 st.info("El preview aparecerá aquí tras guardar.")
+
+
+    with tab_rapida:
+        st.markdown("### ⚡ Ingesta Rápida — Transcripción de Campo")
+        st.caption("Pega tus notas de voz o texto libre. El parser detecta gremios, incidencias, replanteos y agenda automáticamente.")
+
+        col_in, col_out = st.columns([1, 1], gap="large")
+
+        with col_in:
+            ir_fecha  = st.date_input("Fecha", value=date.today(), key="ir_fecha")
+            ir_texto  = st.text_area(
+                "Notas de campo",
+                height=320,
+                key="ir_texto",
+                placeholder=(
+                    "Ej:\n"
+                    "- Luis Elecrea: baja de operario, cuadrilla insuficiente, jornada improductiva.\n"
+                    "- Jose Servitec: inicio montaje conductos en altillo 9:30, continúa mañana.\n"
+                    "- Mohamed Munir: replanteo tabique salas colectivas 5.50m x altura pendiente.\n"
+                    "- Cuarto técnico eléctrico: dimensiones cerradas 2.30 × 2.00m.\n"
+                    "- Mañana 08:30 reunión general contratas."
+                ),
+            )
+            ir_prio   = st.selectbox("Prioridad", ["normal", "alta", "urgente"], key="ir_prio")
+            procesar  = st.button("🚀 Procesar y Publicar", use_container_width=True, type="primary", key="ir_btn")
+
+        with col_out:
+            st.markdown("### 🔍 Resultado del Parser")
+            if procesar:
+                if not ir_texto.strip():
+                    st.warning("Escribe las notas antes de procesar.")
+                else:
+                    p    = procesar_texto_bruto_a_json(ir_texto)
+                    _id  = f"ACT-{ir_fecha.strftime('%Y%m%d')}-{datetime.now().strftime('%H%M%S')}"
+                    acta = {
+                        "id":                    _id,
+                        "fecha":                 ir_fecha.isoformat(),
+                        "semana_obra":           semana_obra(ir_fecha),
+                        "obra":                  "Brescia 19",
+                        "texto_original":        ir_texto,
+                        "resumen":               f"Ingesta rápida S{semana_obra(ir_fecha)} · {ir_fecha.strftime('%d/%m/%Y')}",
+                        "intervenciones":        json.dumps(p["intervenciones"],     ensure_ascii=False),
+                        "definiciones_tecnicas": json.dumps(p["replanteos"],         ensure_ascii=False),
+                        "agenda_proxima":        json.dumps(p["agenda_proxima"],     ensure_ascii=False),
+                        "incidencias":           json.dumps([i["descripcion"] for i in p["incidencias"]], ensure_ascii=False),
+                        "gremios_incidencia":    json.dumps(p["gremios_incidencia"], ensure_ascii=False),
+                        "prioridad":             ir_prio,
+                        "estado":                "borrador",
+                        "creado_por":            "Darío A. López",
+                    }
+                    upsert_acta_diaria(acta)
+                    st.session_state["ir_resultado"] = p
+                    st.session_state["ir_acta"]      = acta
+                    st.success(f"✅ **{_id}** guardada y publicada.")
+
+            res = st.session_state.get("ir_resultado")
+            if res:
+                if res["incidencias"]:
+                    st.markdown("**⚠️ Incidencias detectadas**")
+                    for inc in res["incidencias"]:
+                        color = "#e74c3c" if inc["prioridad"] == "alta" else "#f39c12"
+                        st.markdown(
+                            f'<div style="border-left:3px solid {color};padding:6px 10px;'
+                            f'background:#1a1a2e;border-radius:0 4px 4px 0;margin-bottom:4px;font-size:12px;">'
+                            f'<b>{inc["gremio"]}</b> · {inc["descripcion"]}</div>',
+                            unsafe_allow_html=True,
+                        )
+                if res["avances"]:
+                    st.markdown("**✅ Avances**")
+                    for av in res["avances"]:
+                        st.markdown(
+                            f'<div style="border-left:3px solid #2ecc71;padding:6px 10px;'
+                            f'background:#1a1a2e;border-radius:0 4px 4px 0;margin-bottom:4px;font-size:12px;">'
+                            f'<b>{av["gremio"]}</b> · {av["descripcion"]}</div>',
+                            unsafe_allow_html=True,
+                        )
+                if res["replanteos"]:
+                    st.markdown("**📐 Replanteos / Definiciones técnicas**")
+                    st.dataframe(
+                        pd.DataFrame(res["replanteos"]),
+                        use_container_width=True, hide_index=True,
+                    )
+                if res["agenda"]:
+                    st.markdown("**📅 Agenda próxima jornada**")
+                    for ag in res["agenda"]:
+                        st.markdown(f'`{ag["hora"]}` — {ag["evento"]}')
+
+                if st.session_state.get("ir_acta"):
+                    st.divider()
+                    components.html(html_acta_diaria(st.session_state["ir_acta"]), height=420, scrolling=True)
+            else:
+                st.info("Aquí aparecerá el análisis estructurado tras procesar.")
 
 
 # ══════════════════════════════════════════════════════════════════
