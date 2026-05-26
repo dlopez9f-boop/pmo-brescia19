@@ -36,7 +36,7 @@ def _check_password() -> bool:
     """Devuelve True si la contraseña es correcta o ya estaba validada."""
 
     def _on_submit():
-        pwd_ok = st.session_state.get("_pwd_input","") == st.secrets.get("contraseña_pmo","")
+        pwd_ok = st.session_state.get("_pwd_input","") == st.secrets.get("password_pmo","brescia19")
         st.session_state["_pwd_ok"] = pwd_ok
 
     if st.session_state.get("_pwd_ok"):
