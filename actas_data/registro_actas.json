@@ -318,6 +318,134 @@
     "updated_at": "2026-05-26T15:14:54.102737"
   },
   {
+    "id": "ACTA-20260526-151501",
+    "fecha": "2026-05-26",
+    "obra": "Brescia 19",
+    "semana_obra": 10,
+    "fase": "Reunión Semanal / Instalaciones y Albañilería",
+    "redactor": "Darío A. López",
+    "estado_general": "completado",
+    "resumen_ejecutivo": "Jornada marcada por la reunión semanal de coordinación (con la ausencia de Munir) para definir el planning, hitos concurrentes e instalaciones de climatización, electricidad y domótica. Se realizó la visita técnica de Hersan para la plataforma salvaescaleras, una revisión de diseño con Laura para evitar interferencias de conductos, y se supervisó el progreso en obra de albañilería (forrado de franja PCI), electricidad (bandejas) y climatización (conductos). Quedan pendientes revisiones presupuestarias, entrega de planos cruzados y el resultado de la medición acústica.",
+    "incidencias": [
+      {
+        "gremio": "Albañilería (Munir)",
+        "descripcion": "Ausencia no justificada en la reunión semanal de coordinación obligatoria",
+        "prioridad": ""
+      },
+      {
+        "gremio": "Accesibilidad (Hersan)",
+        "descripcion": "Problema de dimensiones/paso en la disposición de la escalera (1,58 m al primer escalón). Obliga a cambiar el diseño del raíl de la plataforma a un tramo curvo.",
+        "prioridad": null
+      },
+      {
+        "gremio": "Carpintería Exterior (Josevi)",
+        "descripcion": "Presupuesto recibido con un importe desorbitado (error técnico). Requiere revisión urgente y un proceso de coordinación con más tiempo y calma por parte del responsable.",
+        "prioridad": null
+      },
+      {
+        "gremio": "Administración / Firma",
+        "descripcion": "Modificación presupuestaria de electricidad debido a los cambios de domótica/audio pendientes de firma por parte de Luis.",
+        "prioridad": null
+      }
+    ],
+    "intervenciones": [
+      {
+        "contrata": "Hersan (Pedro)",
+        "responsable": "Visita técnica y toma de datos en obra para el replanteo y viabilidad de la plataforma salvaescaleras.",
+        "estado": "",
+        "descripcion": ""
+      },
+      {
+        "contrata": "Albañilería (Munir)",
+        "responsable": "Retirada completa de la puerta de emergencia. Demolición de muros para ayudas de climatización finalizada correctamente. Subida de material a planta e inicio a buen ritmo del forrado de la franja perimetral de 1 metro para sectorización PCI 120",
+        "estado": null,
+        "descripcion": null
+      },
+      {
+        "contrata": "Electricidad (Rubén)",
+        "responsable": "Rubén (encargado de Luis) continúa con el replanteo general de cableado y colocación de bandejas. Validación en obra de puntos de luz, tiras LED, enchufes y aclaración de alturas de mecanismos.",
+        "estado": null,
+        "descripcion": null
+      },
+      {
+        "contrata": "Climatización (Servitec)",
+        "responsable": "Montaje de conductos de aire acondicionado en marcha. Se procedió a la corrección y ajuste de las alturas de los mismos en obra",
+        "estado": null,
+        "descripcion": null
+      },
+      {
+        "contrata": "Dirección / Diseño (Laura)",
+        "responsable": "Reunión de revisión en obra. Se modificó el diseño original y se definió el cambio en las tiras LED de las vigas para solucionar físicamente la interferencia/interposición con los conductos de aire.",
+        "estado": null,
+        "descripcion": null
+      }
+    ],
+    "definiciones_tecnicas": [
+      {
+        "categoria": "Instalaciones",
+        "elemento": "Confirmación de 9 máquinas de aire acondicionado en total: 3 de ellas son recuperadas y adaptadas procedentes de otros centros abiertos. Se define una máquina adicional de 6 kW exclusiva para la zona de Staff. Se confirma la alimentación eléctrica de reserva para la máquina Daikin superior \"por si acaso\".",
+        "detalle": ""
+      },
+      {
+        "categoria": "Instalaciones",
+        "elemento": "Domótica: Validación del sistema de domotización con José (Segotec). Se descarta técnicamente el rack central de música; se instalarán en su lugar unidades Máster independientes en cada zona de control principal: salas colectivas, zona staff/recepción y aseos.",
+        "detalle": null
+      },
+      {
+        "categoria": "Acabados y estética",
+        "elemento": "Modificación del trazado de las tiras LED en vigas para liberar el espacio de paso de los conductos de climatización.",
+        "detalle": null
+      },
+      {
+        "categoria": "Protección contra incendios",
+        "elemento": "Ejecución de franja perimetral cortafuegos de 1 metro de ancho con resistencia certificada PCI 120 (RF-120).",
+        "detalle": null
+      },
+      {
+        "categoria": "Instalaciones",
+        "elemento": "Estudio de viabilidad de la ventana hacia la sala colectiva. Si la medición acústica es favorable se mantendrá aplicando un vinilado opaco/decorativo; si da transmisión de ruido se anulará. Se entregaron cotas, alzados y secciones a Javi para valorar las opciones de fabricación.",
+        "detalle": null
+      }
+    ],
+    "acuerdos_tecnicos": [
+      {
+        "acuerdo": "Modificación Raíl Plataforma: Aprobar la solución de raíl curvo con Pedro (Hersan) para salvar la cota del primer escalón. Queda pendiente recibir y revisar el nuevo presupuesto antes de confirmar el pedido.",
+        "responsable": "Pedro-hersen",
+        "plazo": "Hoy"
+      },
+      {
+        "acuerdo": "Coordinación Audio/Instalaciones: Se requiere comunicación e intercambio técnico inmediato entre José (Segotec) y Rubén (Electricista) para casar las líneas de domótica y sonido.",
+        "responsable": "Jose",
+        "plazo": null
+      },
+      {
+        "acuerdo": "Plano Máster Eléctrico: Pendiente por parte de Darío entregar a Rubén el plano máster definitivo con la ubicación exacta y alturas de mecanismos limpias.",
+        "responsable": "Dario",
+        "plazo": null
+      },
+      {
+        "acuerdo": "Plano de Distribución de Audio: Pendiente por parte de José (servitec) enviar el desarrollo del p plano de audio para instalación de altavoces y másters.",
+        "responsable": "Jose",
+        "plazo": null
+      },
+      {
+        "acuerdo": "Tareas pendientes de gestión inmediata:\nRevisión y ajuste del presupuesto de carpintería exterior con Josevi.\nRevisión del presupuesto modificado del salvaescaleras de Hersan.\nReclamar propuesta económica modificada y firma a Luis (Electricidad).\nEmisión de plano Máster de electricidad a obra (Darío).",
+        "responsable": "Josevi ",
+        "plazo": null
+      }
+    ],
+    "agenda_proxima": [
+      {
+        "hora": "11:30",
+        "evento": "Empieza Leo - PCI",
+        "obligatorio": false
+      }
+    ],
+    "galeria_imagenes": [],
+    "created_at": "2026-05-26T15:15:01.752646",
+    "updated_at": "2026-05-26T15:15:01.752656"
+  },
+  {
     "id": "ACTA-20260525-0001",
     "fecha": "2026-05-25",
     "obra": "Brescia 19",
