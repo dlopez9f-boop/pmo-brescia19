@@ -1,5 +1,36 @@
 [
   {
+    "id": "ACTA-20260526-145937",
+    "fecha": "2026-05-26",
+    "obra": "Brescia 19",
+    "semana_obra": 10,
+    "fase": "Acta diaria",
+    "redactor": "Darío A. López",
+    "estado_general": "completado",
+    "resumen_ejecutivo": "Acta 26/05\n1. Visita Pedro / Hersan \nTras la visita y toma de datos se concluye en un nuevo presupuesto en la disposición d ELA escalera , por tema de doscientos (1,58 min al primer escalón ) se debe instalar en el rail de la pata forma una parte curva —- mero solución —- pendiente de nuevo presupuesto - revisarlo antes de confirmar \n1. Reunión semanal ( a faltado munir no asiste ) —-en esta sesión se habla del planning semanal , la concordancia entre contratas y hitos que coinciden , se saca en común las potencias y unidades previstas en la instalación -9 máquinas de aire (3 reutilizan y se tratan de otros centros ) se deja puesto una de 6kw en la zona staff —- se confirma que se alimenta también la daikin de arriba solo por si acaso —- se confirma con José. /Segotec toda la parte de domotizacion \nNo contaremos con rack de música si con másters en cada zona importante ( sala colectivas / staff y recepción / baños —- se soltó a y se necesita comunicación entre José y Rubén (chispas encargado ) —- esto ha supuesto una. Nueva modificación en el presupuesto —- Luis aún no firma —— con Rubén se confirman puntos de luz , luz led , puntos de enchufes y se aclara alturas —- pendiente por Darío darle un máster plano \nPor parte de José pendiente darnos paño de audio ——- \n1. Revisión con Laura : se modifica y se Leonor dile Fer la tiras led de las vigas —- soluciona la interposición de los conductos / se verifica presupuesto de Josevi muy alto (fallo hay que revisarlo antes ) recordar y coordinar esto con más tiempo y calma para la parte del responsable \n2. Munir —- puerta de emergencia quitada , demoliciones de muros en ayuda calima correcto - subida de material y empezamos a forrar franja de 1 m para el PCI 120 ( buen ritmo de trabajo ) \n3. Ruben chispa /—- encargado por parte de Luis —- siguen raplantensdo cableado y bandejas \n4. Servitec —- conductos en marcha —- se corrige altura \nDudas y cosas a comentar \nUna vez visto toda la parte en obra vamos a comprobar y esperar la medicina acústica para quitar o no la ventana queda a la sala colectiva si se deja se buscaría biní lar. Hoy también se ha hablado con Javi para dar esta opción hemos dado medidas y número de ventanas, alzado y secciones.",
+    "incidencias": [],
+    "intervenciones": [
+      {
+        "contrata": "1. Revisión con Laura : se modifica y se Leonor dile Fer la tiras led de las vigas —- soluciona la interposición de los conductos / se verifica presupuesto de Josevi muy alto (fallo hay que revisarlo antes ) recordar y coordinar esto con más tiempo y calma para la parte del responsable \n2. Munir —- puerta de emergencia quitada , demoliciones de muros en ayuda calima correcto - subida de material y empezamos a forrar franja de 1 m para el PCI 120 ( buen ritmo de trabajo ) \n3. Ruben chispa /—- encargado por parte de Luis —- siguen raplantensdo cableado y bandejas \n4. Servitec —- conductos en marcha —- se corrige altura ",
+        "responsable": "",
+        "estado": "",
+        "descripcion": ""
+      }
+    ],
+    "definiciones_tecnicas": [],
+    "acuerdos_tecnicos": [],
+    "agenda_proxima": [
+      {
+        "hora": "11:30",
+        "evento": "Empieza Leo - PCI",
+        "obligatorio": false
+      }
+    ],
+    "galeria_imagenes": [],
+    "created_at": "2026-05-26T14:59:37.118461",
+    "updated_at": "2026-05-26T14:59:37.118476"
+  },
+  {
     "id": "ACTA-20260525-0001",
     "fecha": "2026-05-25",
     "obra": "Brescia 19",
