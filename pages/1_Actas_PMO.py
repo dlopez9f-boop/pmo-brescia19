@@ -8,6 +8,25 @@ import json
 import streamlit as st
 from datetime import date, datetime, timedelta
 
+def _texto_inc(i) -> str:
+    """Normaliza incidencia a texto plano, sea string o dict."""
+    if isinstance(i, dict):
+        return i.get("descripcion") or i.get("detalle") or str(i)
+    return str(i)
+
+def _normalizar_incs(raw) -> list:
+    """Devuelve lista de strings a partir de incidencias en cualquier formato."""
+    if not raw:
+        return []
+    if isinstance(raw, str):
+        try:
+            raw = json.loads(raw)
+        except Exception:
+            return [raw]
+    if isinstance(raw, list):
+        return [_texto_inc(i) for i in raw]
+    return [str(raw)]
+
 import db
 from db import (
     init_db, backend_info, semana_obra,
@@ -76,10 +95,7 @@ def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
                              f'<b style="font-size:11px;color:#0f3460;">{g}</b>'
                              f'<div style="font-size:12px;padding-left:8px;border-left:2px solid #e2e6f0;'
                              f'color:#333;">{str(c).replace(chr(10),"<br>")}</div></div>')
-        incs = a.get("incidencias") or []
-        if isinstance(incs, str):
-            try: incs = json.loads(incs)
-            except: incs = [incs]
+        incs = _normalizar_incs(a.get("incidencias"))
         inc_html = "".join(
             f'<div style="color:#c0392b;font-size:11px;">⚠️ {i}</div>' for i in incs
         )
@@ -249,10 +265,7 @@ with tab1:
         _sem   = acta.get("semana_obra", "?")
         _pb    = {"urgente":("b-red","🔴 Urgente"),"alta":("b-amber","🟡 Alta"),"normal":("b-green","🟢 Normal")}.get(_prio,("b-green","Normal"))
         _eb    = {"borrador":("b-blue","Borrador"),"revisado":("b-amber","Revisado"),"firmado":("b-green","✓ Firmado")}.get(_est,("b-blue","Borrador"))
-        _incs  = acta.get("incidencias") or []
-        if isinstance(_incs, str):
-            try: _incs = json.loads(_incs)
-            except: _incs = [_incs]
+        _incs  = _normalizar_incs(acta.get("incidencias"))
         _inc_h = "".join(f'<div style="font-size:11px;color:#c0392b;">⚠️ {i[:100]}</div>' for i in _incs[:3])
         _gi    = acta.get("gremios_incidencia") or []
         if isinstance(_gi, str):
@@ -296,10 +309,7 @@ with tab1:
                 else:
                     st.info("Sin secciones parseadas.")
             with t_inc:
-                incs = acta.get("incidencias") or []
-                if isinstance(incs, str):
-                    try: incs = json.loads(incs)
-                    except: incs = [incs]
+                incs = _normalizar_incs(acta.get("incidencias"))
                 for i in incs:
                     st.error(f"⚠️ {i}")
                 if not incs:
@@ -392,7 +402,7 @@ if not modo_publico and tab2 is not None:
                     for g, c in res["intervenciones"].items():
                         st.markdown(f"- **{g}**: {str(c)[:90]}…")
                     if res["incidencias"]:
-                        st.markdown("**⚠️ Incidencias:** " + " · ".join(res["incidencias"][:3]))
+                        st.markdown("**⚠️ Incidencias:** " + " · ".join(_texto_inc(i) for i in res["incidencias"][:3]))
                     if res["agenda_proxima"].get("texto"):
                         st.markdown("**📅 Agenda:** " + res["agenda_proxima"]["texto"][:120])
                     st.markdown(f"**Gremios con incidencia:** {', '.join(res['gremios_incidencia']) or 'ninguno'}")

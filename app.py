@@ -346,6 +346,7 @@ def html_acta_diaria(acta: dict, imagenes=None) -> str:
     if isinstance(incs, str):
         try: incs = json.loads(incs)
         except: incs = [incs]
+    incs = [i.get("descripcion", str(i)) if isinstance(i, dict) else str(i) for i in incs]
     inc_html = "".join(
         f'<div style="background:#fdf2f2;border-left:3px solid #e94560;padding:7px 10px;'
         f'margin-bottom:5px;border-radius:0 4px 4px 0;font-size:12px;color:#c0392b;">⚠ {i}</div>'
