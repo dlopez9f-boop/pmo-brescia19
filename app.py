@@ -319,6 +319,39 @@ def _imgs_b64(files: list) -> list:
     return result
 
 
+def _parse_agenda(acta) -> list:
+    """Devuelve lista de {hora, evento} siempre, sin importar el formato almacenado."""
+    raw = acta.get("agenda_proxima") or {}
+    if isinstance(raw, str):
+        try: raw = json.loads(raw)
+        except: return [{"hora": "—", "evento": raw}]
+    if isinstance(raw, dict):
+        items = raw.get("items") or []
+        if items:
+            return [{"hora": str(i.get("hora","—")), "evento": str(i.get("evento",""))} for i in items]
+        texto = raw.get("texto","")
+        if texto:
+            return [{"hora": "—", "evento": l.strip()} for l in texto.splitlines() if l.strip()]
+    return []
+
+def _agenda_html(acta: dict) -> str:
+    items = _parse_agenda(acta)
+    if not items:
+        return ""
+    rows = "".join(
+        '<div style="display:flex;gap:14px;align-items:flex-start;padding:8px 0;'
+        'border-bottom:1px solid #f0f2f8;">'
+        '<span style="font-size:11px;font-weight:800;color:#e94560;white-space:nowrap;'
+        'min-width:52px;padding-top:1px;">' + it["hora"] + '</span>'
+        '<span style="font-size:12px;color:#374151;line-height:1.5;">' + it["evento"] + '</span>'
+        '</div>'
+        for it in items
+    )
+    return (
+        '<div class="sec"><div class="sh">📅 Agenda Próxima Jornada</div>'
+        '<div style="margin-top:6px;">' + rows + '</div></div>'
+    )
+
 def _parse_json_field(acta, key):
     v = acta.get(key) or []
     if isinstance(v, str):
@@ -422,8 +455,7 @@ def html_acta_diaria(acta: dict, imagenes=None) -> str:
         for i in incs
     )
 
-    ag = acta.get("agenda_proxima") or {}
-    ag_txt = ag.get("texto","") if isinstance(ag, dict) else str(ag)
+    ag_html_block = _agenda_html(acta)
 
     _est_badge = {
         "borrador":  "background:#eef2ff;color:#3730a3;",
@@ -498,7 +530,7 @@ def html_acta_diaria(acta: dict, imagenes=None) -> str:
     {f'<div class="sec"><div class="sh">⚠ Incidencias</div>{inc_html}</div>' if inc_html else ''}
     {f'<div class="sec"><div class="sh">🔧 Intervenciones por Contrata</div>{sec_html}</div>' if sec_html else ''}
     {_deftec_html(acta)}
-    {f'<div class="sec"><div class="sh">📅 Agenda próxima jornada</div><div style="font-size:12px;color:#374151;line-height:1.7;">{ag_txt.replace(chr(10),"<br>")}</div></div>' if ag_txt else ''}
+    {ag_html_block}
     {_gallery_html(imagenes) if imagenes else ''}
   </div>
   <div class="ftr">
@@ -528,15 +560,15 @@ def html_semanal_completo(acta_sem: dict, diarias: list) -> str:
             try: incs = json.loads(incs)
             except: incs = [incs]
         inc_html = "".join(f'<div style="color:#c0392b;font-size:11px;">⚠ {i}</div>' for i in incs)
-        ag = a.get("agenda_proxima") or {}
-        ag_txt = ag.get("texto","") if isinstance(ag, dict) else str(ag)
+        _ag_items = _parse_agenda(a)
+        _ag_line  = " · ".join(it["hora"] + " " + it["evento"] for it in _ag_items[:2]) if _ag_items else ""
         bloques += f"""
         <div style="border-left:4px solid #e94560;padding:12px 16px;margin-bottom:12px;
                     background:#fff;border-radius:0 8px 8px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);">
           <b style="font-size:14px;color:#1a1a2e;">📋 {dia}</b>
           <div style="font-size:12px;color:#555;margin:5px 0 7px;">{a.get('resumen','')}</div>
           {sec_html}{inc_html}
-          {f'<div style="font-size:10px;color:#888;border-top:1px solid #f0f2f7;padding-top:5px;margin-top:5px;">📅 {ag_txt[:200]}</div>' if ag_txt else ''}
+          {f'<div style="font-size:10px;color:#888;border-top:1px solid #f0f2f7;padding-top:5px;margin-top:5px;">📅 {_ag_line[:220]}</div>' if _ag_line else ''}
         </div>"""
     desv = acta_sem.get("desviaciones_criticas") or []
     if isinstance(desv, str):

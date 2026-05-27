@@ -8,6 +8,20 @@ import json
 import streamlit as st
 from datetime import date, datetime, timedelta
 
+def _parse_agenda(acta) -> list:
+    raw = acta.get("agenda_proxima") or {}
+    if isinstance(raw, str):
+        try: raw = json.loads(raw)
+        except: return [{"hora": "—", "evento": raw}]
+    if isinstance(raw, dict):
+        items = raw.get("items") or []
+        if items:
+            return [{"hora": str(i.get("hora","—")), "evento": str(i.get("evento",""))} for i in items]
+        texto = raw.get("texto","")
+        if texto:
+            return [{"hora": "—", "evento": l.strip()} for l in texto.splitlines() if l.strip()]
+    return []
+
 def _texto_inc(i) -> str:
     """Normaliza incidencia a texto plano, sea string o dict."""
     if isinstance(i, dict):
@@ -99,15 +113,15 @@ def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
         inc_html = "".join(
             f'<div style="color:#c0392b;font-size:11px;">⚠️ {i}</div>' for i in incs
         )
-        ag = a.get("agenda_proxima") or {}
-        ag_txt = ag.get("texto","") if isinstance(ag, dict) else str(ag)
+        _ag_items = _parse_agenda(a)
+        _ag_line  = " · ".join(it["hora"] + " " + it["evento"] for it in _ag_items[:2]) if _ag_items else ""
         bloques += f"""
         <div style="border-left:4px solid #e94560;padding:12px 16px;margin-bottom:14px;
                     background:#fff;border-radius:0 8px 8px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);">
           <b style="font-size:14px;color:#1a1a2e;">📋 {dia}</b>
           <div style="font-size:13px;color:#555;margin:6px 0 8px 0;">{a.get('resumen','')}</div>
           {sec_html}{inc_html}
-          {f'<div style="font-size:11px;color:#888;border-top:1px solid #f0f2f7;padding-top:6px;margin-top:6px;">📅 {ag_txt[:180]}</div>' if ag_txt else ''}
+          {f'<div style="font-size:11px;color:#888;border-top:1px solid #f0f2f7;padding-top:6px;margin-top:6px;">📅 {_ag_line[:220]}</div>' if _ag_line else ''}
         </div>"""
 
     desv = acta_sem.get("desviaciones_criticas") or []
@@ -272,8 +286,8 @@ with tab1:
             try: _gi = json.loads(_gi)
             except: _gi = [_gi]
         _gi_h  = "".join(f'<span class="gtag">{g}</span>' for g in _gi)
-        _ag    = acta.get("agenda_proxima") or {}
-        _ag_t  = _ag.get("texto","") if isinstance(_ag, dict) else str(_ag)
+        _ag_items = _parse_agenda(acta)
+        _ag_t     = " · ".join(it["hora"] + " " + it["evento"] for it in _ag_items[:2]) if _ag_items else ""
         _cls   = {"urgente":"acta-card urgente","alta":"acta-card alta"}.get(_prio,"acta-card")
 
         st.markdown(f"""
