@@ -55,7 +55,7 @@
     "incidencias": "[{\"gremio\": \"⚡ Electricidad\", \"descripcion\": \"Baja de operario. Equipo insuficiente. Jornada improductiva completa.\", \"prioridad\": \"alta\"}]",
     "gremios_incidencia": "[\"⚡ Electricidad\"]",
     "prioridad": "alta",
-    "estado": "borrador",
+    "estado": "revisado",
     "resumen": "S8 · 25/05 — Incidencia Electricidad (baja operario). Climatización: inicio conductos y acceso altillo. Munir: replanteo geometría completo. Definiciones técnicas cerradas.",
     "creado_por": "Darío A. López"
   }
