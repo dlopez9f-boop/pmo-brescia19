@@ -1,17 +1,37 @@
 [
   {
-    "id": "ACT-20260526-231949",
+    "id": "ACT-20260527-0800",
+    "fecha": "2026-05-27",
+    "semana_obra": 10,
+    "obra": "Brescia 19",
+    "resumen": "S10 · 27/05 — Producción Intensiva. Replanteos críticos de altura (2.50→2.77m). PCI perimetral finalizada. Arquería iniciada. Pendientes urgentes Dirección: llaves, racks, firma presupuesto Luis.",
+    "texto_original": "Producción intensiva. Replanteos críticos de altura en baños y vestuarios: bajante colindante permite desplazar evacuación a pared, eliminando escalón y logrando paso libre 2.77m (vs 2.50m inicial). Conductos impulso y recuperadora redirigidos por techo vestuario femenino. Arquería: decisión sobre arcos tomada, primera prueba esta semana, viga base 40cm, 5 vigas (última diferenciada). Climatización: huecos altillo previstos martes/miércoles. Régivan confirmado frente baño femenino acceso máquinas. PCI: finalizada línea perimetral, inicio tabiques sala colectiva. Pendientes urgentes: armarios pendiente Dirección, mesas estorban en obra, racks internet confirmar proveedor, llaves Laura/Valentina para acceso zonas albañilería. Reunión telefónica José+Luis mañana para cerrar listado maquinaria y potencias. Prioridad: firma presupuesto Luis. Martes/miércoles: introducción recuperadora por fachada (hueco ventana). Propuesta ventiladores en obra por temperatura.",
+    "intervenciones": "{\"❄️ Climatización\": \"José (Servitec): Ejecución huecos altillo prevista martes/miércoles próxima semana. Régivan confirmado frente baño femenino para acceso a máquinas de clima. Redireccionamiento conductos impulso y retroversión recuperadora por techo vestuario femenino.\", \"🧱 Albañilería\": \"Munir: PCI perimetral finalizada. Inicio tabiques sala colectiva. Prueba primer arco esta semana (forrado falsas vigas, viga base 40cm). Total 5 vigas (última diferenciada).\", \"🔥 PCI\": \"Finalizada línea perimetral PCI. Inicio tabiques sala colectiva.\"}",
+    "definiciones_tecnicas": "[{\"categoria\": \"Alturas y Evacuación\", \"elemento\": \"Paso libre baños/vestuarios\", \"detalle\": \"OPTIMIZACIÓN: Confirmación bajante colindante permite desplazar evacuación a pared. Elimina escalón. Paso libre: 2.77m (vs 2.50m inicial). +27cm de altura ganada.\"}, {\"categoria\": \"Climatización\", \"elemento\": \"Conductos impulso\", \"detalle\": \"Cambio de ruta: conductos de impulso y retroversión recuperadora por techo vestuario femenino.\"}, {\"categoria\": \"Climatización\", \"elemento\": \"Acceso máquinas\", \"detalle\": \"Régivan confirmado frente a baño femenino para acceso técnico a máquinas de clima.\"}, {\"categoria\": \"Estructura estética\", \"elemento\": \"Arquería / Vigas falsas\", \"detalle\": \"Decisión tomada. Prueba primer arco esta semana. Viga base 40cm. Total: 5 vigas (última diferenciada).\"}, {\"categoria\": \"PCI\", \"elemento\": \"Línea perimetral\", \"detalle\": \"COMPLETADA. Inicio tabiques sala colectiva.\"}]",
+    "solicitudes_direccion": "[{\"descripcion\": \"Decisión sobre armarios: confirmar operativa de uso/limpieza para avanzar.\", \"responsable\": \"Dirección / Laura\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Llaves de acceso a zonas de albañilería y comprobación de tuberías.\", \"responsable\": \"Laura / Valentina\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Confirmar con proveedor si suministran RACKS para Internet o los instala la obra.\", \"responsable\": \"Darío / Laura\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Firma presupuesto Luis (Electricidad) — PRIORITARIO.\", \"responsable\": \"Darío\", \"urgencia\": \"alta\"}]",
+    "logros_tecnicos": "[{\"descripcion\": \"Paso libre baños aumentado de 2.50m a 2.77m (+27cm)\", \"mejora_de\": \"2.50 m\", \"mejora_a\": \"2.77 m\", \"impacto\": \"Eliminación escalón. Cumplimiento holgado PMR. Mejor experiencia usuario.\"}, {\"descripcion\": \"PCI perimetral finalizada — hito adelantado al planning\", \"mejora_de\": \"En ejecución\", \"mejora_a\": \"Completado\", \"impacto\": \"Libera zona para inicio de tabiques sala colectiva.\"}]",
+    "agenda_proxima": "{\"items\": [{\"hora\": \"Mañana\", \"evento\": \"Reunión telefónica José (Servitec) + Luis — cerrar listado maquinaria y potencias. Firma presupuesto Luis.\"}, {\"hora\": \"Mar/Mié\", \"evento\": \"Introducción máquina recuperadora por fachada (hueco ventana).\"}], \"texto\": \"Mañana — Reunión telefónica José + Luis: listado maquinaria y potencias. Firma presupuesto Luis.\\nMartes/Miércoles — Introducción recuperadora por fachada (hueco ventana).\"}",
+    "incidencias": "[{\"gremio\": \"🏗️ Logística\", \"descripcion\": \"Mesas de trabajo estorbando en obra. Retirar material.\", \"prioridad\": \"normal\"}, {\"gremio\": \"🔑 Acceso\", \"descripcion\": \"Pendiente recepción llaves (Laura/Valentina) para acceso zonas albañilería y comprobación tuberías.\", \"prioridad\": \"alta\"}, {\"gremio\": \"💰 Presupuesto\", \"descripcion\": \"Firma presupuesto Luis (Electricidad) pendiente — modificación audio/domótica. PRIORITARIO.\", \"prioridad\": \"alta\"}]",
+    "gremios_incidencia": "[\"🏗️ Logística\", \"🔑 Acceso\", \"💰 Presupuesto\"]",
+    "prioridad": "alta",
+    "estado": "borrador",
+    "creado_por": "Darío A. López"
+  },
+  {
+    "id": "ACT-20260526-0001",
     "fecha": "2026-05-26",
     "semana_obra": 10,
     "obra": "Brescia 19",
-    "texto_original": "Acta Diaria de Obra — Brescia 19\nFecha: 26/05/2026 | Redactor: Darío A. López | Semana: S10 (Consolidación)\n\n🚨 1. Incidencias y Ausencias\nMunir: Ausencia injustificada en la Reunión General de Coordinación semanal.\n\n🔧 2. Intervenciones por Contrata\nHersan (Salvaescaleras): Visita técnica con Pedro. Se detecta interferencia por desnivel (1.58m al primer escalón). Requiere instalar tramo curvo en el rail. Pendiente: Nuevo presupuesto (Revisar antes de confirmar).\n\nServitec (Climatización): Conductos en ejecución. Se ha corregido la altura de los mismos en coordinación con la estructura de vigas.\n\nRubén (Electricidad/Segotec): Replanteo de cableado y bandejas. Confirmados puntos de luz, LED y enchufes. Acción: Darío entregará Máster Plano a Rubén.\n\nMunir: Cumpliendo ritmo de trabajo: Puerta de emergencia retirada, demoliciones en ayuda a clima correctas, inicio de forrado para franja PCI 120 (1m).\n\n📐 3. Definiciones Técnicas y Acuerdos\nClimatización: Instalación de 9 máquinas (3 reutilizadas). Confirmada unidad de 6kW en zona Staff y alimentación extra para Daikin superior.\n\nDomótica y Audio: Se prescinde de Rack de música. Se instalarán Masters en Salas Colectivas, Staff, Recepción y Baños. Acción: Coordinación necesaria entre José y Rubén.\n\nDiseño (Laura): Modificación en tiras LED de vigas para evitar colisión con conductos.\n\nAcústica: Pendiente resultado de medición acústica para decidir el cierre definitivo de la ventana de Sala Colectiva. Opción de vinilado solicitada a Javi (entregadas medidas y alzados).\n\n💰 4. Alertas de Presupuesto\nJosevi: Presupuesto detectado como \"muy alto\". Requiere revisión técnica profunda y coordinación con el responsable antes de cualquier aprobación.\n\nLuis: Pendiente de firma de presupuesto por modificación de audio/domótica.",
-    "resumen": "Acta Diaria de Obra — Brescia 19 Fecha: 26/05/2026 | Redactor: Darío A. López | Semana: S10 (Consolidación)  🚨 1. Incidencias y Ausencias Munir: Ausencia injustificada en la Reunión General de Coordinación semanal.  🔧 2. Intervenciones por Contrata Hersan (Salvaescaleras): Visita técnica con Pedro. Se detecta interferencia por desnivel (1.58m al primer escalón). Requiere instalar tramo curvo en el rail. Pendiente: Nuevo presupuesto (Revisar antes de confirmar).  Servitec (Climatización): Conductos en ejecución. Se ha corregido la altura de los mismos en coordinación con la estructura de vigas.  Rubén (Electricidad/Segotec): Replanteo de cableado y bandejas. Confirmados puntos de luz, LED y enchufes. Acción: Darío entregará Máster Plano a Rubén.  Munir: Cumpliendo ritmo de trabajo: Puerta de emergencia retirada, demoliciones en ayuda a clima correctas, inicio de forrado para franja PCI 120 (1m).  📐 3. Definiciones Técnicas y Acuerdos Climatización: Instalación de 9 máquinas (3 reutilizadas). Confirmada unidad de 6kW en zona Staff y alimentación extra para Daikin superior.  Domótica y Audio: Se prescinde de Rack de música. Se instalarán Masters en Salas Colectivas, Staff, Recepción y Baños. Acción: Coordinación necesaria entre José y Rubén.  Diseño (Laura): Modificación en tiras LED de vigas para evitar colisión con conductos.  Acústica: Pendiente resultado de medición acústica para decidir el cierre definitivo de la ventana de Sala Colectiva. Opción de vinilado solicitada a Javi (entregadas medidas y alzados).  💰 4. Alertas de Presupuesto Josevi: Presupuesto detectado como \"muy alto\". Requiere revisión técnica profunda y coordinación con el responsable antes de cualquier aprobación.  Luis: Pendiente de firma de presupuesto por modificación de audio/domótica.",
-    "intervenciones": "{\"⚡ Electricidad\": \"Servitec (Climatización): Conductos en ejecución. Se ha corregido la altura de los mismos en coordinación con la estructura de vigas.\\nRubén (Electricidad/Segotec): Replanteo de cableado y bandejas. Confirmados puntos de luz, LED y enchufes. Acción: Darío entregará Máster Plano a Rubén.\\nDiseño (Laura): Modificación en tiras LED de vigas para evitar colisión con conductos.\\nLuis: Pendiente de firma de presupuesto por modificación de audio/domótica.\", \"❄️ Climatización\": \"Munir: Cumpliendo ritmo de trabajo: Puerta de emergencia retirada, demoliciones en ayuda a clima correctas, inicio de forrado para franja PCI 120 (1m).\\nClimatización: Instalación de 9 máquinas (3 reutilizadas). Confirmada unidad de 6kW en zona Staff y alimentación extra para Daikin superior.\\nJosevi: Presupuesto detectado como \\\"muy alto\\\". Requiere revisión técnica profunda y coordinación con el responsable antes de cualquier aprobación.\", \"🧱 Albañilería\": \"Munir: Ausencia injustificada en la Reunión General de Coordinación semanal.\", \"🔥 PCI\": \"Domótica y Audio: Se prescinde de Rack de música. Se instalarán Masters en Salas Colectivas, Staff, Recepción y Baños. Acción: Coordinación necesaria entre José y Rubén.\\nAcústica: Pendiente resultado de medición acústica para decidir el cierre definitivo de la ventana de Sala Colectiva. Opción de vinilado solicitada a Javi (entregadas medidas y alzados).\", \"♿ Accesibilidad\": \"Hersan (Salvaescaleras): Visita técnica con Pedro. Se detecta interferencia por desnivel (1.58m al primer escalón). Requiere instalar tramo curvo en el rail. Pendiente: Nuevo presupuesto (Revisar antes de confirmar).\"}",
-    "definiciones_tecnicas": "{}",
-    "agenda_proxima": "{\"items\": [{\"hora\": \"—\", \"evento\": \"Munir: Ausencia injustificada en la Reunión General de Coordinación semanal.\"}], \"texto\": \"— — Munir: Ausencia injustificada en la Reunión General de Coordinación semanal.\"}",
-    "incidencias": "[{\"gremio\": \"🧱 Albañilería\", \"descripcion\": \"Munir: Ausencia injustificada en la Reunión General de Coordinación semanal.\", \"prioridad\": \"alta\"}]",
-    "gremios_incidencia": "[\"🧱 Albañilería\"]",
-    "prioridad": "normal",
+    "resumen": "S10 · 26/05 — Reunión Coordinación. Ausencia Munir. Hersan detecta interferencia rail (desnivel 1.58m). Rubén Segotec replanteo completo. Servicios Clima correctos. Alertas presupuesto Josevi y Luis.",
+    "texto_original": "Reunión general coordinación S10. Munir: ausencia injustificada. Hersan Pedro: visita técnica salvaescaleras, detecta interferencia por desnivel 1.58m al primer escalón, requiere tramo curvo en rail, pendiente nuevo presupuesto. Servitec José: conductos en ejecución, corregida altura coordinación vigas. Rubén Segotec: replanteo cableado y bandejas, confirmados puntos de luz LED y enchufes, Darío entregará Máster Plano a Rubén. Munir: puerta emergencia retirada, demoliciones ayuda clima correctas, inicio forrado franja PCI 120 (1m). Clima: 9 máquinas total (3 reutilizadas), unidad 6kW zona Staff, alimentación extra Daikin superior. Sin Rack música, Masters en Salas Colectivas/Staff/Recepción/Baños, coordinación José-Rubén necesaria. Laura: modificación tiras LED vigas evitar colisión conductos. Acústica: pendiente medición para decidir cierre ventana Sala Colectiva, vinilado solicitado a Javi. Josevi: presupuesto muy alto, revisión profunda necesaria. Luis: pendiente firma presupuesto modificación audio/domótica.",
+    "intervenciones": "{\"♿ Accesibilidad\": \"Pedro (Hersan): Visita técnica salvaescaleras. Detectada interferencia por desnivel 1.58m al primer escalón. Requiere instalación tramo curvo en rail. Pendiente nuevo presupuesto.\", \"❄️ Climatización\": \"José (Servitec): Conductos en ejecución. Corregida altura en coordinación con estructura de vigas.\", \"⚡ Electricidad\": \"Rubén (Segotec): Replanteo de cableado y bandejas. Confirmados puntos de luz, LED y enchufes. Acción: Darío entrega Máster Plano a Rubén.\", \"🧱 Albañilería\": \"Munir: Puerta de emergencia retirada. Demoliciones en ayuda a clima correctas. Inicio de forrado franja PCI 120 (1m).\"}",
+    "definiciones_tecnicas": "[{\"categoria\": \"Climatización\", \"elemento\": \"Configuración máquinas\", \"detalle\": \"9 máquinas total (3 reutilizadas). Unidad 6kW en zona Staff. Alimentación extra para Daikin superior confirmada.\"}, {\"categoria\": \"Domótica y Audio\", \"elemento\": \"Sistema de audio\", \"detalle\": \"Sin Rack de música. Masters instalados en: Salas Colectivas, Staff, Recepción y Baños. Coordinación obligatoria José-Rubén.\"}, {\"categoria\": \"Acabados\", \"elemento\": \"Tiras LED vigas\", \"detalle\": \"Modificación de diseño (Laura): reposicionamiento para evitar colisión con conductos de clima.\"}, {\"categoria\": \"Acústica\", \"elemento\": \"Ventana Sala Colectiva\", \"detalle\": \"Pendiente medición acústica para decidir cierre definitivo. Vinilado solicitado a Javi (medidas y alzados entregados).\"}]",
+    "solicitudes_direccion": "[{\"descripcion\": \"Revisar y confirmar nuevo presupuesto Hersan — salvaescaleras tramo curvo. No confirmar sin revisión.\", \"responsable\": \"Darío / Laura\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Revisión profunda presupuesto Josevi — detectado como muy alto. Requiere aprobación antes de cualquier adjudicación.\", \"responsable\": \"Valentina / Darío\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Firma presupuesto Luis (Electricidad) — modificación audio/domótica.\", \"responsable\": \"Darío\", \"urgencia\": \"alta\"}]",
+    "logros_tecnicos": "[]",
+    "agenda_proxima": "{\"items\": [{\"hora\": \"—\", \"evento\": \"Continuación obra todos los gremios. Darío entrega Máster Plano a Rubén (Segotec).\"}], \"texto\": \"Continuación obra todos los gremios. Darío entrega Máster Plano a Rubén.\"}",
+    "incidencias": "[{\"gremio\": \"🧱 Albañilería\", \"descripcion\": \"Munir: Ausencia injustificada en Reunión General de Coordinación semanal S10.\", \"prioridad\": \"alta\"}, {\"gremio\": \"♿ Accesibilidad\", \"descripcion\": \"Hersan: Interferencia desnivel 1.58m en rail salvaescaleras. Requiere tramo curvo. Pendiente nuevo presupuesto.\", \"prioridad\": \"alta\"}, {\"gremio\": \"💰 Presupuesto\", \"descripcion\": \"Josevi: Presupuesto detectado como MUY ALTO. Revisión profunda antes de cualquier aprobación.\", \"prioridad\": \"alta\"}, {\"gremio\": \"💰 Presupuesto\", \"descripcion\": \"Luis (Electricidad): Pendiente firma presupuesto por modificación audio/domótica.\", \"prioridad\": \"normal\"}]",
+    "gremios_incidencia": "[\"🧱 Albañilería\", \"♿ Accesibilidad\", \"💰 Presupuesto\"]",
+    "prioridad": "alta",
     "estado": "borrador",
     "creado_por": "Darío A. López"
   },
@@ -26,66 +46,17 @@
       "❄️ Climatización": "Acopio de material en planta e inicio del montaje de conductos. Apertura de hueco para acceso a altillo y conexión con máquina de retorno. Estado: En curso.",
       "🧱 Albañilería": "Mohamed (Munir): Revisión en obra de replanteos y geometría de espacios. Estado: En curso."
     },
-    "definiciones_tecnicas": {
-      "distribucion_y_accesos": [
-        {
-          "elemento": "Salida de emergencia",
-          "detalle": "Desplazamiento de la salida a 2.5 metros desde el fondo."
-        },
-        {
-          "elemento": "Cuarto técnico eléctrico",
-          "detalle": "Dimensiones finales cerradas en 2.30 x 2.00 metros."
-        },
-        {
-          "elemento": "Cuarto de limpieza / Almacén",
-          "detalle": "Dimensiones colindantes idénticas al cuarto eléctrico (2.30 x 2.00 metros)."
-        }
-      ],
-      "proteccion_incendios_y_acustica": [
-        {
-          "elemento": "Franja perimetral",
-          "detalle": "Ejecución de franja EI120 por el interior del trasdosado (Normativa de Incendios)."
-        }
-      ],
-      "tabiqueria_y_estructuras": [
-        {
-          "elemento": "Tabique Salas Colectivas",
-          "detalle": "Longitud de 5.5 metros. Altura final a definir según cota de falso techo una vez colocado."
-        },
-        {
-          "elemento": "Tabique colindante espejos",
-          "detalle": "Estructura de doble placa de yeso laminado (Pladur). Montantes reforzados cada 60 cm para soporte de espejos y recrecido de apoyo con falsas vigas."
-        }
-      ],
-      "acabados_y_estetica": [
-        {
-          "elemento": "Ventanas fachada",
-          "detalle": "Retirada de carpinterías e instalación de vinilo blanco opaco. Requerido buscar proveedor de vinilos."
-        },
-        {
-          "elemento": "Remate fachada",
-          "detalle": "Perfil de 48. Acabado interior a definir entre baldosa, PVC o revestimiento de madera."
-        },
-        {
-          "elemento": "Vigas falsas",
-          "detalle": "Se precisa realizar muestra/prueba de acabado en microcemento."
-        }
-      ]
-    },
+    "definiciones_tecnicas": "[{\"categoria\": \"Distribución y accesos\", \"elemento\": \"Salida de emergencia\", \"detalle\": \"Desplazamiento a 2.50m desde fondo del local.\"}, {\"categoria\": \"Distribución y accesos\", \"elemento\": \"Cuarto técnico eléctrico\", \"detalle\": \"Dimensiones cerradas: 2.30 × 2.00m.\"}, {\"categoria\": \"Distribución y accesos\", \"elemento\": \"Cuarto limpieza/almacén\", \"detalle\": \"Colindante al cuarto eléctrico. Mismas dimensiones: 2.30 × 2.00m.\"}, {\"categoria\": \"PCI\", \"elemento\": \"Franja perimetral EI120\", \"detalle\": \"Ejecución por interior del trasdosado. Normativa DB-SI.\"}, {\"categoria\": \"Tabiquería\", \"elemento\": \"Tabique Salas Colectivas\", \"detalle\": \"Longitud 5.50m. Altura según cota falso techo.\"}, {\"categoria\": \"Tabiquería\", \"elemento\": \"Tabique colindante espejos\", \"detalle\": \"Doble Pladur. Montantes reforzados c/60cm para espejos. Recrecido apoyo falsas vigas.\"}]",
+    "solicitudes_direccion": "[]",
+    "logros_tecnicos": "[]",
     "agenda_proxima": {
       "texto": "08:30 Reunión General de Contratas (Coordinación y Hitos) — OBLIGATORIO\n09:30 Visita técnica Pedro (Proveedor Salvaescaleras Hersan) — OBLIGATORIO"
     },
-    "incidencias": [
-      "⚡ Electricidad — Baja de operario. Equipo insuficiente. Jornada improductiva completa."
-    ],
-    "gremios_incidencia": [
-      "⚡ Electricidad"
-    ],
+    "incidencias": "[{\"gremio\": \"⚡ Electricidad\", \"descripcion\": \"Baja de operario. Equipo insuficiente. Jornada improductiva completa.\", \"prioridad\": \"alta\"}]",
+    "gremios_incidencia": "[\"⚡ Electricidad\"]",
     "prioridad": "alta",
     "estado": "borrador",
-    "texto_original": "Acta diaria 25/05. En el día de hoy no ha asistido a primera hora gente de Electricidad, pero luego se han tenido que marchar porque no han sido suficientes, ha faltado un obrero. Por otra parte, los conductores del Clima han introducido el material y han empezado la instalación de los conductos. Se crea el espacio para poder subir al altillo y terminar de comunicar esos conductos con la máquina de retorno. Se revisa con Mohamed, encargado de obra por parte de Munir. Detalles: desplazamiento de la salida de emergencia a 2,5 m. Cuarto eléctrico 2,3 × 2 m, mismo dimensión colindante cuarto de limpieza/almacenaje. Se revisa franja perimetral PCI: EI120 por dentro del trasdosado. Tabique salas colectivas largo 5,5 m, altura según falso techo. Quitamos ventanas y ponemos vinilo blanco — buscar proveedores. Perfil 48 en fachada, acabado con baldosa, PVC o Akaba de madera. Ver acabado de septo. Prueba microcemento para vigas falsas y resto de acabados. Tabique colindante doble Pladur, montantes a 60 cm para espejos y recrecimiento para apoyo con vigas falsas. Mañana 08:30 reunión con contratas. 09:30 visita Pedro Hersan salvaescaleras.",
-    "resumen": "S8 · 25/05/2026 — Incidencia Electricidad (baja operario, jornada improductiva). Climatización: inicio conductos y acceso altillo. Munir: replanteo geometría completo. Definiciones técnicas cerradas: tabiquería, PCI EI120, espejos, acabados.",
-    "creado_por": "Darío A. López",
-    "created_at": "2026-05-25T09:36:00.000000"
+    "resumen": "S8 · 25/05 — Incidencia Electricidad (baja operario). Climatización: inicio conductos y acceso altillo. Munir: replanteo geometría completo. Definiciones técnicas cerradas.",
+    "creado_por": "Darío A. López"
   }
 ]

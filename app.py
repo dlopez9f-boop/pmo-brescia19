@@ -319,6 +319,75 @@ def _imgs_b64(files: list) -> list:
     return result
 
 
+def _parse_json_field(acta, key):
+    v = acta.get(key) or []
+    if isinstance(v, str):
+        try: v = json.loads(v)
+        except: v = []
+    return v if isinstance(v, list) else []
+
+def _solicitudes_html(acta: dict) -> str:
+    items = _parse_json_field(acta, "solicitudes_direccion")
+    if not items:
+        return ""
+    rows = "".join(
+        f'<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;'
+        f'background:#fff0f0;border-radius:6px;margin-bottom:6px;">'
+        f'<span style="font-size:16px;flex-shrink:0;">🚨</span>'
+        f'<div><div style="font-size:12px;font-weight:700;color:#c0392b;">{it.get("descripcion","")}</div>'
+        f'<div style="font-size:10px;color:#888;margin-top:2px;">Responsable: {it.get("responsable","—")} '
+        f'· Urgencia: <b style="color:#e74c3c;">{it.get("urgencia","").upper()}</b></div></div></div>'
+        for it in items
+    )
+    return (
+        f'<div class="sec" style="border:2px solid #e74c3c;border-radius:8px;padding:14px 16px;'
+        f'background:#fff5f5;">'
+        f'<div class="sh" style="color:#c0392b;border-bottom-color:#e74c3c;">🚨 Solicitudes a Dirección — Respuesta Urgente</div>'
+        f'{rows}</div>'
+    )
+
+def _logros_html(acta: dict) -> str:
+    items = _parse_json_field(acta, "logros_tecnicos")
+    if not items:
+        return ""
+    rows_parts = []
+    for it in items:
+        impacto_txt = (" · " + it["impacto"]) if it.get("impacto") else ""
+        rows_parts.append(
+            '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;'
+            'background:#f0faf4;border-radius:6px;margin-bottom:6px;">'
+            '<span style="font-size:16px;flex-shrink:0;">✅</span>'
+            '<div><div style="font-size:12px;font-weight:700;color:#27ae60;">' + it.get("descripcion","") + '</div>'
+            '<div style="font-size:10px;color:#555;margin-top:2px;">'
+            + it.get("mejora_de","") + ' → <b style="color:#27ae60;">' + it.get("mejora_a","") + '</b>'
+            + impacto_txt + '</div></div></div>'
+        )
+    rows = "".join(rows_parts)
+    return (
+        '<div class="sec" style="border:2px solid #27ae60;border-radius:8px;padding:14px 16px;'
+        'background:#f6fff9;">'
+        '<div class="sh" style="color:#1e8449;border-bottom-color:#27ae60;">✅ Logros Técnicos / Optimizaciones</div>'
+        + rows + '</div>'
+    )
+
+def _deftec_html(acta: dict) -> str:
+    items = _parse_json_field(acta, "definiciones_tecnicas")
+    if not items:
+        return ""
+    rows = "".join(
+        f'<div style="display:grid;grid-template-columns:120px 140px 1fr;gap:8px;'
+        f'padding:7px 0;border-bottom:1px solid #f0f2f8;font-size:11px;">'
+        f'<span style="color:#94a3b8;font-weight:600;text-transform:uppercase;font-size:9px;">{it.get("categoria","")}</span>'
+        f'<span style="font-weight:700;color:#1a1a2e;">{it.get("elemento","")}</span>'
+        f'<span style="color:#374151;">{it.get("detalle","")}</span></div>'
+        for it in items
+    )
+    return (
+        f'<div class="sec"><div class="sh">📐 Definiciones Técnicas</div>'
+        f'<div style="margin-top:6px;">{rows}</div></div>'
+    )
+
+
 def html_acta_diaria(acta: dict, imagenes=None) -> str:
     """HTML de previsualización para una acta diaria."""
     try:
@@ -424,8 +493,11 @@ def html_acta_diaria(acta: dict, imagenes=None) -> str:
         font-size:10px;font-weight:700;{_est_badge}">{acta.get('estado','borrador').title()}</span></div></div>
   </div>
   <div class="body">
+    {_solicitudes_html(acta)}
+    {_logros_html(acta)}
     {f'<div class="sec"><div class="sh">⚠ Incidencias</div>{inc_html}</div>' if inc_html else ''}
-    {f'<div class="sec"><div class="sh">🔧 Intervenciones</div>{sec_html}</div>' if sec_html else ''}
+    {f'<div class="sec"><div class="sh">🔧 Intervenciones por Contrata</div>{sec_html}</div>' if sec_html else ''}
+    {_deftec_html(acta)}
     {f'<div class="sec"><div class="sh">📅 Agenda próxima jornada</div><div style="font-size:12px;color:#374151;line-height:1.7;">{ag_txt.replace(chr(10),"<br>")}</div></div>' if ag_txt else ''}
     {_gallery_html(imagenes) if imagenes else ''}
   </div>
