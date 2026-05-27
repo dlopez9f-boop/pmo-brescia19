@@ -319,7 +319,7 @@ def _imgs_b64(files: list) -> list:
     return result
 
 
-def html_acta_diaria(acta: dict, imagenes: list | None = None) -> str:
+def html_acta_diaria(acta: dict, imagenes=None) -> str:
     """HTML de previsualización para una acta diaria."""
     try:
         fecha_str = datetime.fromisoformat(acta["fecha"]).strftime("%A %d de %B de %Y").capitalize()
