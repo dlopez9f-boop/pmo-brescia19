@@ -14,6 +14,21 @@ import plotly.express as px
 from datetime import date, datetime
 from pathlib import Path
 
+_DIAS_ES  = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
+_MESES_ES = ["enero","febrero","marzo","abril","mayo","junio","julio",
+             "agosto","septiembre","octubre","noviembre","diciembre"]
+
+def fecha_es(d, fmt="largo") -> str:
+    if isinstance(d, str):
+        try: d = datetime.fromisoformat(d)
+        except: return d
+    ds = _DIAS_ES[d.weekday()]
+    ms = _MESES_ES[d.month - 1]
+    if fmt == "largo":  return f"{ds} {d.day} de {ms} de {d.year}"
+    if fmt == "corto":  return f"{ds[:3]} {d.strftime('%d/%m/%Y')}"
+    if fmt == "mini":   return f"{ds[:3]} {d.strftime('%d/%m')}"
+    return d.strftime('%d/%m/%Y')
+
 from db import (
     init_db, backend_info, semana_obra,
     list_actas_diarias, upsert_acta_diaria, delete_acta_diaria,
@@ -424,7 +439,7 @@ def _deftec_html(acta: dict) -> str:
 def html_acta_diaria(acta: dict, imagenes=None) -> str:
     """HTML de previsualización para una acta diaria."""
     try:
-        fecha_str = datetime.fromisoformat(acta["fecha"]).strftime("%A %d de %B de %Y").capitalize()
+        fecha_str = fecha_es(acta["fecha"], "largo")
     except Exception:
         fecha_str = acta.get("fecha", "")
 
@@ -544,7 +559,7 @@ def html_semanal_completo(acta_sem: dict, diarias: list) -> str:
     fechas = " · ".join(datetime.fromisoformat(a["fecha"]).strftime("%d/%m") for a in diarias)
     bloques = ""
     for a in diarias:
-        dia  = datetime.fromisoformat(a["fecha"]).strftime("%A %d/%m/%Y").capitalize()
+        dia  = fecha_es(a["fecha"], "corto")
         secs = a.get("intervenciones") or {}
         if isinstance(secs, str):
             try: secs = json.loads(secs)

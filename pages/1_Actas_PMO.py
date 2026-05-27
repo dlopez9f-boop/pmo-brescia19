@@ -8,6 +8,21 @@ import json
 import streamlit as st
 from datetime import date, datetime, timedelta
 
+_DIAS_ES  = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
+_MESES_ES = ["enero","febrero","marzo","abril","mayo","junio","julio",
+             "agosto","septiembre","octubre","noviembre","diciembre"]
+
+def fecha_es(d, fmt="largo") -> str:
+    if isinstance(d, str):
+        try: d = datetime.fromisoformat(d)
+        except: return d
+    ds = _DIAS_ES[d.weekday()]
+    ms = _MESES_ES[d.month - 1]
+    if fmt == "largo":  return f"{ds} {d.day} de {ms} de {d.year}"
+    if fmt == "corto":  return f"{ds[:3]} {d.strftime('%d/%m/%Y')}"
+    if fmt == "mini":   return f"{ds[:3]} {d.strftime('%d/%m')}"
+    return d.strftime('%d/%m/%Y')
+
 def _parse_agenda(acta) -> list:
     raw = acta.get("agenda_proxima") or {}
     if isinstance(raw, str):
@@ -97,7 +112,7 @@ def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
     )
     bloques = ""
     for a in diarias:
-        dia  = datetime.fromisoformat(a["fecha"]).strftime("%A %d/%m/%Y").capitalize()
+        dia  = fecha_es(a["fecha"], "corto")
         secs = a.get("intervenciones") or {}
         if isinstance(secs, str):
             try: secs = json.loads(secs)
@@ -214,7 +229,7 @@ st.markdown(f"""
   <div>
     <div style="font-size:18px;font-weight:900;">📋 PMO · NINE FITNESS BRESCIA 19</div>
     <div style="font-size:11px;opacity:.65;margin-top:3px;">
-      {hoy.strftime('%A %d/%m/%Y').capitalize()} · Semana {sem} de obra
+      {fecha_es(hoy, "corto")} · Semana {sem} de obra
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
@@ -273,7 +288,7 @@ with tab1:
     if not actas:
         st.info("Sin actas en el rango seleccionado.")
     for acta in actas:
-        _fstr  = datetime.fromisoformat(acta["fecha"]).strftime("%A %d/%m/%Y").capitalize()
+        _fstr  = fecha_es(acta["fecha"], "corto")
         _prio  = acta.get("prioridad", "normal")
         _est   = acta.get("estado", "borrador")
         _sem   = acta.get("semana_obra", "?")
@@ -541,7 +556,7 @@ with tab3:
                     if diarias_p:
                         st.markdown("**Actas diarias incluidas:**")
                         for a in diarias_p:
-                            d_str = datetime.fromisoformat(a["fecha"]).strftime("%a %d/%m").capitalize()
+                            d_str = fecha_es(a["fecha"], "mini")
                             st.markdown(f"— **{d_str}**: {a.get('resumen','')}")
 
 
