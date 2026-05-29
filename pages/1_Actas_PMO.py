@@ -359,8 +359,19 @@ with tab1:
                 with col_del:
                     st.markdown("<br>", unsafe_allow_html=True)
                     if st.button("🗑️ Eliminar", key=f"del_{acta['id']}", type="secondary"):
-                        delete_acta_diaria(acta["id"])
-                        st.rerun()
+                        st.session_state[f"_cdel_{acta['id']}"] = True
+                    if st.session_state.get(f"_cdel_{acta['id']}"):
+                        st.warning("⚠️ ¿Confirmar borrado? Escribe en GitHub y **no se puede deshacer**.")
+                        _cy2, _cn2 = st.columns(2)
+                        with _cy2:
+                            if st.button("✅ Sí, borrar", key=f"ydel_{acta['id']}", type="primary"):
+                                delete_acta_diaria(acta["id"])
+                                st.session_state.pop(f"_cdel_{acta['id']}", None)
+                                st.rerun()
+                        with _cn2:
+                            if st.button("❌ Cancelar", key=f"ndel_{acta['id']}"):
+                                st.session_state.pop(f"_cdel_{acta['id']}", None)
+                                st.rerun()
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -507,8 +518,19 @@ if not modo_publico and tab2b is not None:
               <div style="font-size:12px;color:#555;margin-top:6px;">{str(s.get('resumen_ejecutivo',''))[:200]}…</div>
             </div>""", unsafe_allow_html=True)
             if st.button(f"🗑️ Eliminar {s['id']}", key=f"dsem_{s['id']}", type="secondary"):
-                delete_acta_semanal(s["id"])
-                st.rerun()
+                st.session_state[f"_cdsem_{s['id']}"] = True
+            if st.session_state.get(f"_cdsem_{s['id']}"):
+                st.warning(f"⚠️ ¿Confirmar eliminación de **{s['id']}**? Escribe en GitHub y **no se puede deshacer**.")
+                _csy, _csn = st.columns(2)
+                with _csy:
+                    if st.button("✅ Sí, eliminar definitivamente", key=f"ydsem_{s['id']}", type="primary"):
+                        delete_acta_semanal(s["id"])
+                        st.session_state.pop(f"_cdsem_{s['id']}", None)
+                        st.rerun()
+                with _csn:
+                    if st.button("❌ Cancelar", key=f"ndsem_{s['id']}"):
+                        st.session_state.pop(f"_cdsem_{s['id']}", None)
+                        st.rerun()
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -558,6 +580,15 @@ with tab3:
                         for a in diarias_p:
                             d_str = fecha_es(a["fecha"], "mini")
                             st.markdown(f"— **{d_str}**: {a.get('resumen','')}")
+                        html_dl = html_semanal(s, diarias_p)
+                        st.download_button(
+                            "⬇️ Descargar acta semanal (HTML/PDF)",
+                            data=html_dl.encode("utf-8"),
+                            file_name=f"ACTA_{s.get('id','SEM')}_{s.get('fecha_inicio','')}.html",
+                            mime="text/html",
+                            use_container_width=True,
+                            key=f"dl_pub_{s['id']}",
+                        )
 
 
 # ─── SIDEBAR ──────────────────────────────────────────────────────

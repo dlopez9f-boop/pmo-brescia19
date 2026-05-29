@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "ACT-SEM-S10-2026",
+    "semana_obra": 10,
+    "semana_ano": "S10/2026",
+    "fecha_inicio": "2026-05-25",
+    "fecha_fin": "2026-05-29",
+    "obra": "Brescia 19",
+    "estado_aprobacion": "borrador",
+    "aprobado_por": "Darío A. López",
+    "resumen_ejecutivo": "• Lun 25/05: Inicio semana. Clima inicia conductos. Munir replanteo geometría. Incidencia: Electricidad baja operario.\n• Mar 26/05: Reunión coordinación S10. Munir ausente injustificado. Hersan detecta tramo curvo salvaescaleras (desnivel 1.58m). Rubén: replanteo completo. Alertas presupuestos Josevi y Luis.\n• Mié 27/05: Producción intensiva. Paso libre baños 2.50→2.77m. PCI perimetral COMPLETADA. Arquería iniciada.\n• Jue 28/05: Electricidad sala colectiva ejecutada. Clima altillo marcado. Reunión José+Luis maquinaria/potencias.\n• Vie 29/05: Cierre semana. Clima 90%. Ángel confirma forjado recuperadora. Llaves copiadas. Rubén ausente.",
+    "desviaciones_criticas": ["♿ Hersan — tramo curvo salvaescaleras", "💰 Presupuesto Josevi muy alto", "💰 Firma Luis (Elecrea) pendiente", "🧱 Munir ausencia injustificada"],
+    "hitos_cumplidos": ["PCI perimetral EI120 completada", "Paso libre baños 2.77m (+27cm)", "Clima al 90%", "Llaves acceso entregadas", "Electricidad sala colectiva ejecutada"],
+    "actas_diarias_ids": "ACT-20260529-1800,ACT-20260528-0900,ACT-20260527-0800,ACT-20260526-0001,ACT-20260525-0936",
+    "creado_por": "Darío A. López",
+    "creado_en": "2026-05-29"
+  }
+]
