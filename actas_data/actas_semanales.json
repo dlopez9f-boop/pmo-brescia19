@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "id": "ACT-SEM-S10-2026",
+    "semana_obra": 10,
+    "fecha_inicio": "2026-05-25",
+    "fecha_fin": "2026-05-29",
+    "obra": "Brescia 19",
+    "estado": "cerrada",
+    "resumen_ejecutivo": "Semana de producción intensiva. PCI perimetral finalizada (hito adelantado). Clima al 90%. Paso libre baños optimizado a 2.77m (+27cm). Electricidad sala colectiva ejecutada. Llaves copiadas y entregadas. Incidencia crítica: Hersan detecta tramo curvo salvaescaleras (riesgo hito julio). Presupuestos Josevi y Luis pendientes de cierre.",
+    "dias_obra": 5,
+    "gremios_activos": ["❄️ Servitec/José", "⚡ Segotec/Rubén", "🧱 Munir", "♿ Hersan/Pedro"],
+    "logros_semana": [
+      {"descripcion": "PCI perimetral EI120 finalizada — hito adelantado al planning", "impacto": "Libera zona tabiques sala colectiva"},
+      {"descripcion": "Paso libre baños 2.50m → 2.77m (+27cm)", "impacto": "Cumplimiento holgado PMR, elimina escalón"},
+      {"descripcion": "Clima conductos al 90%", "impacto": "Solo pendiente conexión recuperadora miércoles S11"},
+      {"descripcion": "Llaves de acceso copiadas y entregadas", "impacto": "Contratas operan de forma autónoma"},
+      {"descripcion": "Electricidad sala colectiva: conductos, rejillas y salidas ejecutados", "impacto": "Sala colectiva lista para tabiquería y acabados"},
+      {"descripcion": "Confirmación estructural recuperadora por Ángel (COAM_12399)", "impacto": "Introducción máquina confirmada para miércoles 03/06"}
+    ],
+    "incidencias_semana": [
+      {"gremio": "♿ Hersan", "descripcion": "Interferencia desnivel 1.58m salvaescaleras — tramo curvo necesario", "prioridad": "crítica"},
+      {"gremio": "💰 Presupuesto", "descripcion": "Josevi: presupuesto muy alto, revisión profunda necesaria", "prioridad": "alta"},
+      {"gremio": "💰 Presupuesto", "descripcion": "Luis (Elecrea): firma presupuesto audio/domótica pendiente", "prioridad": "alta"},
+      {"gremio": "🧱 Munir", "descripcion": "Ausencia injustificada reunión coordinación 26/05", "prioridad": "alta"},
+      {"gremio": "⚡ Rubén", "descripcion": "Ausencia sin aviso 29/05 + baja operario 25/05", "prioridad": "normal"},
+      {"gremio": "🖼️ Publicidad", "descripcion": "Luna/vinilado exterior fallido 29/05", "prioridad": "normal"}
+    ],
+    "solicitudes_direccion_abiertas": [
+      {"descripcion": "Presupuesto Hersan (tramo curvo) — revisar y confirmar urgente", "responsable": "Darío / Laura", "urgencia": "crítica"},
+      {"descripcion": "Firma presupuesto Luis (Elecrea)", "responsable": "Darío", "urgencia": "alta"},
+      {"descripcion": "Revisión presupuesto Josevi", "responsable": "Valentina / Darío", "urgencia": "alta"},
+      {"descripcion": "Confirmar proveedor RACKS Internet", "responsable": "Darío / Laura", "urgencia": "alta"},
+      {"descripcion": "Decisión armarios (operativa uso/limpieza)", "responsable": "Dirección / Laura", "urgencia": "alta"},
+      {"descripcion": "Presupuesto cortina de aire puerta entrada", "responsable": "Darío / Laura", "urgencia": "normal"}
+    ],
+    "agenda_s11": [
+      {"fecha": "2026-06-01", "hora": null, "evento": "Vinilado/luna publicidad exterior"},
+      {"fecha": "2026-06-02", "hora": "13:00", "evento": "Reunión General de Obra — TODAS LAS CONTRATAS (obligatorio)"},
+      {"fecha": "2026-06-03", "hora": null, "evento": "Introducción máquina recuperadora por fachada — José (Servitec)"},
+      {"fecha": "2026-06-03", "hora": null, "evento": "Leo (Troser/PCI) entra a obra — tabiques PCI sala colectiva"}
+    ],
+    "html_path": "actas_data/ACTA_SEMANAL_S10_20260525-29.html",
+    "creado_por": "Darío A. López",
+    "creado_en": "2026-05-29"
+  }
+]

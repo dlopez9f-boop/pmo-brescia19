@@ -1,5 +1,41 @@
 [
   {
+    "id": "ACT-20260529-1800",
+    "fecha": "2026-05-29",
+    "semana_obra": 10,
+    "obra": "Brescia 19",
+    "resumen": "S10 · 29/05 — Cierre semana. Clima conductos 90%. Ángel confirma recuperadora soporta forjado. Rubén ausente. Munir: replanteo tabiques. Llaves copiadas ✓. Agenda S11: martes reunión 13h, miércoles Leo+recuperadora.",
+    "texto_original": "Rubén (Segotec/Electricidad): ausente hoy. Munir (Civil): replanteo de tabiques y cerramientos fachada/muro colindante. Clima (José/Servitec): conductos al 90%. Falta únicamente conexión recuperadora, prevista miércoles S11. Ángel (Arquitecto): confirmado por teléfono que posición máquina recuperadora soporta el forjado — vía libre para introducción miércoles. Coordinado con José (Servitec): miércoles S11 acceso nueva máquina + comunicación conductos internos. Llaves copiadas (Laura/Valentina) — incidencia resuelta. Intento vinilado/luna publicidad exterior hoy lunes: no pudo ejecutarse. Solución lunes siguiente. Pendiente gestionar: presupuesto cortina de aire puerta entrada.",
+    "intervenciones": "{\"❄️ Climatización\": \"José (Servitec): Conductos al 90%. Pendiente únicamente conexión recuperadora (prevista miércoles S11). Posición recuperadora confirmada estructuralmente por Ángel.\", \"🧱 Albañilería\": \"Munir: Replanteo de tabiques y cerramientos fachada/muro colindante. Avance notable en cierre de semana.\", \"📐 Arquitectura\": \"Ángel Rodríguez (COAM_12399): Confirmado vía teléfono que la posición de la máquina recuperadora aguanta el forjado. Luz verde para introducción miércoles S11.\", \"⚡ Electricidad\": \"Rubén (Segotec): Ausente hoy. Sin actividad eléctrica.\"}",
+    "definiciones_tecnicas": "[{\"categoria\": \"Climatización\", \"elemento\": \"Conductos generales\", \"detalle\": \"ESTADO: 90% completado. Pendiente únicamente conexión final unidad recuperadora. Previsto miércoles 03/06 S11.\"}, {\"categoria\": \"Climatización\", \"elemento\": \"Máquina recuperadora\", \"detalle\": \"CONFIRMACIÓN ESTRUCTURAL por Ángel Rodríguez: forjado soporta la carga. Introducción por fachada (hueco ventana) prevista miércoles 03/06 S11.\"}, {\"categoria\": \"Albañilería\", \"elemento\": \"Tabiques y cerramientos\", \"detalle\": \"Replanteo completo tabiques interiores y cerramientos fachada/muro colindante. Listo para inicio ejecución S11.\"}]",
+    "solicitudes_direccion": "[{\"descripcion\": \"Gestionar presupuesto cortina de aire para puerta de entrada — solicitar a proveedor.\", \"responsable\": \"Darío / Laura\", \"urgencia\": \"normal\"}, {\"descripcion\": \"Solucionar vinilado/luna publicidad exterior — intento fallido 29/05. Pendiente lunes 01/06.\", \"responsable\": \"Darío\", \"urgencia\": \"normal\"}]",
+    "logros_tecnicos": "[{\"descripcion\": \"Llaves de acceso copiadas y entregadas\", \"mejora_de\": \"Incidencia abierta (sin llaves)\", \"mejora_a\": \"Resuelto ✓\", \"impacto\": \"Contratas pueden acceder a zonas de albañilería de forma autónoma.\"}, {\"descripcion\": \"Conductos clima al 90% — cierre técnico semana\", \"mejora_de\": \"En ejecución\", \"mejora_a\": \"90% completado\", \"impacto\": \"Solo pendiente conexión recuperadora miércoles S11. Instalación de clima prácticamente terminada.\"}, {\"descripcion\": \"Confirmación estructural máquina recuperadora\", \"mejora_de\": \"Pendiente validación\", \"mejora_a\": \"Validado por Ángel (COAM_12399)\", \"impacto\": \"Elimina riesgo de replanteo tardío. Introducción confirmada para miércoles.\"}]",
+    "agenda_proxima": "{\"items\": [{\"hora\": \"Lun 01/06\", \"evento\": \"Solucionar vinilado/luna publicidad exterior (intento fallido 29/05).\"}, {\"hora\": \"Mar 02/06 13:00\", \"evento\": \"Reunión General de Obra — TODAS LAS CONTRATAS. Obligatorio.\"}, {\"hora\": \"Mié 03/06\", \"evento\": \"Leo (Troser/PCI): entrada a obra. Inicio tabiques PCI sala colectiva.\"}, {\"hora\": \"Mié 03/06\", \"evento\": \"José (Servitec): Introducción máquina recuperadora por fachada (hueco ventana). Conexión conductos internos.\"}], \"texto\": \"Lunes 01/06 — Solución vinilado publicidad exterior.\\nMartes 02/06 13:00 — Reunión General de Obra (todas contratas, OBLIGATORIO).\\nMiércoles 03/06 — Leo (PCI) entra a obra.\\nMiércoles 03/06 — Introducción máquina recuperadora por fachada.\"}",
+    "incidencias": "[{\"gremio\": \"⚡ Electricidad\", \"descripcion\": \"Rubén (Segotec): Ausencia sin aviso el 29/05. Sin actividad eléctrica.\", \"prioridad\": \"normal\"}, {\"gremio\": \"🖼️ Publicidad\", \"descripcion\": \"Luna/vinilado publicidad exterior: intento fallido 29/05. Pendiente solución lunes 01/06.\", \"prioridad\": \"normal\"}]",
+    "gremios_incidencia": "[\"⚡ Electricidad\", \"🖼️ Publicidad\"]",
+    "prioridad": "normal",
+    "estado": "borrador",
+    "creado_por": "Darío A. López"
+  },
+  {
+    "id": "ACT-20260528-0900",
+    "fecha": "2026-05-28",
+    "semana_obra": 10,
+    "obra": "Brescia 19",
+    "resumen": "S10 · 28/05 — Electricidad: conductos y rejillas sala colectiva. Clima: conductos avanzando, altillo marcado. Munir: tabiques sala colectiva. Reunión telefónica José+Luis (maquinaria/potencias). Pendientes Dirección activos.",
+    "texto_original": "Rubén (Segotec/Electricidad): trabajos en conductos y rejillas sala colectiva. Marcado de tubos y salidas para máquinas de cardio. Clima (José/Servitec): conductos avanzando. Solicitan conducto guía/curva para altillo. Altillo marcado para hueco máquina recuperadora. Munir (Civil): continuación tabiques sala colectiva. Altura cota suelo-techo baños: 2.50m con cassette (30cm) — en revisión: si bajante colindante libre, opción 2.77m sigue abierta. Reunión telefónica mañana (jueves 29): José (Servitec) + Luis (Elecrea) para cerrar listado maquinaria, potencias y firma presupuesto. Pendientes Dirección: llaves acceso, mesas estorban en obra, RACKS internet (proveedor o instala obra), armarios (decisión operativa).",
+    "intervenciones": "{\"⚡ Electricidad\": \"Rubén (Segotec): Conductos y rejillas sala colectiva ejecutados. Marcado de tubos y salidas para máquinas de cardio.\", \"❄️ Climatización\": \"José (Servitec): Conductos avanzando. Solicitan conducto guía/curva para altillo. Altillo marcado para hueco máquina recuperadora.\", \"🧱 Albañilería\": \"Munir: Continuación tabiques sala colectiva. Revisión cota suelo-techo baños (2.50m con cassette 30cm).\"}",
+    "definiciones_tecnicas": "[{\"categoria\": \"Alturas\", \"elemento\": \"Cota baños/vestuarios con cassette\", \"detalle\": \"Cota suelo-techo real: 2.50m (incluido cassette 30cm). EN REVISIÓN: si bajante colindante libre, desplazando evacuación a pared se alcanza 2.77m (+27cm). Pendiente confirmación definitiva con Ángel.\"}, {\"categoria\": \"Climatización\", \"elemento\": \"Conducto guía/curva altillo\", \"detalle\": \"Servitec solicita conducto guía/curva para paso por altillo. Altillo marcado para hueco de máquina recuperadora.\"}, {\"categoria\": \"Electricidad\", \"elemento\": \"Sala colectiva — ejecución\", \"detalle\": \"Conductos y rejillas completados. Tubos y salidas para máquinas de cardio marcados y definidos.\"}]",
+    "solicitudes_direccion": "[{\"descripcion\": \"Confirmar estado bajante colindante (Ángel): si libre, ejecutar paso libre 2.77m baños/vestuarios.\", \"responsable\": \"Ángel / Darío\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Llaves de acceso a zonas albañilería — pendiente entrega a contratas.\", \"responsable\": \"Laura / Valentina\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Retirar mesas de trabajo que estorban en zona de obra.\", \"responsable\": \"Laura\", \"urgencia\": \"normal\"}, {\"descripcion\": \"Confirmar proveedor RACKS Internet: ¿suministra proveedor o instala obra?\", \"responsable\": \"Darío / Laura\", \"urgencia\": \"alta\"}, {\"descripcion\": \"Decisión sobre armarios: operativa uso/limpieza para avanzar con tabiquería.\", \"responsable\": \"Dirección / Laura\", \"urgencia\": \"alta\"}]",
+    "logros_tecnicos": "[{\"descripcion\": \"Sala colectiva: conductos y rejillas eléctricas ejecutadas\", \"mejora_de\": \"Pendiente\", \"mejora_a\": \"Completado\", \"impacto\": \"Electricidad sala colectiva lista para fases de tabiquería y acabados.\"}, {\"descripcion\": \"Altillo marcado para hueco recuperadora\", \"mejora_de\": \"Sin definir\", \"mejora_a\": \"Marcado y listo\", \"impacto\": \"Introducción recuperadora por fachada puede ejecutarse sin replanteos adicionales.\"}]",
+    "agenda_proxima": "{\"items\": [{\"hora\": \"Jue 29/05\", \"evento\": \"Reunión telefónica José (Servitec) + Luis (Elecrea): listado maquinaria, potencias y firma presupuesto.\"}, {\"hora\": \"Mar 02/06 13:00\", \"evento\": \"Reunión General de Obra S11 — TODAS LAS CONTRATAS.\"}, {\"hora\": \"Mié 03/06\", \"evento\": \"Introducción máquina recuperadora por fachada (hueco ventana).\"}], \"texto\": \"Jueves 29/05 — Reunión telefónica José + Luis: maquinaria, potencias, presupuesto.\\nMartes 02/06 13:00 — Reunión General de Obra S11.\\nMiércoles 03/06 — Introducción recuperadora por fachada.\"}",
+    "incidencias": "[{\"gremio\": \"🏗️ Logística\", \"descripcion\": \"Mesas de trabajo estorbando en zona de obra. Pendiente retirada.\", \"prioridad\": \"normal\"}, {\"gremio\": \"🔑 Acceso\", \"descripcion\": \"Llaves de acceso a zonas albañilería aún no entregadas a contratas.\", \"prioridad\": \"alta\"}, {\"gremio\": \"💰 Presupuesto\", \"descripcion\": \"Firma presupuesto Luis (Electricidad) pendiente. Reunión para cerrar mañana jueves.\", \"prioridad\": \"alta\"}]",
+    "gremios_incidencia": "[\"🏗️ Logística\", \"🔑 Acceso\", \"💰 Presupuesto\"]",
+    "prioridad": "alta",
+    "estado": "borrador",
+    "creado_por": "Darío A. López"
+  },
+  {
     "id": "ACT-20260527-0800",
     "fecha": "2026-05-27",
     "semana_obra": 10,
@@ -38,7 +74,7 @@
   {
     "id": "ACT-20260525-0936",
     "fecha": "2026-05-25",
-    "semana_obra": 8,
+    "semana_obra": 10,
     "obra": "Brescia 19",
     "fase": "Instalaciones y Tabiquería Técnica",
     "intervenciones": {
@@ -56,7 +92,7 @@
     "gremios_incidencia": "[\"⚡ Electricidad\"]",
     "prioridad": "alta",
     "estado": "revisado",
-    "resumen": "S8 · 25/05 — Incidencia Electricidad (baja operario). Climatización: inicio conductos y acceso altillo. Munir: replanteo geometría completo. Definiciones técnicas cerradas.",
+    "resumen": "S10 · 25/05 — Incidencia Electricidad (baja operario). Climatización: inicio conductos y acceso altillo. Munir: replanteo geometría completo. Definiciones técnicas cerradas.",
     "creado_por": "Darío A. López"
   }
 ]
