@@ -303,20 +303,57 @@ def delete_acta_semanal(rec_id: str):
 #  CONSOLIDACIÓN SEMANAL
 # ══════════════════════════════════════════════════════════════════
 
+_DIAS_ES_DB  = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
+_MESES_ES_DB = ["enero","febrero","marzo","abril","mayo","junio","julio",
+                "agosto","septiembre","octubre","noviembre","diciembre"]
+
+def _parse_list_field(val) -> list:
+    """Devuelve siempre una lista, parseando JSON string si hace falta."""
+    if not val:
+        return []
+    if isinstance(val, list):
+        return val
+    if isinstance(val, str):
+        try:
+            r = json.loads(val)
+            return r if isinstance(r, list) else [r]
+        except Exception:
+            return []
+    return []
+
 def consolidar_semana(semana: int) -> dict:
     lunes   = date(2026, 3, 23) + timedelta(weeks=semana - 1)
     viernes = lunes + timedelta(days=6)
     diarias = list_actas_diarias(lunes.isoformat(), viernes.isoformat())
     if not diarias:
         return {}
-    gremios_inc = list({
+
+    # gremios_incidencia puede ser JSON string — parsear antes de iterar
+    gremios_inc = sorted({
         g for a in diarias
-        for g in (a.get("gremios_incidencia") or [])
+        for g in _parse_list_field(a.get("gremios_incidencia"))
     })
+
+    # logros y solicitudes agregados de todas las diarias
+    hitos = []
+    for a in diarias:
+        for l in _parse_list_field(a.get("logros_tecnicos")):
+            if isinstance(l, dict) and l.get("descripcion"):
+                hitos.append(l["descripcion"])
+
+    # Resumen ejecutivo con fechas en español
+    def _dia_es(fecha_str):
+        try:
+            d = datetime.fromisoformat(fecha_str)
+            return f"{_DIAS_ES_DB[d.weekday()][:3]} {d.day:02d}/{d.month:02d}"
+        except Exception:
+            return fecha_str
+
     resumen = "\n".join(
-        f"• {datetime.fromisoformat(a['fecha']).strftime('%a %d/%m').capitalize()}: {a.get('resumen','')}"
+        f"• {_dia_es(a['fecha'])}: {a.get('resumen','')}"
         for a in diarias
     )
+
     return {
         "id":                    f"SEM-{semana:02d}-{lunes.year}",
         "semana_obra":           semana,
@@ -326,10 +363,10 @@ def consolidar_semana(semana: int) -> dict:
         "obra":                  "Brescia 19",
         "resumen_ejecutivo":     resumen,
         "desviaciones_criticas": gremios_inc,
-        "hitos_cumplidos":       [],
+        "hitos_cumplidos":       hitos,
         "actas_diarias_ids":     ",".join(a["id"] for a in diarias),
         "estado_aprobacion":     "borrador",
-        "aprobado_por":          None,
+        "aprobado_por":          "Darío A. López",
     }
 
 
