@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-pages/1_Actas_PMO.py — Actas diarias + semanales · Nine Fitness Brescia 19
+pages/1_Actas_PMO.py — Visor READ-ONLY · PMO Nine Fitness Brescia 19
+Sin escritura. Para generar actas usar generador_pmo_core.py (local).
 """
 
 import json
 import streamlit as st
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 
 _DIAS_ES  = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
 _MESES_ES = ["enero","febrero","marzo","abril","mayo","junio","julio",
@@ -38,73 +39,20 @@ def _parse_agenda(acta) -> list:
     return []
 
 def _texto_inc(i) -> str:
-    """Normaliza incidencia a texto plano, sea string o dict."""
     if isinstance(i, dict):
         return i.get("descripcion") or i.get("detalle") or str(i)
     return str(i)
 
 def _normalizar_incs(raw) -> list:
-    """Devuelve lista de strings a partir de incidencias en cualquier formato."""
     if not raw:
         return []
     if isinstance(raw, str):
-        try:
-            raw = json.loads(raw)
-        except Exception:
-            return [raw]
+        try: raw = json.loads(raw)
+        except: return [raw]
     if isinstance(raw, list):
         return [_texto_inc(i) for i in raw]
     return [str(raw)]
 
-import db
-from db import (
-    init_db, backend_info, semana_obra,
-    list_actas_diarias, get_acta_diaria, upsert_acta_diaria, delete_acta_diaria,
-    list_actas_semanales, upsert_acta_semanal, delete_acta_semanal, consolidar_semana,
-)
-
-init_db()
-
-modo_publico = st.query_params.get("view", "") == "public"
-
-# ─── PARSER ───────────────────────────────────────────────────────
-GREMIO_KW = {
-    "⚡ Electricidad":  ["luis", "elecrea", "cuadro", "bandeja", "cableado", "iga", "diferencial"],
-    "❄️ Climatización": ["jose", "nacho", "servitec", "conducto", "daikin", "clima", "difusor", "altillo"],
-    "🧱 Albañilería":   ["munir", "ziad", "mohamed", "solera", "tabiq", "escombro", "nivelac", "pladur"],
-    "🪵 Carpintería":   ["josevi", "upn", "espejo", "carpintería", "viga", "estructura"],
-    "🔥 PCI":           ["leo", "troser", "extinción", "pci", "rociador"],
-    "♿ Accesibilidad": ["pedro", "hersan", "salvaescaleras", "pmr", "fortis"],
-}
-INC_KW    = ["problema", "retraso", "falta", "pendiente urgente", "alerta", "sin material", "parado", "bloqueado", "ausencia", "no asistido"]
-AGENDA_KW = ["mañana", "próximo día", "08:", "09:", "10:", "reunión"]
-
-def parsear(texto: str) -> dict:
-    lines   = [l.strip() for l in texto.splitlines() if l.strip()]
-    secs: dict = {g: [] for g in GREMIO_KW}
-    incs, agenda = [], []
-    for line in lines:
-        ll = line.lower()
-        for g, kws in GREMIO_KW.items():
-            if any(k in ll for k in kws):
-                secs[g].append(line)
-                break
-        if any(k in ll for k in INC_KW):
-            incs.append(line)
-        if any(k in ll for k in AGENDA_KW):
-            agenda.append(line)
-    gremios_inc = [
-        g for g in GREMIO_KW
-        if secs[g] and any(k in " ".join(secs[g]).lower() for k in INC_KW)
-    ]
-    return {
-        "intervenciones":       {g: "\n".join(v) for g, v in secs.items() if v},
-        "incidencias":          incs,
-        "agenda_proxima":       {"texto": "\n".join(agenda)},
-        "gremios_incidencia":   gremios_inc,
-    }
-
-# ─── HELPERS INTERNOS HTML ────────────────────────────────────────
 def _parse_json(raw, default=None):
     if default is None:
         default = []
@@ -113,10 +61,8 @@ def _parse_json(raw, default=None):
     if isinstance(raw, (list, dict)):
         return raw
     if isinstance(raw, str):
-        try:
-            return json.loads(raw)
-        except Exception:
-            return default
+        try: return json.loads(raw)
+        except: return default
     return default
 
 def _inc_to_dict(i) -> dict:
@@ -125,7 +71,7 @@ def _inc_to_dict(i) -> dict:
     return {"gremio": "General", "descripcion": str(i), "prioridad": "normal"}
 
 # ─── GENERADOR HTML SEMANAL ───────────────────────────────────────
-def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
+def html_semanal(acta_sem: dict, diarias: list) -> str:
     sem      = acta_sem.get("semana_obra", "?")
     sem_ano  = acta_sem.get("semana_ano", f"S{sem}/2026")
     fi       = acta_sem.get("fecha_inicio", "")
@@ -135,7 +81,6 @@ def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
     act_id   = acta_sem.get("id", "")
     aprobado = acta_sem.get("aprobado_por", "Darío A. López")
 
-    # ── Agregar datos de todas las diarias ──
     all_incs, all_logros, all_sols = [], [], []
     for a in diarias:
         for i in _parse_json(a.get("incidencias")):
@@ -147,21 +92,18 @@ def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
             if isinstance(s, dict) and s.get("descripcion"):
                 all_sols.append(s)
 
-    # Deduplicar solicitudes por descripción
     seen, unique_sols = set(), []
     for s in all_sols:
         k = s.get("descripcion", "")
         if k not in seen:
             seen.add(k); unique_sols.append(s)
 
-    # Agenda: del acta más reciente que tenga items
     agenda_items = []
     for a in diarias:
         items = _parse_agenda(a)
         if items:
             agenda_items = items; break
 
-    # KPIs
     n_dias   = len(diarias)
     gremios  = set()
     for a in diarias:
@@ -171,7 +113,6 @@ def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
     n_incs   = len(all_incs)
     n_sols   = len(unique_sols)
 
-    # ── CSS ──
     css = """*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1a2e;font-size:13px;line-height:1.5}
 .doc{max-width:960px;margin:16px auto;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.12)}
@@ -242,18 +183,16 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
 @media print{body{background:#fff}.doc{box-shadow:none;margin:0;border-radius:0}.no-print{display:none!important}.dia-wrap{break-inside:avoid}}
 @page{size:A4;margin:8mm}"""
 
-    # ── RESUMEN EJECUTIVO ──
-    resumen_raw = acta_sem.get("resumen_ejecutivo", "")
+    resumen_raw  = acta_sem.get("resumen_ejecutivo", "")
     resumen_html = resumen_raw.replace("\n", "<br>") if resumen_raw else "Sin resumen registrado."
 
-    # ── DÍAS ──
     ICONOS_DIA = {0:"Lun",1:"Mar",2:"Mié",3:"Jue",4:"Vie",5:"Sáb",6:"Dom"}
     bloques_dias = ""
     for a in diarias:
         try:
             _d = datetime.fromisoformat(a["fecha"])
-            num   = _d.day
-            nomb  = ICONOS_DIA.get(_d.weekday(), "")
+            num  = _d.day
+            nomb = ICONOS_DIA.get(_d.weekday(), "")
         except Exception:
             num, nomb = "?", ""
         secs = _parse_json(a.get("intervenciones"), {})
@@ -269,7 +208,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
         inc_html = ""
         for inc in incs_dia:
             pr   = inc.get("prioridad","normal")
-            bcls = "b-r" if pr == "alta" else ("b-r" if pr == "urgente" else "b-y")
+            bcls = "b-r" if pr in ("alta","urgente") else "b-y"
             grem = inc.get("gremio","")
             desc = inc.get("descripcion","")
             if desc:
@@ -278,9 +217,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
                              f'<span class="badge {bcls}">{pr}</span></div>'
                              f'<div class="inc-d">{desc}</div></div>')
         ag_items = _parse_agenda(a)
-        ag_line  = " · ".join(
-            it["hora"] + " " + it["evento"] for it in ag_items[:2]
-        )[:200] if ag_items else ""
+        ag_line  = " · ".join(it["hora"] + " " + it["evento"] for it in ag_items[:2])[:200] if ag_items else ""
         bloques_dias += f"""
 <div class="dia-wrap">
   <div class="dia-l"><div class="dia-n">{num}</div><div class="dia-nm">{nomb}</div></div>
@@ -292,13 +229,12 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
   </div>
 </div>"""
 
-    # ── LOGROS ──
     ICONOS_LOGRO = ["&#127942;","&#9989;","&#128274;","&#10024;","&#9889;","&#128203;","&#128200;"]
     logros_html = ""
     for idx, l in enumerate(all_logros):
-        ico = ICONOS_LOGRO[idx % len(ICONOS_LOGRO)]
-        ant = l.get("mejora_de","")
-        des = l.get("mejora_a","")
+        ico  = ICONOS_LOGRO[idx % len(ICONOS_LOGRO)]
+        ant  = l.get("mejora_de","")
+        des  = l.get("mejora_a","")
         chips = (f'<div class="chips"><span class="ch-b">{ant}</span>'
                  f'<span class="ch-ar">&#8594;</span>'
                  f'<span class="ch-a">{des}</span></div>') if ant or des else ""
@@ -309,7 +245,6 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
     if not logros_html:
         logros_html = '<div style="color:#94a3b8;font-size:12px;">Sin logros técnicos registrados.</div>'
 
-    # ── INCIDENCIAS GLOBALES ──
     incs_global_html = ""
     for inc in all_incs:
         pr   = inc.get("prioridad","normal")
@@ -328,7 +263,6 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
     if not incs_global_html:
         incs_global_html = '<div style="color:#27ae60;font-size:12px;">Sin incidencias registradas.</div>'
 
-    # ── SOLICITUDES DIRECCIÓN ──
     sols_html = ""
     for s in unique_sols:
         urg = s.get("urgencia","normal")
@@ -342,7 +276,6 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
     if not sols_html:
         sols_html = '<div style="color:#94a3b8;font-size:12px;">Sin solicitudes pendientes.</div>'
 
-    # ── HITOS ──
     hitos = _parse_json(acta_sem.get("hitos_cumplidos"))
     hitos_html = "".join(
         f'<div style="font-size:12px;color:#1b5e20;padding:4px 0;border-bottom:1px solid #f0f2f8;">&#9989; {h}</div>'
@@ -352,7 +285,6 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
     desv = _parse_json(acta_sem.get("desviaciones_criticas"))
     desv_html = "".join(f"<li style='margin-bottom:3px;'>{d}</li>" for d in desv) if desv else "<li>Sin desviaciones.</li>"
 
-    # ── AGENDA ──
     agenda_html = ""
     for it in agenda_items:
         agenda_html += (f'<div class="ag-row">'
@@ -396,49 +328,40 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
     <div class="kc"><div class="kn" style="color:#7b1fa2;">{n_sols}</div><div class="kd">Pendientes Direcci&oacute;n</div></div>
   </div>
   <div class="body">
-
     <div class="sec">
       <div class="sh"><span>&#128203;</span><span class="st">Resumen Ejecutivo</span></div>
       <div class="resumen">{resumen_html}</div>
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#128197;</span><span class="st">Actividad Diaria</span></div>
       {bloques_dias}
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#127942;</span><span class="st">Logros T&eacute;cnicos y Optimizaciones</span></div>
       {logros_html}
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#9888;&#65039;</span><span class="st">Incidencias Semana</span></div>
       {incs_global_html}
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#128204;</span><span class="st">Solicitudes a Direcci&oacute;n &mdash; Pendientes</span></div>
       {sols_html}
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#9989;</span><span class="st">Hitos Cumplidos</span></div>
       {hitos_html}
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#9888;&#65039;</span><span class="st">Gremios con Desviaciones</span></div>
       <div style="background:#fdf2f2;border-left:4px solid #e74c3c;padding:10px 14px;border-radius:0 6px 6px 0;font-size:12px;">
         <ul style="margin:0 0 0 14px;padding:0;">{desv_html}</ul>
       </div>
     </div>
-
     <div class="sec">
       <div class="sh"><span>&#128197;</span><span class="st">Agenda Pr&oacute;xima Semana</span></div>
       {agenda_html}
     </div>
-
   </div>
   <div class="ftr">
     <div>NINE FITNESS GROUP S.L. &middot; Calle Brescia 19, 28028 Madrid</div>
@@ -449,12 +372,20 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1
 </body>
 </html>"""
 
+
+# ─── IMPORTS DB (sólo lectura) ────────────────────────────────────
+from db import (
+    init_db, backend_info, semana_obra,
+    list_actas_diarias, list_actas_semanales,
+)
+
+init_db()
+
 # ─── CSS ──────────────────────────────────────────────────────────
 st.markdown("""
 <style>
   [data-testid="stAppViewContainer"] { background: #f0f2f8; }
   [data-testid="stMain"] { padding-top: 0.4rem; }
-
   .pmo-header {
     background: linear-gradient(135deg, #1a1a2e, #0f3460);
     color: #fff; padding: 16px 24px; border-radius: 10px;
@@ -479,31 +410,24 @@ st.markdown("""
   .b-amber  { background:#fff8e1; color:#e65100; }
   .b-green  { background:#f0faf4; color:#27ae60; }
   .b-blue   { background:#eaf4ff; color:#2471a3; }
-  .b-purple { background:#f5eeff; color:#6a1b9a; }
   .gtag { display:inline-block; padding:2px 8px; border-radius:3px;
           font-size:10px; font-weight:600; margin:2px;
           background:#eef1f8; color:#0f3460; }
   .scroll-box { max-height: 74vh; overflow-y: auto; padding-right: 2px; }
-  .pub-banner {
-    background: #fff8e1; border: 1px solid #ffd54f; border-radius: 8px;
-    padding: 10px 16px; font-size: 12px; color: #e65100; margin-bottom: 12px;
+  .readonly-banner {
+    background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px;
+    padding: 8px 16px; font-size: 12px; color: #1b5e20; margin-bottom: 12px;
   }
   .backend-pill {
     font-size: 11px; background: rgba(255,255,255,.15);
     padding: 3px 10px; border-radius: 4px; color: #dde;
   }
-  div[data-testid="stForm"] {
-    background: #fff; border-radius: 10px; padding: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.07);
-  }
-  textarea { font-family: 'Courier New', monospace !important; font-size: 12px !important; }
 </style>
 """, unsafe_allow_html=True)
 
 # ─── HEADER ───────────────────────────────────────────────────────
 hoy   = date.today()
 sem   = semana_obra(hoy)
-lunes = hoy - timedelta(days=hoy.weekday())
 be    = backend_info()
 
 st.markdown(f"""
@@ -524,19 +448,13 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-if modo_publico:
-    st.markdown("""
-    <div class="pub-banner">
-      👁️ <strong>Vista pública de solo lectura</strong> — No se pueden crear, editar ni eliminar registros en este modo.
-    </div>""", unsafe_allow_html=True)
+st.markdown("""
+<div class="readonly-banner">
+  🔒 <strong>Vista de solo lectura.</strong> Para crear o editar actas usa el Generador PMO local.
+</div>""", unsafe_allow_html=True)
 
 # ─── TABS ─────────────────────────────────────────────────────────
-if modo_publico:
-    tab1, tab3 = st.tabs(["📊 Dashboard", "📅 Actas Semanales"])
-    tab2 = None
-    tab2b = None
-else:
-    tab1, tab2, tab2b, tab3 = st.tabs(["📊 Dashboard", "✍️ Registrar", "📅 Consolidación Semanal", "🔗 Vista Pública"])
+tab1, tab2 = st.tabs(["📊 Dashboard", "📅 Actas Semanales"])
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -626,227 +544,18 @@ with tab1:
                 if not incs:
                     st.success("Sin incidencias.")
 
-            if not modo_publico:
-                col_est, col_del = st.columns([2, 1])
-                with col_est:
-                    nuevo_est = st.selectbox(
-                        "Cambiar estado", ["borrador","revisado","firmado"],
-                        index=["borrador","revisado","firmado"].index(acta.get("estado","borrador")),
-                        key=f"es_{acta['id']}"
-                    )
-                    if st.button("Actualizar estado", key=f"upd_{acta['id']}"):
-                        acta["estado"] = nuevo_est
-                        upsert_acta_diaria(acta)
-                        st.rerun()
-                with col_del:
-                    st.markdown("<br>", unsafe_allow_html=True)
-                    if st.button("🗑️ Eliminar", key=f"del_{acta['id']}", type="secondary"):
-                        st.session_state[f"_cdel_{acta['id']}"] = True
-                    if st.session_state.get(f"_cdel_{acta['id']}"):
-                        st.warning("⚠️ ¿Confirmar borrado? Escribe en GitHub y **no se puede deshacer**.")
-                        _cy2, _cn2 = st.columns(2)
-                        with _cy2:
-                            if st.button("✅ Sí, borrar", key=f"ydel_{acta['id']}", type="primary"):
-                                delete_acta_diaria(acta["id"])
-                                st.session_state.pop(f"_cdel_{acta['id']}", None)
-                                st.rerun()
-                        with _cn2:
-                            if st.button("❌ Cancelar", key=f"ndel_{acta['id']}"):
-                                st.session_state.pop(f"_cdel_{acta['id']}", None)
-                                st.rerun()
-
     st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════
-#  TAB 2 — REGISTRAR
+#  TAB 2 — ACTAS SEMANALES
 # ══════════════════════════════════════════════════════════════════
-if not modo_publico and tab2 is not None:
-    with tab2:
-        col_form, col_prev = st.columns([1, 1.2], gap="large")
-
-        with col_form:
-            st.markdown("### ✍️ Nueva Acta Diaria")
-            with st.form("form_nueva", clear_on_submit=True):
-                fecha_acta = st.date_input("Fecha", value=hoy)
-                texto_raw  = st.text_area(
-                    "Notas de campo (texto libre)", height=280,
-                    placeholder=(
-                        "Escribe o pega tus notas del día...\n\n"
-                        "Ej:\n"
-                        "- Luis (Elecrea): cuadro CGMP pendiente, falta IGA.\n"
-                        "- Jose (Servitec): inicio conductos altillo.\n"
-                        "- Mohamed (Munir): replanteo tabiquería.\n"
-                        "- Mañana 08:30 reunión contratas."
-                    )
-                )
-                resumen_m = st.text_input("Resumen ejecutivo (opcional)")
-                c1, c2 = st.columns(2)
-                with c1: prioridad = st.selectbox("Prioridad", ["normal","alta","urgente"])
-                with c2: estado    = st.selectbox("Estado",    ["borrador","revisado","firmado"])
-                guardar = st.form_submit_button("💾 Guardar", use_container_width=True, type="primary")
-
-            if guardar:
-                if not texto_raw.strip():
-                    st.warning("Escribe las notas antes de guardar.")
-                else:
-                    from datetime import datetime as _dt
-                    p   = parsear(texto_raw)
-                    _id = f"ACT-{fecha_acta.strftime('%Y%m%d')}-{_dt.now().strftime('%H%M%S')}"
-                    nueva = {
-                        "id":                    _id,
-                        "fecha":                 fecha_acta.isoformat(),
-                        "semana_obra":           semana_obra(fecha_acta),
-                        "obra":                  "Brescia 19",
-                        "texto_original":        texto_raw,
-                        "resumen":               resumen_m.strip() or f"Acta S{semana_obra(fecha_acta)} · {fecha_acta.strftime('%d/%m/%Y')}",
-                        "intervenciones":        json.dumps(p["intervenciones"],     ensure_ascii=False),
-                        "definiciones_tecnicas": json.dumps({},                      ensure_ascii=False),
-                        "agenda_proxima":        json.dumps(p["agenda_proxima"],     ensure_ascii=False),
-                        "incidencias":           json.dumps(p["incidencias"],        ensure_ascii=False),
-                        "gremios_incidencia":    json.dumps(p["gremios_incidencia"], ensure_ascii=False),
-                        "prioridad":             prioridad,
-                        "estado":                estado,
-                        "creado_por":            "Dario A. Lopez",
-                    }
-                    upsert_acta_diaria(nueva)
-                    st.success(f"✅ Acta {_id} guardada · backend: {backend_info()}")
-                    st.rerun()
-
-        with col_prev:
-            st.markdown("### 🔍 Previsualizar parser")
-            pv_txt = st.text_area("Texto a analizar", height=200, key="pv",
-                                   placeholder="Pega aquí para ver cómo lo parsea el sistema...")
-            if st.button("Analizar", key="btn_pv"):
-                if pv_txt.strip():
-                    res = parsear(pv_txt)
-                    st.markdown("**Secciones detectadas:**")
-                    for g, c in res["intervenciones"].items():
-                        st.markdown(f"- **{g}**: {str(c)[:90]}…")
-                    if res["incidencias"]:
-                        st.markdown("**⚠️ Incidencias:** " + " · ".join(_texto_inc(i) for i in res["incidencias"][:3]))
-                    if res["agenda_proxima"].get("texto"):
-                        st.markdown("**📅 Agenda:** " + res["agenda_proxima"]["texto"][:120])
-                    st.markdown(f"**Gremios con incidencia:** {', '.join(res['gremios_incidencia']) or 'ninguno'}")
-
-
-# ══════════════════════════════════════════════════════════════════
-#  TAB 2b — CONSOLIDACIÓN SEMANAL
-# ══════════════════════════════════════════════════════════════════
-if not modo_publico and tab2b is not None:
-    with tab2b:
-        st.markdown("### 📅 Generar Acta Semanal")
-
-        cs1, cs2, cs3 = st.columns([1, 1, 2])
-        with cs1: sem_sel = st.number_input("Semana de obra", min_value=1, max_value=52, value=sem)
-        with cs2:
-            st.markdown("<br>", unsafe_allow_html=True)
-            gen_btn = st.button("⚙️ Consolidar semana", use_container_width=True, type="primary")
-
-        if gen_btn:
-            borrador = consolidar_semana(sem_sel)
-            if borrador:
-                st.session_state["borrador_semanal"] = borrador
-                n = len([i for i in borrador['actas_diarias_ids'].split(',') if i])
-                st.success(f"Borrador S{sem_sel} generado con {n} actas.")
-            else:
-                st.warning(f"Sin actas diarias registradas para la semana {sem_sel}.")
-
-        if "borrador_semanal" in st.session_state:
-            b = st.session_state["borrador_semanal"]
-            st.divider()
-            st.markdown(f"#### Borrador: {b['semana_ano']}  ({b['fecha_inicio']} → {b['fecha_fin']})")
-
-            resumen_edit = st.text_area("Resumen ejecutivo (editable)", value=b.get("resumen_ejecutivo",""), height=180)
-            estado_ap    = st.selectbox("Estado de aprobación", ["borrador","pendiente_firma","aprobado"])
-            aprobado_por = st.text_input("Aprobado por", value="Dario A. Lopez")
-
-            col_g, col_d = st.columns(2)
-            with col_g:
-                if st.button("💾 Guardar acta semanal", use_container_width=True, type="primary"):
-                    b["resumen_ejecutivo"]  = resumen_edit
-                    b["estado_aprobacion"]  = estado_ap
-                    b["aprobado_por"]       = aprobado_por
-                    upsert_acta_semanal(b)
-                    st.success(f"✅ Acta semanal {b['id']} guardada.")
-                    del st.session_state["borrador_semanal"]
-                    st.rerun()
-
-            ids_list    = [i for i in b["actas_diarias_ids"].split(",") if i]
-            diarias_sem = [a for a in list_actas_diarias(b["fecha_inicio"], b["fecha_fin"]) if a["id"] in ids_list]
-            html_rep    = html_semanal(b, diarias_sem)
-            with col_d:
-                st.download_button(
-                    "⬇️ Descargar HTML",
-                    data=html_rep.encode("utf-8"),
-                    file_name=f"ACTA_{b['id']}_{hoy.strftime('%d%m%Y')}.html",
-                    mime="text/html",
-                    use_container_width=True,
-                )
-
-        st.divider()
-        st.markdown("#### Actas semanales guardadas")
-        sem_list = list_actas_semanales()
-        if not sem_list:
-            st.info("No hay actas semanales. Usa el botón de consolidación.")
-        for s in sem_list:
-            _ea = {"borrador":"b-blue","pendiente_firma":"b-amber","aprobado":"b-green"}.get(s.get("estado_aprobacion","borrador"),"b-blue")
-            st.markdown(f"""
-            <div class="sem-card">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <b style="font-size:14px;">📅 {s.get('semana_ano','')} · {s.get('fecha_inicio','')} → {s.get('fecha_fin','')}</b>
-                <span class="badge {_ea}">{s.get('estado_aprobacion','borrador').replace('_',' ').title()}</span>
-              </div>
-              <div style="font-size:12px;color:#555;margin-top:6px;">{str(s.get('resumen_ejecutivo',''))[:200]}…</div>
-            </div>""", unsafe_allow_html=True)
-            if st.button(f"🗑️ Eliminar {s['id']}", key=f"dsem_{s['id']}", type="secondary"):
-                st.session_state[f"_cdsem_{s['id']}"] = True
-            if st.session_state.get(f"_cdsem_{s['id']}"):
-                st.warning(f"⚠️ ¿Confirmar eliminación de **{s['id']}**? Escribe en GitHub y **no se puede deshacer**.")
-                _csy, _csn = st.columns(2)
-                with _csy:
-                    if st.button("✅ Sí, eliminar definitivamente", key=f"ydsem_{s['id']}", type="primary"):
-                        delete_acta_semanal(s["id"])
-                        st.session_state.pop(f"_cdsem_{s['id']}", None)
-                        st.rerun()
-                with _csn:
-                    if st.button("❌ Cancelar", key=f"ndsem_{s['id']}"):
-                        st.session_state.pop(f"_cdsem_{s['id']}", None)
-                        st.rerun()
-
-
-# ══════════════════════════════════════════════════════════════════
-#  TAB 3 — VISTA PÚBLICA / COMPARTIR
-# ══════════════════════════════════════════════════════════════════
-with tab3:
-    if not modo_publico:
-        st.markdown("### 🔗 Compartir con el equipo")
-
-        cloud_url = "https://kntwcg5w7wfjqnqqvh8izv.streamlit.app"
-        pub_url   = f"{cloud_url}/Actas_PMO?view=public"
-
-        st.markdown(f"""
-        <div style="background:#fff;border:1px solid #e2e6f0;border-radius:10px;padding:20px 24px;margin-bottom:16px;">
-          <div style="font-size:15px;font-weight:700;margin-bottom:12px;">🔗 URLs de acceso</div>
-          <div style="margin-bottom:10px;">
-            <div style="font-size:11px;text-transform:uppercase;color:#888;margin-bottom:3px;">App completa (equipo interno)</div>
-            <code style="background:#f0f2f8;padding:6px 12px;border-radius:4px;font-size:12px;">{cloud_url}/Actas_PMO</code>
-          </div>
-          <div>
-            <div style="font-size:11px;text-transform:uppercase;color:#888;margin-bottom:3px;">Vista pública solo lectura (Laura, Valentina, dirección)</div>
-            <code style="background:#f0faf4;padding:6px 12px;border-radius:4px;font-size:12px;color:#27ae60;">{pub_url}</code>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("#### 👁️ Preview de la vista pública")
-        st.caption("Así verá el equipo de dirección el histórico de actas sin poder editar nada.")
-
-    sem_list_pub = list_actas_semanales()
-    if not sem_list_pub:
-        st.info("No hay actas semanales aprobadas aún.")
+with tab2:
+    sem_list = list_actas_semanales()
+    if not sem_list:
+        st.info("No hay actas semanales disponibles.")
     else:
-        for s in sem_list_pub:
+        for s in sem_list:
             ea  = s.get("estado_aprobacion","borrador")
             _ec = {"borrador":"b-blue","pendiente_firma":"b-amber","aprobado":"b-green"}.get(ea,"b-blue")
             ids_list = [i for i in (s.get("actas_diarias_ids") or "").split(",") if i]
@@ -855,6 +564,19 @@ with tab3:
                 st.markdown(f"**Aprobado por:** {s.get('aprobado_por','—')}")
                 st.markdown("**Resumen ejecutivo:**")
                 st.markdown(s.get("resumen_ejecutivo",""))
+
+                hitos = _parse_json(s.get("hitos_cumplidos"))
+                if hitos:
+                    st.markdown("**Hitos cumplidos:**")
+                    for h in hitos:
+                        st.markdown(f"✅ {h}")
+
+                desv = _parse_json(s.get("desviaciones_criticas"))
+                if desv:
+                    st.markdown("**Desviaciones:**")
+                    for d in desv:
+                        st.markdown(f"⚠️ {d}")
+
                 if ids_list:
                     diarias_p = [a for a in list_actas_diarias(s["fecha_inicio"], s["fecha_fin"]) if a["id"] in ids_list]
                     if diarias_p:
@@ -864,21 +586,19 @@ with tab3:
                             st.markdown(f"— **{d_str}**: {a.get('resumen','')}")
                         html_dl = html_semanal(s, diarias_p)
                         st.download_button(
-                            "⬇️ Descargar acta semanal (HTML/PDF)",
+                            "⬇️ Descargar informe semanal (HTML / PDF)",
                             data=html_dl.encode("utf-8"),
                             file_name=f"ACTA_{s.get('id','SEM')}_{s.get('fecha_inicio','')}.html",
-                            mime="text/html",
+                            mime="text/html; charset=utf-8",
                             use_container_width=True,
-                            key=f"dl_pub_{s['id']}",
+                            key=f"dl_sem_{s['id']}",
                         )
-
 
 # ─── SIDEBAR ──────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### ⚙️ Sistema")
     st.markdown(f"**Backend:** `{be}`")
     st.markdown(f"**Semana actual:** S{sem}")
-    st.markdown(f"**Modo:** {'🔒 Solo lectura' if modo_publico else '✏️ Edición completa'}")
+    st.markdown("**Modo:** 🔒 Solo lectura")
     st.divider()
-    st.markdown("**URL pública:**")
-    st.code(f"?view=public  ← modo lectura", language=None)
+    st.caption("Para crear o editar actas ejecuta `generador_pmo_core.py` en local.")
