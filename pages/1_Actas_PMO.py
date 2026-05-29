@@ -104,68 +104,350 @@ def parsear(texto: str) -> dict:
         "gremios_incidencia":   gremios_inc,
     }
 
+# ─── HELPERS INTERNOS HTML ────────────────────────────────────────
+def _parse_json(raw, default=None):
+    if default is None:
+        default = []
+    if not raw:
+        return default
+    if isinstance(raw, (list, dict)):
+        return raw
+    if isinstance(raw, str):
+        try:
+            return json.loads(raw)
+        except Exception:
+            return default
+    return default
+
+def _inc_to_dict(i) -> dict:
+    if isinstance(i, dict):
+        return i
+    return {"gremio": "General", "descripcion": str(i), "prioridad": "normal"}
+
 # ─── GENERADOR HTML SEMANAL ───────────────────────────────────────
 def html_semanal(acta_sem: dict, diarias: list[dict]) -> str:
-    sem    = acta_sem.get("semana_obra", "?")
-    fechas = " · ".join(
-        datetime.fromisoformat(a["fecha"]).strftime("%d/%m") for a in diarias
-    )
-    bloques = ""
+    sem      = acta_sem.get("semana_obra", "?")
+    sem_ano  = acta_sem.get("semana_ano", f"S{sem}/2026")
+    fi       = acta_sem.get("fecha_inicio", "")
+    ff       = acta_sem.get("fecha_fin", "")
+    fi_fmt   = fecha_es(fi, "corto") if fi else ""
+    ff_fmt   = fecha_es(ff, "corto") if ff else ""
+    act_id   = acta_sem.get("id", "")
+    aprobado = acta_sem.get("aprobado_por", "Darío A. López")
+
+    # ── Agregar datos de todas las diarias ──
+    all_incs, all_logros, all_sols = [], [], []
     for a in diarias:
-        dia  = fecha_es(a["fecha"], "corto")
-        secs = a.get("intervenciones") or {}
-        if isinstance(secs, str):
-            try: secs = json.loads(secs)
-            except: secs = {}
+        for i in _parse_json(a.get("incidencias")):
+            all_incs.append(_inc_to_dict(i))
+        for l in _parse_json(a.get("logros_tecnicos")):
+            if isinstance(l, dict) and l.get("descripcion"):
+                all_logros.append(l)
+        for s in _parse_json(a.get("solicitudes_direccion")):
+            if isinstance(s, dict) and s.get("descripcion"):
+                all_sols.append(s)
+
+    # Deduplicar solicitudes por descripción
+    seen, unique_sols = set(), []
+    for s in all_sols:
+        k = s.get("descripcion", "")
+        if k not in seen:
+            seen.add(k); unique_sols.append(s)
+
+    # Agenda: del acta más reciente que tenga items
+    agenda_items = []
+    for a in diarias:
+        items = _parse_agenda(a)
+        if items:
+            agenda_items = items; break
+
+    # KPIs
+    n_dias   = len(diarias)
+    gremios  = set()
+    for a in diarias:
+        for g in _parse_json(a.get("gremios_incidencia")):
+            gremios.add(g)
+    n_logros = len(all_logros)
+    n_incs   = len(all_incs)
+    n_sols   = len(unique_sols)
+
+    # ── CSS ──
+    css = """*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1a2e;font-size:13px;line-height:1.5}
+.doc{max-width:960px;margin:16px auto;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.12)}
+.hdr{background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);padding:24px 34px 20px;color:#fff;position:relative}
+.hdr-ey{font-size:9px;text-transform:uppercase;letter-spacing:3px;opacity:.5;margin-bottom:5px}
+.hdr-t{font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.1}
+.hdr-s{font-size:11px;opacity:.6;margin-top:5px}
+.hdr-badge{position:absolute;top:24px;right:34px;background:#e94560;color:#fff;font-size:10px;font-weight:800;padding:5px 16px;border-radius:20px;letter-spacing:1px;text-transform:uppercase}
+.accent{position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e94560,#0f3460,#e94560)}
+.meta{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #e2e8f0}
+.mc{padding:12px 14px;border-right:1px solid #e2e8f0}
+.mc:last-child{border-right:none}
+.ml{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;font-weight:600;margin-bottom:3px}
+.mv{font-size:13px;font-weight:700;color:#1a1a2e}
+.kpi{display:grid;grid-template-columns:repeat(5,1fr);background:#f8f9ff;border-bottom:1px solid #e2e8f0}
+.kc{padding:13px 14px;text-align:center;border-right:1px solid #e2e8f0}
+.kc:last-child{border-right:none}
+.kn{font-size:26px;font-weight:900;line-height:1}
+.kd{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-top:3px}
+.body{padding:26px 34px}
+.sec{margin-bottom:24px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:11px;padding-bottom:7px;border-bottom:2px solid #e94560}
+.st{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#1a1a2e}
+.resumen{background:#f8f9ff;border-left:4px solid #0f3460;padding:13px 16px;border-radius:0 8px 8px 0;font-size:12px;color:#2c3e50;line-height:1.7}
+.dia-wrap{display:grid;grid-template-columns:64px 1fr;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:8px}
+.dia-l{background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;text-align:center}
+.dia-n{font-size:24px;font-weight:900;color:#e94560;line-height:1}
+.dia-nm{font-size:8px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.45);margin-top:2px}
+.dia-b{padding:10px 13px;background:#fff}
+.dia-title{font-size:12px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.dia-txt{font-size:11px;color:#475569;line-height:1.55}
+.gremio-bl{margin-bottom:6px}
+.gremio-nm{font-size:10px;font-weight:700;color:#0f3460;margin-bottom:2px}
+.gremio-cnt{font-size:11px;padding-left:8px;border-left:2px solid #e2e6f0;color:#374151;line-height:1.5}
+.inc-item{background:#fdf2f2;border-left:3px solid #e94560;padding:8px 12px;margin-bottom:6px;border-radius:0 5px 5px 0}
+.inc-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.inc-g{font-size:10px;font-weight:700;color:#c0392b}
+.inc-d{font-size:11px;color:#374151;line-height:1.5}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;text-transform:uppercase}
+.b-r{background:#fdf2f2;color:#c0392b;border:1px solid #f5c6c6}
+.b-y{background:#fff8e1;color:#e65100;border:1px solid #ffe0b2}
+.b-g{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.logro-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #f0f2f8;align-items:flex-start}
+.logro-row:last-child{border-bottom:none}
+.logro-ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.logro-t{font-size:11px;font-weight:700;color:#1b5e20;margin-bottom:2px}
+.logro-d{font-size:11px;color:#475569}
+.chips{display:flex;gap:5px;margin-top:3px;font-size:10px;align-items:center}
+.ch-b{background:#fdf2f2;color:#c0392b;padding:1px 6px;border-radius:5px}
+.ch-a{background:#e8f5e9;color:#1b5e20;padding:1px 6px;border-radius:5px}
+.ch-ar{color:#94a3b8}
+.sol-item{background:#fdf2f2;border:1px solid #f5c6c6;border-left:4px solid #e94560;border-radius:0 5px 5px 0;padding:9px 12px;margin-bottom:6px}
+.sol-t{font-size:11px;font-weight:700;color:#1a1a2e;margin-bottom:2px}
+.sol-m{font-size:10px;color:#94a3b8}
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl thead tr{background:#1a1a2e;color:#fff}
+.tbl th{padding:8px 11px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.tbl td{padding:8px 11px;border-bottom:1px solid #e8ecf4;vertical-align:top;color:#374151;line-height:1.5}
+.tbl tr:nth-child(odd) td{background:#f8f9ff}
+.tbl tr:nth-child(even) td{background:#fff}
+.ag-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #f0f2f8;align-items:flex-start}
+.ag-row:last-child{border-bottom:none}
+.ag-hora{min-width:90px;font-size:12px;font-weight:800;color:#e94560;flex-shrink:0;text-align:right;padding-right:12px;border-right:2px solid #e2e8f0}
+.ag-ev{font-size:11px;color:#1a1a2e;flex:1;line-height:1.5}
+.ftr{background:#1a1a2e;padding:11px 34px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.4);font-size:9px;flex-wrap:wrap;gap:4px}
+.ftr b{color:rgba(255,255,255,.65)}
+.no-print{max-width:960px;margin:10px auto 0;text-align:right}
+@media print{body{background:#fff}.doc{box-shadow:none;margin:0;border-radius:0}.no-print{display:none!important}.dia-wrap{break-inside:avoid}}
+@page{size:A4;margin:8mm}"""
+
+    # ── RESUMEN EJECUTIVO ──
+    resumen_raw = acta_sem.get("resumen_ejecutivo", "")
+    resumen_html = resumen_raw.replace("\n", "<br>") if resumen_raw else "Sin resumen registrado."
+
+    # ── DÍAS ──
+    ICONOS_DIA = {0:"Lun",1:"Mar",2:"Mié",3:"Jue",4:"Vie",5:"Sáb",6:"Dom"}
+    bloques_dias = ""
+    for a in diarias:
+        try:
+            _d = datetime.fromisoformat(a["fecha"])
+            num   = _d.day
+            nomb  = ICONOS_DIA.get(_d.weekday(), "")
+        except Exception:
+            num, nomb = "?", ""
+        secs = _parse_json(a.get("intervenciones"), {})
+        if not isinstance(secs, dict):
+            secs = {}
         sec_html = ""
         for g, c in secs.items():
             if c:
-                sec_html += (f'<div style="margin-bottom:7px;">'
-                             f'<b style="font-size:11px;color:#0f3460;">{g}</b>'
-                             f'<div style="font-size:12px;padding-left:8px;border-left:2px solid #e2e6f0;'
-                             f'color:#333;">{str(c).replace(chr(10),"<br>")}</div></div>')
-        incs = _normalizar_incs(a.get("incidencias"))
-        inc_html = "".join(
-            f'<div style="color:#c0392b;font-size:11px;">⚠️ {i}</div>' for i in incs
-        )
-        _ag_items = _parse_agenda(a)
-        _ag_line  = " · ".join(it["hora"] + " " + it["evento"] for it in _ag_items[:2]) if _ag_items else ""
-        bloques += f"""
-        <div style="border-left:4px solid #e94560;padding:12px 16px;margin-bottom:14px;
-                    background:#fff;border-radius:0 8px 8px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);">
-          <b style="font-size:14px;color:#1a1a2e;">📋 {dia}</b>
-          <div style="font-size:13px;color:#555;margin:6px 0 8px 0;">{a.get('resumen','')}</div>
-          {sec_html}{inc_html}
-          {f'<div style="font-size:11px;color:#888;border-top:1px solid #f0f2f7;padding-top:6px;margin-top:6px;">📅 {_ag_line[:220]}</div>' if _ag_line else ''}
-        </div>"""
+                ct = str(c).replace("\n", "<br>")
+                sec_html += (f'<div class="gremio-bl"><div class="gremio-nm">{g}</div>'
+                             f'<div class="gremio-cnt">{ct}</div></div>')
+        incs_dia = [_inc_to_dict(i) for i in _parse_json(a.get("incidencias"))]
+        inc_html = ""
+        for inc in incs_dia:
+            pr   = inc.get("prioridad","normal")
+            bcls = "b-r" if pr == "alta" else ("b-r" if pr == "urgente" else "b-y")
+            grem = inc.get("gremio","")
+            desc = inc.get("descripcion","")
+            if desc:
+                inc_html += (f'<div class="inc-item"><div class="inc-hdr">'
+                             f'<span class="inc-g">{grem}</span>'
+                             f'<span class="badge {bcls}">{pr}</span></div>'
+                             f'<div class="inc-d">{desc}</div></div>')
+        ag_items = _parse_agenda(a)
+        ag_line  = " · ".join(
+            it["hora"] + " " + it["evento"] for it in ag_items[:2]
+        )[:200] if ag_items else ""
+        bloques_dias += f"""
+<div class="dia-wrap">
+  <div class="dia-l"><div class="dia-n">{num}</div><div class="dia-nm">{nomb}</div></div>
+  <div class="dia-b">
+    <div class="dia-title">{fecha_es(a['fecha'],'largo') if a.get('fecha') else ''}</div>
+    <div class="dia-txt" style="margin-bottom:8px;">{a.get('resumen','')}</div>
+    {sec_html}{inc_html}
+    {f'<div style="font-size:10px;color:#888;border-top:1px solid #f0f2f7;padding-top:5px;margin-top:5px;">&#128197; {ag_line}</div>' if ag_line else ''}
+  </div>
+</div>"""
 
-    desv = acta_sem.get("desviaciones_criticas") or []
-    if isinstance(desv, str):
-        try: desv = json.loads(desv)
-        except: desv = [desv]
-    desv_html = "".join(f"<li>{d}</li>" for d in desv) if desv else "<li>Sin desviaciones críticas registradas.</li>"
+    # ── LOGROS ──
+    ICONOS_LOGRO = ["&#127942;","&#9989;","&#128274;","&#10024;","&#9889;","&#128203;","&#128200;"]
+    logros_html = ""
+    for idx, l in enumerate(all_logros):
+        ico = ICONOS_LOGRO[idx % len(ICONOS_LOGRO)]
+        ant = l.get("mejora_de","")
+        des = l.get("mejora_a","")
+        chips = (f'<div class="chips"><span class="ch-b">{ant}</span>'
+                 f'<span class="ch-ar">&#8594;</span>'
+                 f'<span class="ch-a">{des}</span></div>') if ant or des else ""
+        logros_html += (f'<div class="logro-row"><div class="logro-ico">{ico}</div><div>'
+                        f'<div class="logro-t">{l.get("descripcion","")}</div>'
+                        f'<div class="logro-d">{l.get("impacto","")}</div>'
+                        f'{chips}</div></div>')
+    if not logros_html:
+        logros_html = '<div style="color:#94a3b8;font-size:12px;">Sin logros técnicos registrados.</div>'
 
-    return f"""<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
-<style>
-  @page {{size:A4;margin:14mm 12mm}}
-  body{{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#1a1a2e;margin:0;padding:0}}
-</style></head><body>
-<div style="background:linear-gradient(135deg,#1a1a2e,#0f3460);color:#fff;
-            padding:18px 22px;border-radius:8px;margin-bottom:18px;">
-  <div style="font-size:15pt;font-weight:900;">ACTA SEMANAL EJECUTIVA — SEMANA {sem}</div>
-  <div style="font-size:9pt;opacity:.75;margin-top:3px;">
-    Nine Fitness · Brescia 19 · Días: {fechas} · Dir. Obra: Darío A. López
+    # ── INCIDENCIAS GLOBALES ──
+    incs_global_html = ""
+    for inc in all_incs:
+        pr   = inc.get("prioridad","normal")
+        bcls = "b-r" if pr in ("alta","urgente") else "b-y"
+        color_borde = "#7b0000" if pr == "urgente" else "#e94560"
+        grem = inc.get("gremio","")
+        desc = inc.get("descripcion","")
+        if desc:
+            incs_global_html += (f'<div style="background:#fdf2f2;border:1px solid #f5c6c6;'
+                                 f'border-left:4px solid {color_borde};border-radius:0 5px 5px 0;'
+                                 f'padding:9px 12px;margin-bottom:6px;">'
+                                 f'<div style="display:flex;justify-content:space-between;margin-bottom:3px;">'
+                                 f'<span style="font-size:10px;font-weight:700;color:#c0392b;">{grem}</span>'
+                                 f'<span class="badge {bcls}">{pr}</span></div>'
+                                 f'<div style="font-size:11px;color:#374151;">{desc}</div></div>')
+    if not incs_global_html:
+        incs_global_html = '<div style="color:#27ae60;font-size:12px;">Sin incidencias registradas.</div>'
+
+    # ── SOLICITUDES DIRECCIÓN ──
+    sols_html = ""
+    for s in unique_sols:
+        urg = s.get("urgencia","normal")
+        color_urg = "#7b0000" if urg == "crítica" else ("#c0392b" if urg == "alta" else "#475569")
+        resp = s.get("responsable","")
+        sols_html += (f'<div class="sol-item">'
+                      f'<div class="sol-t">{s.get("descripcion","")}</div>'
+                      f'<div class="sol-m">Responsable: <b>{resp}</b>'
+                      f'&nbsp;&middot;&nbsp; Urgencia: <b style="color:{color_urg};">{urg.upper()}</b></div>'
+                      f'</div>')
+    if not sols_html:
+        sols_html = '<div style="color:#94a3b8;font-size:12px;">Sin solicitudes pendientes.</div>'
+
+    # ── HITOS ──
+    hitos = _parse_json(acta_sem.get("hitos_cumplidos"))
+    hitos_html = "".join(
+        f'<div style="font-size:12px;color:#1b5e20;padding:4px 0;border-bottom:1px solid #f0f2f8;">&#9989; {h}</div>'
+        for h in hitos
+    ) or '<div style="color:#94a3b8;font-size:12px;">Sin hitos registrados.</div>'
+
+    desv = _parse_json(acta_sem.get("desviaciones_criticas"))
+    desv_html = "".join(f"<li style='margin-bottom:3px;'>{d}</li>" for d in desv) if desv else "<li>Sin desviaciones.</li>"
+
+    # ── AGENDA ──
+    agenda_html = ""
+    for it in agenda_items:
+        agenda_html += (f'<div class="ag-row">'
+                        f'<div class="ag-hora">{it["hora"]}</div>'
+                        f'<div class="ag-ev">{it["evento"]}</div></div>')
+    if not agenda_html:
+        agenda_html = '<div style="color:#94a3b8;font-size:12px;">Sin agenda registrada para la próxima semana.</div>'
+
+    return f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Acta Semanal {sem_ano} &mdash; Nine Fitness Brescia 19</title>
+<style>{css}</style>
+</head>
+<body>
+<div class="no-print">
+  <button onclick="window.print()" style="background:#e94560;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">&#128438; Imprimir / Guardar PDF</button>
+</div>
+<div class="doc">
+  <div class="hdr">
+    <div class="hdr-badge">{sem_ano}</div>
+    <div class="hdr-ey">Nine Fitness Group S.L. &middot; PMO Brescia 19 &middot; Informe Semanal Oficial</div>
+    <div class="hdr-t">INFORME SEMANAL DE OBRA</div>
+    <div class="hdr-s">{fi_fmt} &ndash; {ff_fmt} &nbsp;&middot;&nbsp; Calle Brescia 19, 28028 Madrid</div>
+    <div class="accent"></div>
+  </div>
+  <div class="meta">
+    <div class="mc"><div class="ml">Referencia</div><div class="mv" style="font-size:11px;">{act_id}</div></div>
+    <div class="mc"><div class="ml">Per&iacute;odo</div><div class="mv" style="font-size:11px;">{fi} &rarr; {ff}</div></div>
+    <div class="mc"><div class="ml">Director de Obra</div><div class="mv" style="font-size:11px;">{aprobado}</div></div>
+    <div class="mc"><div class="ml">Estado</div><div class="mv"><span class="badge b-y">{acta_sem.get("estado_aprobacion","borrador").replace("_"," ").title()}</span></div></div>
+    <div class="mc"><div class="ml">Apertura prevista</div><div class="mv" style="color:#e94560;">3&ndash;5 AGO 2026</div></div>
+  </div>
+  <div class="kpi">
+    <div class="kc"><div class="kn" style="color:#e94560;">{n_dias}</div><div class="kd">D&iacute;as de obra</div></div>
+    <div class="kc"><div class="kn" style="color:#2471a3;">{len(gremios)}</div><div class="kd">Gremios activos</div></div>
+    <div class="kc"><div class="kn" style="color:#27ae60;">{n_logros}</div><div class="kd">Logros t&eacute;cnicos</div></div>
+    <div class="kc"><div class="kn" style="color:#c0392b;">{n_incs}</div><div class="kd">Incidencias</div></div>
+    <div class="kc"><div class="kn" style="color:#7b1fa2;">{n_sols}</div><div class="kd">Pendientes Direcci&oacute;n</div></div>
+  </div>
+  <div class="body">
+
+    <div class="sec">
+      <div class="sh"><span>&#128203;</span><span class="st">Resumen Ejecutivo</span></div>
+      <div class="resumen">{resumen_html}</div>
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#128197;</span><span class="st">Actividad Diaria</span></div>
+      {bloques_dias}
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#127942;</span><span class="st">Logros T&eacute;cnicos y Optimizaciones</span></div>
+      {logros_html}
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#9888;&#65039;</span><span class="st">Incidencias Semana</span></div>
+      {incs_global_html}
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#128204;</span><span class="st">Solicitudes a Direcci&oacute;n &mdash; Pendientes</span></div>
+      {sols_html}
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#9989;</span><span class="st">Hitos Cumplidos</span></div>
+      {hitos_html}
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#9888;&#65039;</span><span class="st">Gremios con Desviaciones</span></div>
+      <div style="background:#fdf2f2;border-left:4px solid #e74c3c;padding:10px 14px;border-radius:0 6px 6px 0;font-size:12px;">
+        <ul style="margin:0 0 0 14px;padding:0;">{desv_html}</ul>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sh"><span>&#128197;</span><span class="st">Agenda Pr&oacute;xima Semana</span></div>
+      {agenda_html}
+    </div>
+
+  </div>
+  <div class="ftr">
+    <div>NINE FITNESS GROUP S.L. &middot; Calle Brescia 19, 28028 Madrid</div>
+    <div>Dir. Obra: <b>{aprobado}</b> &nbsp;&middot;&nbsp; Arquitecto: <b>&Aacute;ngel Rodr&iacute;guez Mart&iacute;nez-Conde (COAM 12399)</b></div>
+    <div>Ref: <b>{act_id}</b> &nbsp;&middot;&nbsp; Emitido: <b>{ff}</b> &nbsp;&middot;&nbsp; Confidencial</div>
   </div>
 </div>
-<div style="background:#fdf2f2;border-left:4px solid #e74c3c;padding:10px 14px;
-            border-radius:0 6px 6px 0;margin-bottom:16px;font-size:12px;">
-  <b>⚠️ Gremios con desviaciones:</b> <ul style="margin:4px 0 0 0;">{desv_html}</ul>
-</div>
-{bloques}
-<div style="text-align:center;font-size:8pt;color:#bbb;margin-top:18px;
-            border-top:1px solid #e2e6f0;padding-top:8px;">
-  NINE FITNESS GROUP S.L. · Brescia 19, Madrid · Ref: {acta_sem.get('id','')} · Confidencial
-</div></body></html>"""
+</body>
+</html>"""
 
 # ─── CSS ──────────────────────────────────────────────────────────
 st.markdown("""
