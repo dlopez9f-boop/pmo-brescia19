@@ -2,819 +2,480 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acta Semanal S10 · Nine Fitness Brescia 19</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Acta Semanal S10 &mdash; Nine Fitness Brescia 19</title>
 <style>
-  :root {
-    --negro: #0e1117;
-    --gris-dark: #161b27;
-    --gris-mid: #1e2535;
-    --gris-borde: #2a3148;
-    --azul: #3b82f6;
-    --azul-light: #60a5fa;
-    --verde: #22c55e;
-    --verde-light: #4ade80;
-    --rojo: #ef4444;
-    --rojo-light: #f87171;
-    --amarillo: #f59e0b;
-    --blanco: #f1f5f9;
-    --gris-texto: #94a3b8;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: var(--negro);
-    color: var(--blanco);
-    line-height: 1.6;
-    font-size: 14px;
-  }
-  .page {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 32px 24px;
-  }
-
-  /* HEADER */
-  .header {
-    background: linear-gradient(135deg, #1e2d4a 0%, #162035 100%);
-    border: 1px solid var(--gris-borde);
-    border-radius: 12px;
-    padding: 28px 32px;
-    margin-bottom: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--azul), var(--verde), var(--azul));
-  }
-  .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .header-logo {
-    font-size: 11px;
-    color: var(--gris-texto);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  .badge-semana {
-    background: var(--azul);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 4px 14px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .header h1 {
-    font-size: 26px;
-    font-weight: 900;
-    color: #fff;
-    margin: 10px 0 6px;
-    line-height: 1.2;
-  }
-  .header-sub {
-    color: var(--azul-light);
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .header-meta {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--gris-borde);
-  }
-  .meta-item {
-    font-size: 12px;
-    color: var(--gris-texto);
-  }
-  .meta-item strong {
-    color: var(--blanco);
-    display: block;
-    font-size: 13px;
-  }
-
-  /* KPIs */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  @media (max-width: 600px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-  .kpi-card {
-    background: var(--gris-dark);
-    border: 1px solid var(--gris-borde);
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-  }
-  .kpi-card .num {
-    font-size: 28px;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .kpi-card .label {
-    font-size: 10px;
-    color: var(--gris-texto);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .kpi-verde .num { color: var(--verde); }
-  .kpi-azul .num { color: var(--azul-light); }
-  .kpi-rojo .num { color: var(--rojo-light); }
-  .kpi-amarillo .num { color: var(--amarillo); }
-
-  /* SECTIONS */
-  .section {
-    background: var(--gris-dark);
-    border: 1px solid var(--gris-borde);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    overflow: hidden;
-  }
-  .section-header {
-    padding: 14px 20px;
-    background: var(--gris-mid);
-    border-bottom: 1px solid var(--gris-borde);
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-body { padding: 20px; }
-
-  /* TABLA DÍA A DÍA */
-  .dia-row {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--gris-borde);
-  }
-  .dia-row:last-child { border-bottom: none; }
-  .dia-label {
-    text-align: center;
-  }
-  .dia-fecha {
-    font-size: 18px;
-    font-weight: 900;
-    color: var(--azul-light);
-    line-height: 1;
-  }
-  .dia-nombre {
-    font-size: 10px;
-    color: var(--gris-texto);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .dia-resumen {
-    font-size: 13px;
-    color: var(--blanco);
-    line-height: 1.5;
-  }
-  .dia-tags {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: 6px;
-  }
-  .tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 600;
-  }
-  .tag-verde { background: rgba(34,197,94,.15); color: var(--verde); border: 1px solid rgba(34,197,94,.3); }
-  .tag-azul { background: rgba(59,130,246,.15); color: var(--azul-light); border: 1px solid rgba(59,130,246,.3); }
-  .tag-rojo { background: rgba(239,68,68,.15); color: var(--rojo-light); border: 1px solid rgba(239,68,68,.3); }
-  .tag-gris { background: rgba(148,163,184,.1); color: var(--gris-texto); border: 1px solid rgba(148,163,184,.2); }
-
-  /* AVANCES GREMIOS */
-  .gremio-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  @media (max-width: 600px) { .gremio-grid { grid-template-columns: 1fr; } }
-  .gremio-card {
-    background: var(--negro);
-    border: 1px solid var(--gris-borde);
-    border-radius: 8px;
-    padding: 14px;
-  }
-  .gremio-nombre {
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--azul-light);
-  }
-  .gremio-texto {
-    font-size: 12px;
-    color: var(--gris-texto);
-    line-height: 1.5;
-  }
-  .progress-bar {
-    height: 6px;
-    background: var(--gris-borde);
-    border-radius: 3px;
-    margin-top: 8px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--azul), var(--verde));
-  }
-
-  /* LOGROS */
-  .logro-item {
-    display: flex;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--gris-borde);
-    align-items: flex-start;
-  }
-  .logro-item:last-child { border-bottom: none; }
-  .logro-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .logro-titulo { font-size: 13px; font-weight: 700; color: var(--verde-light); }
-  .logro-detalle { font-size: 12px; color: var(--gris-texto); margin-top: 2px; }
-  .logro-chips {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-    font-size: 11px;
-  }
-  .chip-antes {
-    background: rgba(239,68,68,.15);
-    color: var(--rojo-light);
-    padding: 1px 8px;
-    border-radius: 8px;
-  }
-  .chip-flecha { color: var(--gris-texto); }
-  .chip-despues {
-    background: rgba(34,197,94,.15);
-    color: var(--verde);
-    padding: 1px 8px;
-    border-radius: 8px;
-  }
-
-  /* INCIDENCIAS */
-  .inc-item {
-    display: flex;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--gris-borde);
-    align-items: flex-start;
-  }
-  .inc-item:last-child { border-bottom: none; }
-  .inc-prioridad {
-    font-size: 10px;
-    font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 8px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .inc-alta { background: rgba(239,68,68,.15); color: var(--rojo-light); border: 1px solid rgba(239,68,68,.3); }
-  .inc-normal { background: rgba(148,163,184,.1); color: var(--gris-texto); border: 1px solid rgba(148,163,184,.2); }
-  .inc-gremio { font-size: 12px; font-weight: 700; color: var(--blanco); }
-  .inc-desc { font-size: 12px; color: var(--gris-texto); }
-
-  /* SOLICITUDES */
-  .sol-item {
-    background: rgba(239,68,68,.05);
-    border: 1px solid rgba(239,68,68,.2);
-    border-left: 3px solid var(--rojo);
-    border-radius: 6px;
-    padding: 12px 14px;
-    margin-bottom: 8px;
-  }
-  .sol-desc { font-size: 13px; color: var(--blanco); font-weight: 600; }
-  .sol-meta { font-size: 11px; color: var(--gris-texto); margin-top: 4px; }
-  .sol-urgente { color: var(--rojo-light); font-weight: 700; }
-
-  /* AGENDA S11 */
-  .agenda-item {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--gris-borde);
-    align-items: flex-start;
-  }
-  .agenda-item:last-child { border-bottom: none; }
-  .agenda-hora {
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--amarillo);
-    text-align: right;
-    padding-right: 12px;
-    border-right: 2px solid var(--gris-borde);
-  }
-  .agenda-evento { font-size: 13px; color: var(--blanco); line-height: 1.4; }
-
-  /* PLANNING STATUS */
-  .planning-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-  }
-  .planning-table th {
-    background: var(--negro);
-    color: var(--gris-texto);
-    text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 1px;
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--gris-borde);
-  }
-  .planning-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(42,49,72,.5);
-    vertical-align: top;
-  }
-  .planning-table tr:last-child td { border-bottom: none; }
-  .estado-ok { color: var(--verde); font-weight: 700; }
-  .estado-wip { color: var(--amarillo); font-weight: 700; }
-  .estado-riesgo { color: var(--rojo-light); font-weight: 700; }
-
-  /* FOOTER */
-  .footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 11px;
-    color: var(--gris-texto);
-    border-top: 1px solid var(--gris-borde);
-    margin-top: 8px;
-  }
-
-  @media print {
-    body { background: #fff; color: #000; }
-    .header { background: #f0f4ff; border-color: #ccc; }
-    .section, .gremio-card, .sol-item { background: #f8f9fa; border-color: #ccc; }
-    .kpi-card { background: #f0f4ff; border-color: #ccc; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f0f2f8;color:#1a1a2e;font-size:13px;line-height:1.5}
+.doc{max-width:980px;margin:20px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,.13)}
+.hdr{background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);padding:28px 38px 24px;color:#fff;position:relative}
+.hdr-ey{font-size:9px;text-transform:uppercase;letter-spacing:3px;opacity:.55;margin-bottom:6px}
+.hdr-t{font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1.1}
+.hdr-s{font-size:12px;opacity:.65;margin-top:6px}
+.hdr-badge{position:absolute;top:28px;right:38px;background:#e94560;color:#fff;font-size:11px;font-weight:800;padding:6px 18px;border-radius:20px;letter-spacing:1px;text-transform:uppercase}
+.accent{position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e94560,#0f3460,#e94560)}
+.meta{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #e2e8f0}
+.mc{padding:13px 16px;border-right:1px solid #e2e8f0}
+.mc:last-child{border-right:none}
+.ml{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;font-weight:600;margin-bottom:3px}
+.mv{font-size:13px;font-weight:700;color:#1a1a2e}
+.kpi{display:grid;grid-template-columns:repeat(5,1fr);background:#f8f9ff;border-bottom:1px solid #e2e8f0}
+.kc{padding:14px 16px;text-align:center;border-right:1px solid #e2e8f0}
+.kc:last-child{border-right:none}
+.kn{font-size:28px;font-weight:900;color:#e94560;line-height:1}
+.kd{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-top:3px}
+.body{padding:28px 38px}
+.sec{margin-bottom:26px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e94560}
+.si{font-size:15px}
+.st{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#1a1a2e}
+.resumen{background:#f8f9ff;border-left:4px solid #0f3460;padding:14px 18px;border-radius:0 8px 8px 0;font-size:13px;color:#2c3e50;line-height:1.7}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl thead tr{background:#1a1a2e;color:#fff}
+.tbl th{padding:9px 13px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.tbl td{padding:9px 13px;border-bottom:1px solid #e8ecf4;vertical-align:top;color:#374151;line-height:1.5}
+.tbl tbody tr:nth-child(odd){background:#f8f9ff}
+.tbl tbody tr:nth-child(even){background:#fff}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.b-ok{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.b-wip{background:#fff8e1;color:#e65100;border:1px solid #ffe0b2}
+.b-inc{background:#fdf2f2;color:#c0392b;border:1px solid #f5c6c6}
+.b-riesgo{background:#fff3e0;color:#bf360c;border:1px solid #ffcc02}
+.b-pend{background:#ede7f6;color:#4527a0;border:1px solid #ce93d8}
+.dia-grid{display:grid;grid-template-columns:72px 1fr;gap:0;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:8px}
+.dia-left{background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;text-align:center}
+.dia-num{font-size:26px;font-weight:900;color:#e94560;line-height:1}
+.dia-nomb{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.5);margin-top:2px}
+.dia-body{padding:10px 14px;background:#fff}
+.dia-title{font-size:12px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.dia-text{font-size:12px;color:#475569;line-height:1.6}
+.dia-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600}
+.t-g{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.t-a{background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9}
+.t-r{background:#fdf2f2;color:#c0392b;border:1px solid #f5c6c6}
+.t-y{background:#fff8e1;color:#e65100;border:1px solid #ffe0b2}
+.logro-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f2f8;align-items:flex-start}
+.logro-row:last-child{border-bottom:none}
+.logro-ico{font-size:20px;flex-shrink:0;margin-top:1px}
+.logro-t{font-size:12px;font-weight:700;color:#1b5e20;margin-bottom:3px}
+.logro-d{font-size:12px;color:#475569}
+.chips{display:flex;gap:6px;margin-top:4px;font-size:11px;align-items:center}
+.ch-b{background:#fdf2f2;color:#c0392b;padding:1px 8px;border-radius:6px}
+.ch-a{background:#e8f5e9;color:#1b5e20;padding:1px 8px;border-radius:6px}
+.ch-arr{color:#94a3b8}
+.inc-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #f0f2f8;align-items:flex-start}
+.inc-row:last-child{border-bottom:none}
+.inc-g{font-size:11px;font-weight:700;color:#1a1a2e;white-space:nowrap;flex-shrink:0;min-width:120px}
+.inc-d{font-size:12px;color:#475569;flex:1;line-height:1.5}
+.sol-item{background:#fdf2f2;border:1px solid #f5c6c6;border-left:4px solid #e94560;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:7px}
+.sol-t{font-size:12px;font-weight:700;color:#1a1a2e;margin-bottom:3px}
+.sol-m{font-size:10px;color:#94a3b8}
+.sol-critica{border-left-color:#7b0000;background:#fff0f0}
+.prog-wrap{height:7px;background:#e2e8f0;border-radius:4px;margin-top:6px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#0f3460,#e94560)}
+.agenda-row{display:flex;gap:14px;padding:9px 0;border-bottom:1px solid #f0f2f8;align-items:flex-start}
+.agenda-row:last-child{border-bottom:none}
+.agenda-hora{min-width:100px;font-size:13px;font-weight:800;color:#e94560;flex-shrink:0;text-align:right;padding-right:14px;border-right:2px solid #e2e8f0}
+.agenda-ev{font-size:12px;color:#1a1a2e;flex:1;line-height:1.5}
+.ftr{background:#1a1a2e;padding:13px 38px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.45);font-size:10px;flex-wrap:wrap;gap:6px}
+.ftr b{color:rgba(255,255,255,.7)}
+.no-print{max-width:980px;margin:10px auto 0;text-align:right;display:flex;gap:10px;justify-content:flex-end}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gremio-box{border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
+.gremio-hdr{background:#1a1a2e;color:#fff;padding:9px 14px;font-size:11px;font-weight:700}
+.gremio-body{padding:12px 14px;background:#fff}
+.gremio-body p{font-size:12px;color:#475569;line-height:1.6}
+@media print{
+  body{background:#fff}
+  .doc{box-shadow:none;margin:0;border-radius:0;max-width:100%}
+  .no-print{display:none!important}
+  .dia-grid{break-inside:avoid}
+  .sec{break-inside:avoid}
+}
+@page{size:A4;margin:8mm}
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- ══ HEADER ══════════════════════════════════════════ -->
-  <div class="header">
-    <div class="header-top">
-      <div>
-        <div class="header-logo">Nine Fitness Group S.L. · PMO Brescia 19</div>
-        <h1>Acta Semanal — Semana 10</h1>
-        <div class="header-sub">25 al 29 de mayo de 2026 · Calle Brescia 19, 28028 Madrid</div>
-      </div>
-      <div class="badge-semana">S10 / 2026</div>
-    </div>
-    <div class="header-meta">
-      <div class="meta-item">
-        <strong>Director de Obra</strong>
-        Darío A. López
-      </div>
-      <div class="meta-item">
-        <strong>Proyectista</strong>
-        Ángel Rodríguez Martínez-Conde (COAM_12399)
-      </div>
-      <div class="meta-item">
-        <strong>Apertura prevista</strong>
-        3–5 agosto 2026
-      </div>
-      <div class="meta-item">
-        <strong>Semana de obra</strong>
-        Semana 10 de planificación
-      </div>
-    </div>
+<div class="no-print">
+  <button onclick="window.print()" style="background:#e94560;color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(233,69,96,.35);">&#128438; Imprimir / Guardar PDF</button>
+</div>
+
+<div class="doc">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-badge">Semana 10</div>
+    <div class="hdr-ey">Nine Fitness Group S.L. &middot; PMO Brescia 19 &middot; Acta Semanal Oficial</div>
+    <div class="hdr-t">INFORME SEMANAL DE OBRA</div>
+    <div class="hdr-s">Semana 10 &nbsp;&middot;&nbsp; 25 al 29 de mayo de 2026 &nbsp;&middot;&nbsp; Calle Brescia 19, 28028 Madrid &nbsp;&middot;&nbsp; Instalaciones y Tabiquería Técnica</div>
+    <div class="accent"></div>
   </div>
 
-  <!-- ══ KPIs ══════════════════════════════════════════ -->
-  <div class="kpi-grid">
-    <div class="kpi-card kpi-verde">
-      <div class="num">5</div>
-      <div class="label">Días de obra</div>
-    </div>
-    <div class="kpi-card kpi-verde">
-      <div class="num">4</div>
-      <div class="label">Gremios activos</div>
-    </div>
-    <div class="kpi-card kpi-rojo">
-      <div class="num">6</div>
-      <div class="label">Incidencias</div>
-    </div>
-    <div class="kpi-card kpi-amarillo">
-      <div class="num">5</div>
-      <div class="label">Pendientes Dirección</div>
-    </div>
+  <!-- META -->
+  <div class="meta">
+    <div class="mc"><div class="ml">Referencia</div><div class="mv" style="font-size:11px;">ACT-SEM-S10-2026</div></div>
+    <div class="mc"><div class="ml">Período</div><div class="mv" style="font-size:11px;">25–29 May 2026</div></div>
+    <div class="mc"><div class="ml">Director de Obra</div><div class="mv" style="font-size:11px;">Darío A. López</div></div>
+    <div class="mc"><div class="ml">Estado semana</div><div class="mv"><span class="badge b-wip">En plazo</span></div></div>
+    <div class="mc"><div class="ml">Apertura prevista</div><div class="mv" style="color:#e94560;">3&ndash;5 AGO 2026</div></div>
   </div>
 
-  <!-- ══ RESUMEN DÍA A DÍA ══════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">📅 Actividad Diaria — Semana 10</div>
-    <div class="section-body">
+  <!-- KPIs -->
+  <div class="kpi">
+    <div class="kc"><div class="kn">5</div><div class="kd">Días de obra</div></div>
+    <div class="kc"><div class="kn">4</div><div class="kd">Gremios activos</div></div>
+    <div class="kc"><div class="kn" style="color:#27ae60;">6</div><div class="kd">Logros técnicos</div></div>
+    <div class="kc"><div class="kn" style="color:#c0392b;">6</div><div class="kd">Incidencias</div></div>
+    <div class="kc"><div class="kn" style="color:#7b1fa2;">6</div><div class="kd">Pendientes Dirección</div></div>
+  </div>
 
-      <div class="dia-row">
-        <div class="dia-label">
-          <div class="dia-fecha">25</div>
-          <div class="dia-nombre">Lunes</div>
-        </div>
-        <div>
-          <div class="dia-resumen">Inicio semana. Acopio material clima y montaje conductos. Apertura hueco altillo. Munir: replanteo geometría espacios. <strong>Incidencia:</strong> Electricidad jornada improductiva (baja operario). Definiciones técnicas cerradas: cuartos técnicos, tabiquería, PCI perimetral EI120.</div>
+  <div class="body">
+
+    <!-- RESUMEN EJECUTIVO -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#128203;</span><span class="st">Resumen Ejecutivo</span></div>
+      <div class="resumen">
+        Semana de <strong>producción intensiva y avances técnicos clave</strong>. PCI perimetral EI120 <strong>finalizada con anticipación</strong> al planning. Instalación de clima alcanza el <strong>90%</strong> — solo pendiente conexión recuperadora el miércoles S11 (posición confirmada estructuralmente por el arquitecto). Paso libre baños/vestuarios <strong>optimizado de 2.50m a 2.77m (+27cm)</strong> aprovechando bajante colindante libre. Electricidad sala colectiva ejecutada. Llaves de acceso copiadas y entregadas — incidencia de acceso resuelta.<br><br>
+        <strong style="color:#c0392b;">Alerta crítica:</strong> Hersan detecta interferencia en salvaescaleras (desnivel 1.58m, requiere tramo curvo). Riesgo sobre el hito de instalación previsto para <strong>1ª semana de julio</strong>. Presupuestos Josevi y Luis pendientes de revisión y firma.
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD DÍA A DÍA -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#128197;</span><span class="st">Actividad Diaria &mdash; Semana 10</span></div>
+
+      <div class="dia-grid">
+        <div class="dia-left"><div class="dia-num">25</div><div class="dia-nomb">Lunes</div></div>
+        <div class="dia-body">
+          <div class="dia-title">Inicio de semana · Acopio e instalaciones</div>
+          <div class="dia-text">Climatización (José/Servitec): acopio de material en planta, inicio montaje de conductos, apertura de hueco para acceso a altillo y conexión con máquina de retorno. Munir: revisión en obra de replanteos y geometría de espacios. Definiciones técnicas cerradas: cuartos técnicos eléctrico y limpieza (2.30×2.00m), tabiquería Pladur, franja PCI EI120, disposición espejos. <strong>Incidencia:</strong> Electricidad jornada improductiva completa por baja de operario.</div>
           <div class="dia-tags">
-            <span class="tag tag-azul">❄️ Clima</span>
-            <span class="tag tag-azul">🧱 Munir</span>
-            <span class="tag tag-rojo">⚠️ Elecrea baja</span>
+            <span class="tag t-a">❄️ Clima en curso</span>
+            <span class="tag t-a">🧱 Munir replanteo</span>
+            <span class="tag t-r">⚠️ Elec. baja operario</span>
+            <span class="tag t-g">📐 Defs. técnicas cerradas</span>
           </div>
         </div>
       </div>
 
-      <div class="dia-row">
-        <div class="dia-label">
-          <div class="dia-fecha">26</div>
-          <div class="dia-nombre">Martes</div>
-        </div>
-        <div>
-          <div class="dia-resumen">Reunión General de Coordinación S10. Munir: ausencia injustificada. Hersan: visita salvaescaleras, detecta interferencia desnivel 1.58m (requiere tramo curvo). Rubén: replanteo cableado y bandejas completo. Clima: 9 máquinas configuradas. <strong>Alertas:</strong> presupuesto Josevi muy alto, Luis pendiente firma.</div>
+      <div class="dia-grid">
+        <div class="dia-left"><div class="dia-num">26</div><div class="dia-nomb">Martes</div></div>
+        <div class="dia-body">
+          <div class="dia-title">Reunión General de Coordinación S10</div>
+          <div class="dia-text">Munir: ausencia injustificada. Hersan/Pedro: visita técnica salvaescaleras — detectada interferencia por desnivel 1.58m al primer escalón, requiere tramo curvo en rail, pendiente nuevo presupuesto. Servitec José: conductos en ejecución, corregida altura coordinación con vigas. Rubén (Segotec): replanteo completo de cableado y bandejas; puntos de luz LED y enchufes confirmados; Darío entrega Máster Plano. Configuración clima cerrada: 9 máquinas (3 reutilizadas), unidad 6kW zona Staff, Daikin superior con alimentación extra. Audio: sin Rack, Masters en Salas Colectivas/Staff/Recepción/Baños. Tiras LED de vigas: reposicionadas para evitar colisión con conductos. Acústica ventana Sala Colectiva: medición pendiente; vinilado solicitado a Javi. <strong>Alertas:</strong> presupuesto Josevi muy alto; Luis pendiente firma audio/domótica.</div>
           <div class="dia-tags">
-            <span class="tag tag-rojo">⚠️ Munir ausente</span>
-            <span class="tag tag-rojo">⚠️ Hersan tramo curvo</span>
-            <span class="tag tag-azul">⚡ Rubén replanteo</span>
-            <span class="tag tag-amarillo">💰 Presupuestos alerta</span>
+            <span class="tag t-r">⚠️ Munir ausente</span>
+            <span class="tag t-r">⚠️ Hersan tramo curvo</span>
+            <span class="tag t-g">✅ Replanteo eléctrico</span>
+            <span class="tag t-y">💰 Presupuestos alerta</span>
+            <span class="tag t-a">❄️ 9 máquinas config.</span>
           </div>
         </div>
       </div>
 
-      <div class="dia-row">
-        <div class="dia-label">
-          <div class="dia-fecha">27</div>
-          <div class="dia-nombre">Miércoles</div>
-        </div>
-        <div>
-          <div class="dia-resumen">Producción intensiva. <strong>Logro clave:</strong> bajante colindante libre → paso libre baños 2.50m→2.77m (+27cm, elimina escalón). PCI perimetral finalizada. Arquería: decisión tomada, primera prueba esta semana. Conductos impulso/recuperadora redirigidos por techo vestuario femenino.</div>
+      <div class="dia-grid">
+        <div class="dia-left"><div class="dia-num">27</div><div class="dia-nomb">Miércoles</div></div>
+        <div class="dia-body">
+          <div class="dia-title">Producción intensiva · Logros clave de la semana</div>
+          <div class="dia-text">Bajante colindante libre confirmada → evacuación desplazada a pared → <strong>paso libre baños/vestuarios: 2.77m (vs. 2.50m inicial, +27cm)</strong>. Elimina escalón, cumplimiento holgado PMR. Conductos impulso y recuperadora redirigidos por techo vestuario femenino. <strong>PCI perimetral EI120 finalizada</strong> — hito adelantado al planning; libera zona para inicio tabiques sala colectiva. Arquería/vigas falsas: decisión tomada, primera prueba esta semana (viga base 40cm, 5 vigas, última diferenciada). Régivan confirmado frente baño femenino para acceso técnico a máquinas de clima. Propuesta de ventiladores en obra por temperatura.</div>
           <div class="dia-tags">
-            <span class="tag tag-verde">✅ PCI perimetral</span>
-            <span class="tag tag-verde">✅ Altura 2.77m</span>
-            <span class="tag tag-azul">🏛️ Arquería inicio</span>
+            <span class="tag t-g">✅ PCI perimetral COMPLETADA</span>
+            <span class="tag t-g">✅ Altura 2.77m confirmada</span>
+            <span class="tag t-a">🏛️ Arquería: inicio prueba</span>
+            <span class="tag t-a">❄️ Conductos redirigidos</span>
           </div>
         </div>
       </div>
 
-      <div class="dia-row">
-        <div class="dia-label">
-          <div class="dia-fecha">28</div>
-          <div class="dia-nombre">Jueves</div>
-        </div>
-        <div>
-          <div class="dia-resumen">Electricidad sala colectiva: conductos y rejillas ejecutados, marcado tubos y salidas máquinas cardio. Clima: conductos avanzando, altillo marcado para hueco recuperadora. Reunión telefónica José+Luis: listado maquinaria, potencias, presupuesto. Pendientes Dirección activos: llaves, mesas, RAC, armarios.</div>
+      <div class="dia-grid">
+        <div class="dia-left"><div class="dia-num">28</div><div class="dia-nomb">Jueves</div></div>
+        <div class="dia-body">
+          <div class="dia-title">Electricidad sala colectiva · Clima altillo marcado</div>
+          <div class="dia-text">Rubén (Segotec): conductos y rejillas sala colectiva ejecutados; marcado de tubos y salidas para máquinas de cardio. Clima (Servitec): conductos avanzando, solicitan conducto guía/curva para altillo; altillo marcado para hueco máquina recuperadora. Munir: continuación tabiques sala colectiva. Cota suelo-techo baños revisada: 2.50m con cassette (30cm); opción 2.77m activa si se confirma bajante colindante. Reunión telefónica convocada para mañana: José (Servitec) + Luis (Elecrea) — maquinaria, potencias, firma presupuesto. Pendientes Dirección activos: llaves, mesas, RACKS Internet, decisión armarios.</div>
           <div class="dia-tags">
-            <span class="tag tag-verde">✅ Sala colectiva elec.</span>
-            <span class="tag tag-azul">❄️ Altillo marcado</span>
-            <span class="tag tag-amarillo">📞 Reunión José+Luis</span>
+            <span class="tag t-g">✅ Sala colectiva eléctrica</span>
+            <span class="tag t-a">❄️ Altillo marcado</span>
+            <span class="tag t-y">📞 Reunión José+Luis mañana</span>
+            <span class="tag t-r">⚠️ Pendientes Dirección</span>
           </div>
         </div>
       </div>
 
-      <div class="dia-row">
-        <div class="dia-label">
-          <div class="dia-fecha">29</div>
-          <div class="dia-nombre">Viernes</div>
-        </div>
-        <div>
-          <div class="dia-resumen">Cierre semana. Clima conductos al 90% — solo falta conexión recuperadora (miércoles S11). Ángel confirma que forjado soporta recuperadora → vía libre. Munir: replanteo tabiques y cerramientos fachada completo. <strong>Logro:</strong> llaves copiadas y entregadas ✓. Rubén ausente. Intento luna publicidad: fallido.</div>
+      <div class="dia-grid">
+        <div class="dia-left"><div class="dia-num">29</div><div class="dia-nomb">Viernes</div></div>
+        <div class="dia-body">
+          <div class="dia-title">Cierre de semana · Clima al 90% · Llaves entregadas</div>
+          <div class="dia-text">Clima (Servitec): conductos al <strong>90%</strong>, solo falta conexión recuperadora (prevista miércoles 03/06 S11). Ángel Rodríguez (COAM_12399): confirmado por teléfono que la posición de la máquina recuperadora soporta el forjado — vía libre. Coordinado con José: miércoles S11 acceso nueva máquina + comunicación conductos internos. Munir: replanteo completo de tabiques y cerramientos fachada/muro colindante. <strong>Llaves copiadas y entregadas</strong> (Laura/Valentina) — incidencia resuelta. Intento luna/vinilado publicidad exterior: no pudo ejecutarse; pendiente solución lunes 01/06. Pendiente nuevo: gestionar presupuesto cortina de aire puerta entrada. Rubén ausente sin aviso.</div>
           <div class="dia-tags">
-            <span class="tag tag-verde">✅ Llaves copiadas</span>
-            <span class="tag tag-verde">✅ Clima 90%</span>
-            <span class="tag tag-verde">✅ Ángel confirma forjado</span>
-            <span class="tag tag-rojo">⚠️ Rubén ausente</span>
+            <span class="tag t-g">✅ Llaves copiadas</span>
+            <span class="tag t-g">✅ Clima 90%</span>
+            <span class="tag t-g">✅ Forjado OK por Ángel</span>
+            <span class="tag t-r">⚠️ Rubén ausente</span>
+            <span class="tag t-r">⚠️ Luna publicidad fallida</span>
           </div>
         </div>
       </div>
-
     </div>
-  </div>
 
-  <!-- ══ AVANCES POR GREMIO ══════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">🏗️ Estado por Gremio — Cierre S10</div>
-    <div class="section-body">
-      <div class="gremio-grid">
+    <!-- ESTADO POR GREMIO -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#128295;</span><span class="st">Estado por Gremio &mdash; Cierre S10</span></div>
+      <div class="two-col">
 
-        <div class="gremio-card">
-          <div class="gremio-nombre">❄️ Climatización · Servitec / José</div>
-          <div class="gremio-texto">Conductos generales al <strong>90%</strong>. Redireccionamiento impulso/recuperadora por techo vestuario femenino. Altillo marcado para hueco recuperadora. 9 máquinas configuradas (3 reutilizadas). Unidad 6kW Staff. Régivan confirmado frente baño femenino. Pendiente: conexión recuperadora miércoles 03/06.</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
-        </div>
-
-        <div class="gremio-card">
-          <div class="gremio-nombre">⚡ Electricidad · Segotec / Rubén</div>
-          <div class="gremio-texto">Replanteo completo de cableado y bandejas (26/05). Puntos de luz LED y enchufes confirmados. Sala colectiva: conductos, rejillas, tubos y salidas máquinas cardio ejecutados (28/05). Máster Plano entregado. Ausencia el 29/05. Pendiente: firma presupuesto Luis (Elecrea) — modificación audio/domótica.</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
-        </div>
-
-        <div class="gremio-card">
-          <div class="gremio-nombre">🧱 Albañilería · Civil / Munir</div>
-          <div class="gremio-texto">PCI perimetral EI120 <strong>finalizada</strong> (27/05, hito adelantado). Inicio tabiques sala colectiva. Primera prueba arquería/vigas falsas (viga base 40cm, 5 vigas). Replanteo tabiques y cerramientos fachada/muro colindante completado (29/05). Incidencia: ausencia injustificada 26/05.</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
-        </div>
-
-        <div class="gremio-card">
-          <div class="gremio-nombre">♿ Accesibilidad · Hersan / Pedro</div>
-          <div class="gremio-texto">Visita técnica salvaescaleras (26/05): detectada interferencia por desnivel 1.58m al primer escalón. Requiere tramo curvo en rail. <strong>Hito crítico julio en riesgo si no se resuelve presupuesto urgente.</strong> Nuevo presupuesto pendiente de recibir y revisar.</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:15%; background: linear-gradient(90deg, #f59e0b, #ef4444)"></div></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ LOGROS TÉCNICOS ══════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">🏆 Logros Técnicos — Semana 10</div>
-    <div class="section-body">
-
-      <div class="logro-item">
-        <div class="logro-icon">📐</div>
-        <div>
-          <div class="logro-titulo">Paso libre baños/vestuarios: +27cm de altura ganada</div>
-          <div class="logro-detalle">Bajante colindante libre permite desplazar evacuación a pared, eliminando el escalón. Cumplimiento holgado PMR. Mejor experiencia de usuario.</div>
-          <div class="logro-chips">
-            <span class="chip-antes">2.50 m</span>
-            <span class="chip-flecha">→</span>
-            <span class="chip-despues">2.77 m</span>
+        <div class="gremio-box">
+          <div class="gremio-hdr">❄️ Climatización &nbsp;&middot;&nbsp; Servitec / José</div>
+          <div class="gremio-body">
+            <p>Conductos generales: <strong>90% completado</strong>. Redireccionamiento de impulso y recuperadora por techo vestuario femenino ejecutado. Altillo marcado para hueco de recuperadora. 9 máquinas configuradas (3 reutilizadas): unidad 6kW zona Staff + Daikin superior con alimentación extra. Régivan confirmado frente a baño femenino para acceso técnico. <em>Pendiente único:</em> conexión máquina recuperadora el miércoles 03/06.</p>
+            <div class="prog-wrap"><div class="prog-fill" style="width:90%"></div></div>
+            <p style="font-size:10px;color:#94a3b8;margin-top:4px;text-align:right">90% — Solo conexión recuperadora pendiente</p>
           </div>
         </div>
-      </div>
 
-      <div class="logro-item">
-        <div class="logro-icon">🔥</div>
-        <div>
-          <div class="logro-titulo">PCI perimetral EI120 finalizada — hito adelantado</div>
-          <div class="logro-detalle">Línea perimetral PCI completada antes del planning previsto. Libera zona para inicio de tabiques sala colectiva.</div>
-          <div class="logro-chips">
-            <span class="chip-antes">En ejecución</span>
-            <span class="chip-flecha">→</span>
-            <span class="chip-despues">Completado ✓</span>
+        <div class="gremio-box">
+          <div class="gremio-hdr">⚡ Electricidad &nbsp;&middot;&nbsp; Segotec / Rubén &nbsp;&middot;&nbsp; Elecrea / Luis</div>
+          <div class="gremio-body">
+            <p>Replanteo completo de cableado y bandejas (26/05). Puntos de luz LED y enchufes confirmados. Máster Plano entregado a Rubén. Sala colectiva: conductos, rejillas, tubos y salidas para máquinas de cardio ejecutados (28/05). <em>Incidencias:</em> baja operario 25/05, ausencia Rubén 29/05. <em>Pendiente crítico:</em> firma presupuesto Luis (modificación audio/domótica).</p>
+            <div class="prog-wrap"><div class="prog-fill" style="width:60%"></div></div>
+            <p style="font-size:10px;color:#94a3b8;margin-top:4px;text-align:right">60% — Pendiente firma presupuesto Luis</p>
           </div>
         </div>
-      </div>
 
-      <div class="logro-item">
-        <div class="logro-icon">🔑</div>
-        <div>
-          <div class="logro-titulo">Llaves de acceso copiadas y entregadas</div>
-          <div class="logro-detalle">Incidencia de acceso resuelta. Contratas pueden operar de forma autónoma en zonas de albañilería.</div>
-          <div class="logro-chips">
-            <span class="chip-antes">Incidencia abierta</span>
-            <span class="chip-flecha">→</span>
-            <span class="chip-despues">Resuelto ✓</span>
+        <div class="gremio-box">
+          <div class="gremio-hdr">🧱 Albañilería / Civil &nbsp;&middot;&nbsp; Munir</div>
+          <div class="gremio-body">
+            <p>PCI perimetral EI120 <strong>finalizada</strong> (27/05) — hito adelantado. Inicio tabiques sala colectiva. Primera prueba arquería/vigas falsas en curso (viga base 40cm, 5 vigas, última diferenciada). Replanteo completo de tabiques interiores y cerramientos fachada/muro colindante completado (29/05). <em>Incidencia:</em> ausencia injustificada reunión coordinación 26/05.</p>
+            <div class="prog-wrap"><div class="prog-fill" style="width:55%"></div></div>
+            <p style="font-size:10px;color:#94a3b8;margin-top:4px;text-align:right">55% — Tabiques sala colectiva en ejecución S11</p>
           </div>
         </div>
-      </div>
 
-      <div class="logro-item">
-        <div class="logro-icon">❄️</div>
-        <div>
-          <div class="logro-titulo">Instalación de clima al 90% — cierre técnico semana</div>
-          <div class="logro-detalle">Solo pendiente conexión de máquina recuperadora el miércoles 03/06. Confirmación estructural de Ángel Rodríguez: forjado aguanta la carga.</div>
-          <div class="logro-chips">
-            <span class="chip-antes">~40% inicio S10</span>
-            <span class="chip-flecha">→</span>
-            <span class="chip-despues">90% cierre S10</span>
+        <div class="gremio-box">
+          <div class="gremio-hdr">♿ Salvaescaleras &nbsp;&middot;&nbsp; Hersan / Pedro &nbsp;&mdash; <span style="color:#e94560;">⛔ EN RIESGO</span></div>
+          <div class="gremio-body">
+            <p>Visita técnica 26/05: interferencia detectada por desnivel 1.58m al primer escalón. Requiere instalación de <strong>tramo curvo en rail</strong> — nuevo presupuesto pendiente. <strong style="color:#c0392b;">Hito crítico 1ª semana de julio en riesgo si no se cierra el presupuesto y adjudica urgente.</strong> Sin este hito, la licencia de apertura puede verse afectada.</p>
+            <div class="prog-wrap"><div class="prog-fill" style="width:10%;background:linear-gradient(90deg,#f59e0b,#c0392b)"></div></div>
+            <p style="font-size:10px;color:#c0392b;margin-top:4px;text-align:right;font-weight:700">BLOQUEADO — Nuevo presupuesto urgente</p>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
 
-  <!-- ══ INCIDENCIAS ══════════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">⚠️ Incidencias Semana 10</div>
-    <div class="section-body">
+    <!-- LOGROS TÉCNICOS -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#127942;</span><span class="st">Logros Técnicos y Optimizaciones &mdash; Semana 10</span></div>
 
-      <div class="inc-item">
-        <span class="inc-prioridad inc-alta">ALTA</span>
+      <div class="logro-row">
+        <div class="logro-ico">📐</div>
         <div>
-          <div class="inc-gremio">♿ Hersan — Salvaescaleras</div>
-          <div class="inc-desc">Interferencia detectada: desnivel 1.58m al primer escalón requiere tramo curvo en rail. Nuevo presupuesto pendiente. <strong>Riesgo sobre hito crítico 1ª semana julio.</strong></div>
+          <div class="logro-t">Paso libre baños/vestuarios: +27cm de altura ganada</div>
+          <div class="logro-d">Bajante colindante libre permite desplazar evacuación a pared eliminando el escalón. Cumplimiento holgado PMR. Mejor experiencia de usuario en vestuarios.</div>
+          <div class="chips"><span class="ch-b">2.50 m inicial</span><span class="ch-arr">&#8594;</span><span class="ch-a">2.77 m optimizado</span></div>
         </div>
       </div>
 
-      <div class="inc-item">
-        <span class="inc-prioridad inc-alta">ALTA</span>
+      <div class="logro-row">
+        <div class="logro-ico">🔥</div>
         <div>
-          <div class="inc-gremio">💰 Presupuesto — Josevi (Carpintería)</div>
-          <div class="inc-desc">Presupuesto detectado como MUY ALTO. Revisión profunda requerida antes de cualquier adjudicación. Valentina y Darío deben revisar.</div>
+          <div class="logro-t">PCI perimetral EI120 finalizada — hito adelantado al planning</div>
+          <div class="logro-d">Línea perimetral de protección contra incendios EI120 completada el 27/05. Cumplimiento normativa DB-SI. Libera zona para inicio inmediato de tabiques sala colectiva en S11.</div>
+          <div class="chips"><span class="ch-b">En ejecución</span><span class="ch-arr">&#8594;</span><span class="ch-a">Completado ✓</span></div>
         </div>
       </div>
 
-      <div class="inc-item">
-        <span class="inc-prioridad inc-alta">ALTA</span>
+      <div class="logro-row">
+        <div class="logro-ico">❄️</div>
         <div>
-          <div class="inc-gremio">💰 Presupuesto — Luis (Elecrea/Electricidad)</div>
-          <div class="inc-desc">Firma presupuesto modificación audio/domótica pendiente desde S10. Reunión telefónica realizada el 28/05. Cierre pendiente.</div>
+          <div class="logro-t">Instalación de clima al 90% — cierre técnico en S11</div>
+          <div class="logro-d">Solo pendiente conexión de máquina recuperadora el miércoles 03/06. Confirmación estructural de Ángel Rodríguez (COAM_12399): forjado soporta la carga. Vía libre para introducción por fachada.</div>
+          <div class="chips"><span class="ch-b">~40% inicio S10</span><span class="ch-arr">&#8594;</span><span class="ch-a">90% cierre S10</span></div>
         </div>
       </div>
 
-      <div class="inc-item">
-        <span class="inc-prioridad inc-alta">ALTA</span>
+      <div class="logro-row">
+        <div class="logro-ico">🔑</div>
         <div>
-          <div class="inc-gremio">🧱 Albañilería — Munir</div>
-          <div class="inc-desc">Ausencia injustificada en Reunión General de Coordinación S10 (26/05). Primera infracción registrada.</div>
+          <div class="logro-t">Llaves de acceso copiadas y entregadas — incidencia resuelta</div>
+          <div class="logro-d">Contratas pueden acceder de forma autónoma a zonas de albañilería y comprobación de tuberías sin depender de Dirección para cada acceso.</div>
+          <div class="chips"><span class="ch-b">Incidencia abierta</span><span class="ch-arr">&#8594;</span><span class="ch-a">Resuelto ✓</span></div>
         </div>
       </div>
 
-      <div class="inc-item">
-        <span class="inc-prioridad inc-normal">NORMAL</span>
+      <div class="logro-row">
+        <div class="logro-ico">⚡</div>
         <div>
-          <div class="inc-gremio">⚡ Electricidad — Rubén (Segotec)</div>
-          <div class="inc-desc">Ausencia sin aviso el viernes 29/05. Baja operario también el lunes 25/05. Patrón de discontinuidad en presencia.</div>
+          <div class="logro-t">Electricidad sala colectiva — instalación completada</div>
+          <div class="logro-d">Conductos, rejillas, tubos y salidas para máquinas de cardio ejecutados en sala colectiva. Lista para fases de tabiquería y acabados en S11.</div>
+          <div class="chips"><span class="ch-b">Pendiente</span><span class="ch-arr">&#8594;</span><span class="ch-a">Completado ✓</span></div>
         </div>
       </div>
 
-      <div class="inc-item">
-        <span class="inc-prioridad inc-normal">NORMAL</span>
+      <div class="logro-row">
+        <div class="logro-ico">📋</div>
         <div>
-          <div class="inc-gremio">🖼️ Publicidad Exterior</div>
-          <div class="inc-desc">Intento de instalación luna/vinilado publicidad exterior el 29/05: no pudo ejecutarse. Solución pendiente para lunes 01/06.</div>
+          <div class="logro-t">Replanteo tabiques y cerramientos completado</div>
+          <div class="logro-d">Replanteo completo de tabiques interiores y cerramientos fachada/muro colindante finalizado el 29/05. Ejecución puede comenzar sin esperas en S11.</div>
+          <div class="chips"><span class="ch-b">Sin replantear</span><span class="ch-arr">&#8594;</span><span class="ch-a">Listo para S11 ✓</span></div>
         </div>
       </div>
-
     </div>
-  </div>
 
-  <!-- ══ SOLICITUDES A DIRECCIÓN ══════════════════════════ -->
-  <div class="section">
-    <div class="section-header" style="color: #f87171;">📋 Solicitudes a Dirección — Pendientes Acumulados</div>
-    <div class="section-body">
+    <!-- INCIDENCIAS -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#9888;&#65039;</span><span class="st">Incidencias Semana 10</span></div>
 
-      <div class="sol-item">
-        <div class="sol-desc">🚨 Revisar y confirmar presupuesto Hersan (salvaescaleras tramo curvo) — <span class="sol-urgente">HITO JULIO EN RIESGO</span></div>
-        <div class="sol-meta">Responsable: Darío / Laura &nbsp;·&nbsp; Urgencia: <span class="sol-urgente">CRÍTICA</span></div>
+      <div style="background:#fdf2f2;border:1px solid #f5c6c6;border-left:4px solid #7b0000;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:#7b0000;">♿ Hersan &mdash; Salvaescaleras</span>
+          <span class="badge b-inc" style="background:#fff0f0;color:#7b0000;border-color:#f5c6c6;">CRÍTICA</span>
+        </div>
+        <div style="font-size:12px;color:#374151;line-height:1.5">Interferencia detectada: desnivel 1.58m al primer escalón requiere tramo curvo en rail. Nuevo presupuesto pendiente de recibir. <strong>Riesgo directo sobre hito crítico de instalación previsto 1ª semana de julio.</strong> Sin resolución, afecta a la obtención de licencia de apertura.</div>
       </div>
 
-      <div class="sol-item">
-        <div class="sol-desc">🚨 Firma presupuesto Luis (Elecrea) — modificación audio/domótica</div>
-        <div class="sol-meta">Responsable: Darío &nbsp;·&nbsp; Urgencia: <span class="sol-urgente">ALTA</span></div>
+      <div style="background:#fdf2f2;border:1px solid #f5c6c6;border-left:4px solid #e94560;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:#c0392b;">💰 Presupuesto — Josevi (Carpintería)</span>
+          <span class="badge b-inc">Alta</span>
+        </div>
+        <div style="font-size:12px;color:#374151;line-height:1.5">Presupuesto detectado como <strong>MUY ALTO</strong> en reunión del 26/05. Revisión profunda requerida antes de cualquier adjudicación. Valentina y Darío deben revisar partida a partida.</div>
       </div>
 
-      <div class="sol-item">
-        <div class="sol-desc">Revisión profunda presupuesto Josevi (Carpintería) — detectado como muy alto</div>
-        <div class="sol-meta">Responsable: Valentina / Darío &nbsp;·&nbsp; Urgencia: <span class="sol-urgente">ALTA</span></div>
+      <div style="background:#fdf2f2;border:1px solid #f5c6c6;border-left:4px solid #e94560;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:#c0392b;">💰 Presupuesto — Luis (Elecrea/Electricidad)</span>
+          <span class="badge b-inc">Alta</span>
+        </div>
+        <div style="font-size:12px;color:#374151;line-height:1.5">Firma de presupuesto por modificación de audio/domótica pendiente desde inicio de S10. Reunión telefónica realizada el 28/05 con José y Luis. Cierre pendiente de confirmación por parte de Luis.</div>
       </div>
 
-      <div class="sol-item">
-        <div class="sol-desc">Confirmar proveedor RACKS Internet: ¿suministra proveedor o instala la obra?</div>
-        <div class="sol-meta">Responsable: Darío / Laura &nbsp;·&nbsp; Urgencia: alta</div>
+      <div style="background:#fdf2f2;border:1px solid #f5c6c6;border-left:4px solid #e94560;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:#c0392b;">🧱 Albañilería — Munir</span>
+          <span class="badge b-inc">Alta</span>
+        </div>
+        <div style="font-size:12px;color:#374151;line-height:1.5">Ausencia injustificada en Reunión General de Coordinación S10 el martes 26/05. Primera infracción registrada. Se requiere comunicación formal al subcontratista.</div>
       </div>
 
-      <div class="sol-item">
-        <div class="sol-desc">Decisión sobre armarios: confirmar operativa de uso/limpieza para avanzar tabiquería</div>
-        <div class="sol-meta">Responsable: Dirección / Laura &nbsp;·&nbsp; Urgencia: alta</div>
+      <div style="background:#fff8e1;border:1px solid #ffe0b2;border-left:4px solid #e65100;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:#e65100;">⚡ Electricidad — Rubén (Segotec)</span>
+          <span class="badge b-wip">Normal</span>
+        </div>
+        <div style="font-size:12px;color:#374151;line-height:1.5">Baja de operario el lunes 25/05 (jornada improductiva). Ausencia sin aviso el viernes 29/05. Patrón de discontinuidad en presencia que puede afectar al ritmo de S11.</div>
       </div>
 
-      <div class="sol-item">
-        <div class="sol-desc">Solicitar presupuesto cortina de aire para puerta de entrada</div>
-        <div class="sol-meta">Responsable: Darío / Laura &nbsp;·&nbsp; Urgencia: normal</div>
+      <div style="background:#fff8e1;border:1px solid #ffe0b2;border-left:4px solid #e65100;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:#e65100;">🖼️ Publicidad Exterior</span>
+          <span class="badge b-wip">Normal</span>
+        </div>
+        <div style="font-size:12px;color:#374151;line-height:1.5">Intento de instalación de luna/vinilado de publicidad exterior el viernes 29/05: no pudo ejecutarse. Pendiente solución para el lunes 01/06.</div>
       </div>
-
     </div>
-  </div>
 
-  <!-- ══ ESTADO PLANNING ══════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">📊 Estado Planning — Hitos Críticos</div>
-    <div class="section-body">
-      <table class="planning-table">
+    <!-- SOLICITUDES A DIRECCIÓN -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#128204;</span><span class="st">Solicitudes a Dirección &mdash; Pendientes Acumulados S10</span></div>
+
+      <div class="sol-item sol-critica">
+        <div class="sol-t">🚨 Revisar y confirmar nuevo presupuesto Hersan (salvaescaleras tramo curvo)</div>
+        <div class="sol-m">Responsable: <strong>Darío / Laura</strong> &nbsp;&middot;&nbsp; Urgencia: <strong style="color:#7b0000;">CRÍTICA — HITO JULIO EN RIESGO</strong> &nbsp;&middot;&nbsp; No confirmar sin revisión previa</div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-t">Firma presupuesto Luis (Elecrea) — modificación audio/domótica</div>
+        <div class="sol-m">Responsable: <strong>Darío</strong> &nbsp;&middot;&nbsp; Urgencia: <strong style="color:#c0392b;">Alta</strong> &nbsp;&middot;&nbsp; Reunión telefónica realizada 28/05, pendiente cierre definitivo</div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-t">Revisión profunda presupuesto Josevi (Carpintería Exterior)</div>
+        <div class="sol-m">Responsable: <strong>Valentina / Darío</strong> &nbsp;&middot;&nbsp; Urgencia: <strong style="color:#c0392b;">Alta</strong> &nbsp;&middot;&nbsp; Detectado como muy alto en reunión 26/05. Requiere aprobación antes de adjudicación</div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-t">Confirmar proveedor RACKS Internet: ¿suministra proveedor o instala obra?</div>
+        <div class="sol-m">Responsable: <strong>Darío / Laura</strong> &nbsp;&middot;&nbsp; Urgencia: <strong style="color:#c0392b;">Alta</strong> &nbsp;&middot;&nbsp; Necesario para coordinación con Rubén (Segotec) en S11</div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-t">Decisión sobre armarios: confirmar operativa de uso/limpieza para avanzar con tabiquería</div>
+        <div class="sol-m">Responsable: <strong>Dirección / Laura</strong> &nbsp;&middot;&nbsp; Urgencia: <strong style="color:#c0392b;">Alta</strong> &nbsp;&middot;&nbsp; Bloquea avance de tabiquería adyacente</div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-t">Solicitar presupuesto cortina de aire para puerta de entrada</div>
+        <div class="sol-m">Responsable: <strong>Darío / Laura</strong> &nbsp;&middot;&nbsp; Urgencia: Normal &nbsp;&middot;&nbsp; Nuevo requerimiento detectado en S10</div>
+      </div>
+    </div>
+
+    <!-- ESTADO PLANNING -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#128200;</span><span class="st">Estado Planning &mdash; Hitos Críticos hacia Apertura</span></div>
+      <table class="tbl">
         <thead>
           <tr>
-            <th>Hito</th>
-            <th>Fecha objetivo</th>
-            <th>Estado</th>
+            <th style="width:220px;">Hito / Partida</th>
+            <th style="width:110px;">Fecha objetivo</th>
+            <th style="width:120px;">Estado</th>
             <th>Observación S10</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>PCI perimetral EI120</td>
-            <td>S10</td>
-            <td><span class="estado-ok">✅ COMPLETADO</span></td>
-            <td>Finalizado 27/05. Adelantado al planning.</td>
-          </tr>
-          <tr>
-            <td>Instalación clima (conductos)</td>
-            <td>S11</td>
-            <td><span class="estado-wip">🔄 90% — En curso</span></td>
-            <td>Conexión recuperadora: miércoles 03/06.</td>
-          </tr>
-          <tr>
-            <td>Tabiquería sala colectiva</td>
-            <td>S11</td>
-            <td><span class="estado-wip">🔄 Inicio S10</span></td>
-            <td>Replanteo completo. Ejecución S11.</td>
-          </tr>
-          <tr>
-            <td>Electricidad — cableado general</td>
-            <td>S12</td>
-            <td><span class="estado-wip">🔄 60%</span></td>
-            <td>Sala colectiva completada. Pendiente resto zonas.</td>
-          </tr>
-          <tr>
-            <td>Salvaescaleras Hersan</td>
-            <td>1ª semana julio</td>
-            <td><span class="estado-riesgo">⛔ EN RIESGO</span></td>
-            <td>Interferencia desnivel. Tramo curvo. Presupuesto pendiente.</td>
-          </tr>
-          <tr>
-            <td>Arquería / Vigas falsas</td>
-            <td>S12</td>
-            <td><span class="estado-wip">🔄 Inicio</span></td>
-            <td>Decisión tomada. Primera prueba en curso.</td>
-          </tr>
-          <tr>
-            <td>PCI Leo (Troser)</td>
-            <td>S11</td>
-            <td><span class="estado-wip">🔄 Pendiente entrada</span></td>
-            <td>Leo entra a obra miércoles 03/06.</td>
-          </tr>
-          <tr>
-            <td>Apertura Nine Fitness Brescia 19</td>
-            <td>3–5 agosto 2026</td>
-            <td><span class="estado-wip">🔄 En plazo</span></td>
-            <td>Ritmo S10 correcto. Riesgo: Hersan + presupuestos.</td>
-          </tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">PCI perimetral EI120</td><td>S10</td><td><span class="badge b-ok">✅ Completado</span></td><td>Finalizado 27/05. Adelantado al planning. Libera zona tabiques.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Instalación clima (conductos)</td><td>S11</td><td><span class="badge b-wip">🔄 90%</span></td><td>Solo falta conexión recuperadora miércoles 03/06. En plazo.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Replanteo tabiquería completo</td><td>S10</td><td><span class="badge b-ok">✅ Completado</span></td><td>Tabiques interiores + cerramientos fachada. Listo para S11.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Tabiquería sala colectiva</td><td>S11</td><td><span class="badge b-wip">🔄 Inicio S10</span></td><td>Ejecución comienza S11. Leo (PCI) entra miércoles 03/06.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Electricidad — cableado general</td><td>S12</td><td><span class="badge b-wip">🔄 60%</span></td><td>Sala colectiva completada. Resto de zonas pendiente S11–S12.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Arquería / Vigas falsas</td><td>S12</td><td><span class="badge b-wip">🔄 Prueba inicio</span></td><td>Decisión tomada. Primera prueba en curso esta semana.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Acústica ventana Sala Colectiva</td><td>S11</td><td><span class="badge b-pend">⏳ Medición pend.</span></td><td>Medición pendiente para decisión de cierre. Vinilado solicitado a Javi.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Salvaescaleras Hersan</td><td>1ª semana julio</td><td><span class="badge b-inc" style="background:#fff0f0;color:#7b0000;border-color:#f5c6c6;">⛔ EN RIESGO</span></td><td>Tramo curvo requerido. Nuevo presupuesto pendiente. Hito crítico licencia.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;">Carpintería exterior (Josevi)</td><td>S13–S14</td><td><span class="badge b-pend">⏳ Presup. alto</span></td><td>Presupuesto bajo revisión. No adjudicar sin aprobación Dirección.</td></tr>
+          <tr><td style="font-weight:600;color:#1a1a2e;"><strong>APERTURA Nine Fitness Brescia 19</strong></td><td><strong>3–5 AGO 2026</strong></td><td><span class="badge b-wip">🔄 En plazo</span></td><td>Ritmo S10 correcto. Riesgo principal: Hersan + firma Luis. Vigilar S11.</td></tr>
         </tbody>
       </table>
     </div>
-  </div>
 
-  <!-- ══ AGENDA S11 ══════════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">📅 Agenda Semana 11 — 01 al 06 de junio de 2026</div>
-    <div class="section-body">
+    <!-- AGENDA S11 -->
+    <div class="sec">
+      <div class="sh"><span class="si">&#128197;</span><span class="st">Agenda Semana 11 &mdash; 1 al 6 de junio de 2026</span></div>
 
-      <div class="agenda-item">
+      <div class="agenda-row">
         <div class="agenda-hora">Lun 01/06</div>
-        <div class="agenda-evento">Solucionar instalación luna/vinilado publicidad exterior (intento fallido 29/05). Confirmar solución con proveedor.</div>
+        <div class="agenda-ev">Solucionar instalación luna/vinilado publicidad exterior. Confirmar proveedor y fecha de ejecución (intento fallido 29/05).</div>
       </div>
-
-      <div class="agenda-item">
-        <div class="agenda-hora">Mar 02/06<br>13:00h</div>
-        <div class="agenda-evento"><strong>REUNIÓN GENERAL DE OBRA — TODAS LAS CONTRATAS.</strong> Obligatorio. Coordinación hitos S11, revisión incidencias y avance planning hacia agosto.</div>
+      <div class="agenda-row">
+        <div class="agenda-hora">Mar 02/06<br><strong>13:00h</strong></div>
+        <div class="agenda-ev"><strong>REUNIÓN GENERAL DE OBRA — TODAS LAS CONTRATAS.</strong> <span style="background:#e94560;color:#fff;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:700;margin-left:4px;">OBLIGATORIO</span><br>Coordinación hitos S11, revisión incidencias, avance planning. Presencia obligatoria: Rubén, José, Munir, Leo.</div>
       </div>
-
-      <div class="agenda-item">
+      <div class="agenda-row">
         <div class="agenda-hora">Mié 03/06</div>
-        <div class="agenda-evento"><strong>José (Servitec):</strong> Introducción máquina recuperadora por fachada (hueco ventana). Conexión conductos internos. Cierre instalación clima.</div>
+        <div class="agenda-ev"><strong>José (Servitec):</strong> Introducción máquina recuperadora por fachada (hueco ventana). Conexión con conductos internos. Cierre instalación de clima. Confirmado estructuralmente por Ángel Rodríguez.</div>
       </div>
-
-      <div class="agenda-item">
+      <div class="agenda-row">
         <div class="agenda-hora">Mié 03/06</div>
-        <div class="agenda-evento"><strong>Leo (Troser/PCI):</strong> Entrada a obra. Inicio tabiques PCI sala colectiva y avance sectorización DB-SI.</div>
+        <div class="agenda-ev"><strong>Leo (Troser/PCI):</strong> Entrada a obra. Inicio tabiques PCI sala colectiva y avance sectorización DB-SI. Primera jornada.</div>
       </div>
-
-      <div class="agenda-item">
-        <div class="agenda-hora">S11 (urgente)</div>
-        <div class="agenda-evento">Recibir y revisar nuevo presupuesto Hersan (salvaescaleras tramo curvo). Decisión antes de fin de semana. Hito julio crítico.</div>
+      <div class="agenda-row">
+        <div class="agenda-hora">S11 — Urgente</div>
+        <div class="agenda-ev"><strong>Hersan:</strong> Recibir, revisar y tomar decisión sobre nuevo presupuesto salvaescaleras tramo curvo. <strong style="color:#c0392b;">Hito julio en riesgo.</strong> No puede esperar más de una semana.</div>
       </div>
-
-      <div class="agenda-item">
+      <div class="agenda-row">
         <div class="agenda-hora">S11</div>
-        <div class="agenda-evento">Firma definitiva presupuesto Luis (Elecrea). Revisión presupuesto Josevi (Carpintería). Confirmar RACKS Internet.</div>
+        <div class="agenda-ev">Firma definitiva presupuesto Luis (Elecrea). Revisión presupuesto Josevi (Carpintería). Confirmar proveedor RACKS Internet. Gestionar presupuesto cortina de aire.</div>
       </div>
-
     </div>
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="ftr">
+    <div>NINE FITNESS GROUP S.L. &middot; Calle Brescia 19, 28028 Madrid</div>
+    <div>Dir. Obra: <b>Darío A. López</b> &nbsp;&middot;&nbsp; Arquitecto: <b>Ángel Rodríguez Martínez-Conde (COAM 12399)</b></div>
+    <div>Ref: <b>ACT-SEM-S10-2026</b> &nbsp;&middot;&nbsp; Emitido: <b>29/05/2026</b> &nbsp;&middot;&nbsp; Documento confidencial</div>
   </div>
 
-  <!-- ══ FOOTER ══════════════════════════════════════ -->
-  <div class="footer">
-    <strong>Nine Fitness Group S.L.</strong> &nbsp;·&nbsp; Calle Brescia 19, 28028 Madrid &nbsp;·&nbsp;
-    Acta generada por PMO Brescia 19 &nbsp;·&nbsp; Darío A. López &nbsp;·&nbsp; 29 de mayo de 2026<br>
-    <em>Documento confidencial — uso interno y envío a contratas autorizadas.</em>
-  </div>
-
-</div>
+</div><!-- /doc -->
 </body>
 </html>
