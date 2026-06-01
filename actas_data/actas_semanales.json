@@ -1,1 +1,59 @@
-[]
+[
+  {
+    "id": "ACT-SEM-S10-2026",
+    "semana_obra": 10,
+    "semana_ano": "S10/2026",
+    "fecha_inicio": "2026-05-25",
+    "fecha_fin": "2026-05-31",
+    "obra": "Brescia 19",
+    "estado_aprobacion": "borrador",
+    "aprobado_por": "Darío A. López",
+    "resumen_ejecutivo": "• Lun 25/05: Inicio semana. Clima inicia conductos. Munir replanteo geometría. Incidencia: Electricidad baja operario.\n• Mar 26/05: Reunión coordinación S10. Munir ausente injustificado. Hersan detecta tramo curvo salvaescaleras (desnivel 1.58m). Rubén: replanteo completo. Alertas presupuestos Josevi y Luis.\n• Mié 27/05: Producción intensiva. Paso libre baños 2.50→2.77m. PCI perimetral COMPLETADA. Arquería iniciada.\n• Jue 28/05: Electricidad sala colectiva ejecutada. Clima altillo marcado. Reunión José+Luis maquinaria/potencias.\n• Vie 29/05: Cierre semana. Clima 90%. Ángel confirma forjado recuperadora. Llaves copiadas. Rubén ausente.\n\nHITO SEMANA: Planning semanal enviado al equipo. Tabiquería sala colectiva en ejecución. Fontanería técnicamente definida (baños, bajantes, duchas). PCI perimetral EI120 completada antes de planning.",
+    "alertas_criticas": [
+      {
+        "codigo": "ALERTA-01",
+        "tipo": "RIESGO CRÍTICO LICENCIA",
+        "gremio": "♿ Hersan / Accesibilidad",
+        "descripcion": "Salvaescaleras sin aprobación. Plazo de ejecución: 5 semanas. Hito obligatorio: 1ª semana de julio. Si la firma no se produce antes del 05/06, el hito queda comprometido y puede bloquear la licencia de apertura.",
+        "accion_requerida": "Firma del pedido Hersan esta semana (antes del 05/06/2026)",
+        "responsable": "Darío A. López",
+        "deadline": "2026-06-05",
+        "impacto": "Retraso apertura (3-5 agosto 2026)"
+      },
+      {
+        "codigo": "ALERTA-02",
+        "tipo": "URGENTE",
+        "gremio": "🖼️ Fachada / Propiedad",
+        "descripcion": "Desperfectos detectados en fachada y azotea durante instalación de vinilos publicitarios (01/06). Requiere notificación formal a comunidad/propiedad con documentación fotográfica.",
+        "accion_requerida": "Notificación formal + documentación fotográfica enviada a propiedad",
+        "responsable": "Darío A. López",
+        "deadline": "2026-06-03",
+        "impacto": "Reclamación legal potencial si no se documenta"
+      }
+    ],
+    "desviaciones_criticas": [
+      "♿ Hersan — tramo curvo salvaescaleras (desnivel 1.58m)",
+      "⚠️ Aprobación salvaescaleras PENDIENTE — deadline 05/06",
+      "🖼️ Desperfectos fachada/azotea — notificar a propiedad",
+      "💰 Presupuesto Josevi muy alto — revisión pendiente",
+      "✅ Firma Luis (Elecrea) — presupuesto audio/domótica",
+      "🧱 Munir ausencia injustificada 26/05"
+    ],
+    "hitos_cumplidos": [
+      "PCI perimetral EI120 completada (adelantada al planning)",
+      "Paso libre baños optimizado: 2.50m → 2.77m (+27cm)",
+      "Conductos climatización al 90%",
+      "Confirmación estructural máquina recuperadora (Ángel COAM_12399)",
+      "Llaves de acceso entregadas a contratas",
+      "Electricidad sala colectiva ejecutada (conductos + rejillas)",
+      "Publicidad exterior (vinilos) colocada en fachada",
+      "Tabiquería sala colectiva iniciada (Munir)",
+      "Fontanería técnicamente definida (bajantes, duchas, baños)",
+      "Planning semanal S11 enviado al equipo",
+      "Replanteo sala colectiva y cuartos técnicos completado"
+    ],
+    "actas_diarias_ids": "ACT-20260529-1800,ACT-20260528-0900,ACT-20260527-0800,ACT-20260526-0001,ACT-20260525-0936",
+    "creado_por": "Darío A. López",
+    "creado_en": "2026-06-01"
+  }
+]
