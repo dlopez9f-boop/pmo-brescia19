@@ -2,9 +2,10 @@ Fase,Partida,Gremio,Inicio,Fin,Tipo,Critico
 Fase 1 · Instalaciones Base,Replanteo y Demoliciones,Albañilería (Munir),2026-05-18,2026-05-30,Base,False
 Fase 1 · Instalaciones Base,Fontanería y Saneamiento,Albañilería (Munir),2026-05-18,2026-06-14,Base,False
 Fase 1 · Instalaciones Base,Canalización Eléctrica (P-02),Electricidad (Luis),2026-05-18,2026-06-14,Base,False
-Fase 1 · Instalaciones Base,Trazados PCI — Red extinción (P-02),PCI (Leo),2026-05-18,2026-06-14,Base,False
+Fase 1 · Instalaciones Base,Trazados y Tabiques PCI Sala Colectiva (Leo/Troser),PCI (Leo),2026-06-04,2026-06-12,Base,False
 Fase 1 · Instalaciones Base,⚠️ HITO: Entrega Viga UPN (desbloquea Clima),Carpintería (Josevi),2026-05-27,2026-05-28,Hito,True
 Fase 1 · Instalaciones Base,Conductos Climatización Daikin (P-01),Climatización (Jose),2026-05-29,2026-06-25,Base,True
+Fase 1 · Instalaciones Base,Vinilos y Rotulación Ventanas Exteriores,Publicidad (Julio),2026-06-04,2026-06-06,Acabado,False
 Fase 2 · Cierres Técnicos,Tabiquería EI 120 y Techos Acústicos (P-03),Albañilería (Munir),2026-06-15,2026-07-07,Cierre,True
 Fase 2 · Cierres Técnicos,BIEs Rociadores y Legalización PCI,PCI (Leo),2026-06-15,2026-06-30,Cierre,False
 Fase 2 · Cierres Técnicos,Cierre Líneas de Fuerza,Electricidad (Luis),2026-06-15,2026-07-01,Cierre,False
@@ -13,6 +14,7 @@ Fase 3 · Acabados y Estética,Foseados e Iluminación LED (P-04),Electricidad (
 Fase 3 · Acabados y Estética,Suelo Técnico de Goma — Zona Peso Libre (P-06),Carpintería (Josevi),2026-07-08,2026-07-18,Acabado,False
 Fase 3 · Acabados y Estética,Carpintería a Medida — Recepción y Vestuarios (P-07),Carpintería (Josevi),2026-07-10,2026-07-24,Acabado,False
 Fase 3 · Acabados y Estética,Pintura General y Remates,Albañilería (Munir),2026-07-08,2026-07-20,Acabado,False
+Fase 4 · Puesta a Punto,Recepción y Montaje Maquinaria Matrix,Equipamiento (Laura),2026-07-27,2026-07-31,Apertura,True
 Fase 4 · Puesta a Punto,Montaje Maquinaria Cardio y Fuerza,PMO (Darío),2026-07-25,2026-07-31,Apertura,False
 Fase 4 · Puesta a Punto,Pruebas Domótica y Audio,PMO (Darío),2026-07-25,2026-08-01,Apertura,False
 Fase 4 · Puesta a Punto,Limpieza Fina de Obra (P-08),PMO (Darío),2026-07-25,2026-08-02,Apertura,False
