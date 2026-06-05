@@ -1,5 +1,98 @@
 [
   {
+    "id": "ACT-20260605-1800",
+    "fecha": "2026-06-05",
+    "semana_obra": 11,
+    "obra": "Brescia 19",
+    "resumen": "S11 · 05/06 · Cierre de semana — Munir: estructura tabiquería 100% COMPLETADA. Vinilos PAUSADOS (cambio definitivo color negro). Fuga agua local vecino: responsabilidad NULA confirmada in situ — CERRADA. Control económico: PCI Troser aprobado y cerrado; Electricidad revisado, pendiente firma Luis. S12: Josevi entra, Clima arranca martes (cassettes + tuberías + recuperadora). Reunión obra martes 09/06 13:00h. Hersan: deadline 05/06 VENCIDO — escalar lunes.",
+    "texto_original": "Solo en obra Munir. PCI, Climatización, Electricidad ausentes. Munir: finaliza al 100% la estructura para los tabiques. Vinilos: pausados para cambio al color negro definitivo. Fuga agua local colindante: revisada presencialmente con encargado. Responsabilidad NULA confirmada. Vecino cerró llaves de paso y gestiona reparación con su fontanero. CERRADA. PCI Troser: presupuesto modificado aprobado y cerrado (51 detectores + 21 estructuras). Sin más modificaciones no previstas. Electricidad Luis: presupuesto revisado con ajustes técnicos. Pendiente firma de Luis. S12: Josevi se incorpora — estructuras puertas y cerramiento sala colectiva. Clima: arrancan el martes. Objetivo: cassettes, tuberías y conexión final recuperadora. Reunión planificación semanal: martes 13:00h.",
+    "asistencia": [
+      {"gremio": "🧱 Albañilería (Munir)", "estado": "PRESENTE", "horas": "Jornada completa", "avance": "Estructura tabiquería 100% completada"},
+      {"gremio": "🔥 PCI (Leo/Troser)", "estado": "AUSENTE", "horas": "—", "avance": "Sin actividad"},
+      {"gremio": "❄️ Climatización (Servitec/José)", "estado": "AUSENTE", "horas": "—", "avance": "Sin actividad"},
+      {"gremio": "⚡ Electricidad (Elecrea/Luis)", "estado": "AUSENTE", "horas": "—", "avance": "Gestión presupuestaria no presencial"},
+      {"gremio": "🖼️ Vinilos (Julio/Javi)", "estado": "PAUSADO", "horas": "—", "avance": "Cambio definitivo a color negro"}
+    ],
+    "intervenciones": {
+      "🧱 Albañilería (Munir)": "HITO SEMANA: Finaliza al 100% el montaje de toda la estructura de tabiques de obra. Próxima fase S12: ejecución tabiquería EI-120 con placa de yeso.",
+      "🖼️ Fachada / Vinilos": "PAUSADO temporalmente. Motivo: cambio definitivo al color NEGRO. Pendiente confirmación Javi para reanudar instalación.",
+      "💧 Incidencia Vecino — Fuga Agua": "Revisada presencialmente con encargado del local colindante. CONFIRMADO: responsabilidad NULA por nuestra parte. Vecino cerró llaves de paso y gestiona reparación con su propio fontanero. INCIDENCIA CERRADA.",
+      "💰 Control Económico — PCI (Troser)": "Presupuesto modificado APROBADO Y CERRADO. 51 detectores + 21 estructuras auxiliares. Sin nuevas modificaciones permitidas sin aprobación expresa de Dirección.",
+      "💰 Control Económico — Electricidad (Elecrea)": "Presupuesto revisado con Luis. Ajustes técnicos aplicados. Visto bueno de Dirección. PENDIENTE: firma formal de Luis para formalización.",
+      "❄️ Climatización (Servitec/José)": "AUSENTE hoy. Arranca trabajos martes 09/06. Objetivo S12: cassettes + tuberías + conexión final recuperadora.",
+      "⚡ Electricidad (Elecrea/Luis)": "AUSENTE en obra hoy. Retoma obra S12.",
+      "🔥 PCI (Leo/Troser)": "AUSENTE hoy. Continúa instalación S12. Previsión cierre: viernes 12/06."
+    },
+    "riesgos": [
+      {
+        "codigo": "RIESGO-01",
+        "tipo": "RESUELTO",
+        "descripcion": "Humedades / Fuga agua local colindante — CERRADO 05/06. Responsabilidad nula confirmada in situ. Vecino gestiona reparación con su fontanero. No bloquea trabajos.",
+        "accion": "CERRADA. Monitoreo pasivo.",
+        "responsable": "Darío A. López",
+        "estado": "RESUELTO",
+        "prioridad": "normal"
+      },
+      {
+        "codigo": "RIESGO-02",
+        "tipo": "CRÍTICO",
+        "descripcion": "Hersan (Salvaescaleras PMR) — Deadline 05/06 VENCIDO sin confirmación firma. Riesgo hito julio. Impacto directo en licencia apertura (3-5 agosto).",
+        "accion": "ESCALAR LUNES 08/06: contactar Pedro (Hersan). Nuevo plazo máximo antes del 10/06.",
+        "responsable": "Darío A. López",
+        "estado": "ACTIVO",
+        "prioridad": "critica"
+      }
+    ],
+    "alertas_dashboard": [
+      {"codigo": "ALERTA-D01", "tipo": "PENDIENTE CONFIRMACIÓN", "descripcion": "Color vinilos: confirmar NEGRO con Javi. S12 bloqueado sin confirmación.", "prioridad": "alta", "estado": "ACTIVA"},
+      {"codigo": "ALERTA-D02", "tipo": "PENDIENTE FIRMA", "descripcion": "Electricidad (Luis/Elecrea): visto bueno dado. Pendiente firma Luis. Solicitar antes reunión martes 09/06.", "prioridad": "alta", "estado": "ACTIVA"},
+      {"codigo": "ALERTA-D03", "tipo": "CONTROL CONTABILIDAD", "descripcion": "PCI Troser presupuesto CERRADO. Bloquear nuevas modificaciones. Requiere aprobación Dirección + Valentina.", "prioridad": "alta", "estado": "ACTIVA"},
+      {"codigo": "ALERTA-D04", "tipo": "REVISIÓN TÉCNICA CRÍTICA", "descripcion": "Antes de cerrar falsos techos S12: rozas y cables detectores PCI deben quedar vistos. Coordinar Leo + Munir.", "prioridad": "critica", "estado": "ACTIVA"},
+      {"codigo": "ALERTA-D05", "tipo": "ESCALADO URGENTE", "descripcion": "Hersan deadline VENCIDO. Contactar Pedro lunes 08/06. Sin firma = hito julio comprometido = licencia en riesgo.", "prioridad": "critica", "estado": "ACTIVA"}
+    ],
+    "definiciones_tecnicas": [
+      {"categoria": "Presupuesto — PCI", "elemento": "Troser — CERRADO", "detalle": "51 detectores + 21 estructuras auxiliares. Sin modificaciones sin aprobación expresa."},
+      {"categoria": "Presupuesto — Electricidad", "elemento": "Elecrea — Pendiente firma", "detalle": "Ajustes aplicados. Visto bueno Dirección. Pendiente firma Luis."},
+      {"categoria": "Incidencia — CERRADA", "elemento": "Fuga agua vecino", "detalle": "Responsabilidad NULA 05/06. No bloquea ningún trabajo de obra."},
+      {"categoria": "Planificación S12", "elemento": "Josevi", "detalle": "Inicio lunes 09/06: estructuras puertas + cerramiento sala colectiva."},
+      {"categoria": "Planificación S12", "elemento": "Climatización — Martes 09/06", "detalle": "Cassettes + tuberías + conexión final recuperadora azotea."}
+    ],
+    "logros_tecnicos": [
+      {"descripcion": "Estructura tabiquería 100% completada — Munir", "mejora_de": "En ejecución", "mejora_a": "100% COMPLETADA", "impacto": "Tabiquería EI-120 puede iniciar S12. Sin bloqueos estructurales."},
+      {"descripcion": "Fuga agua vecino: CERRADA — responsabilidad NULA", "mejora_de": "RIESGO-01 EN GESTIÓN", "mejora_a": "RESUELTO", "impacto": "No bloquea ningún trabajo. Riesgo legal eliminado."},
+      {"descripcion": "Presupuesto PCI Troser aprobado y cerrado", "mejora_de": "Pendiente aprobación", "mejora_a": "Aprobado y Cerrado", "impacto": "Incertidumbre económica PCI eliminada."},
+      {"descripcion": "Presupuesto Electricidad — visto bueno Dirección", "mejora_de": "En revisión", "mejora_a": "Revisado / Pendiente firma", "impacto": "Desbloquea arranque Elecrea S12."}
+    ],
+    "solicitudes_direccion": [
+      {"descripcion": "LUNES 08/06 URGENTE — Escalar Hersan: contactar Pedro. Deadline vencido. Nuevo plazo antes del 10/06.", "responsable": "Darío A. López", "urgencia": "crítica"},
+      {"descripcion": "Confirmar color negro vinilos con Javi. Instalación bloqueada sin respuesta.", "responsable": "Javi / Darío", "urgencia": "alta"},
+      {"descripcion": "Solicitar firma presupuesto Luis (Elecrea) antes de reunión martes 09/06.", "responsable": "Luis (Elecrea) / Darío", "urgencia": "alta"},
+      {"descripcion": "VALENTINA: bloquear contabilidad PCI — sin modificaciones sin aprobación expresa.", "responsable": "Valentina", "urgencia": "alta"},
+      {"descripcion": "Reunión planificación S12 — martes 09/06 13:00h.", "responsable": "Darío A. López", "urgencia": "normal"}
+    ],
+    "agenda_proxima": {
+      "items": [
+        {"hora": "Lun 08/06 — URGENTE", "evento": "Escalar Hersan: contactar Pedro. Nuevo plazo máximo."},
+        {"hora": "Mar 09/06 — Mañana", "evento": "Climatización (José): ARRANQUE. Cassettes + tuberías + conexión recuperadora."},
+        {"hora": "Mar 09/06 — Mañana", "evento": "Josevi: estructuras puertas + cerramiento sala colectiva."},
+        {"hora": "Mar 09/06 13:00h", "evento": "REUNIÓN DE PLANIFICACIÓN S12 — todas las contratas."},
+        {"hora": "Mar 09/06", "evento": "Javi: confirmar color negro vinilos."},
+        {"hora": "Mar 09/06", "evento": "Luis (Elecrea): firma presupuesto definitivo."},
+        {"hora": "S12 — Semana", "evento": "PCI (Leo/Troser): detectores + BIES. Previsión cierre vie 12/06."}
+      ]
+    },
+    "incidencias": [
+      {"gremio": "♿ Hersan", "descripcion": "Deadline 05/06 VENCIDO sin confirmación firma. Riesgo crítico para hito julio / licencia apertura.", "prioridad": "urgente"},
+      {"gremio": "🖼️ Vinilos", "descripcion": "Instalación pausada. Cambio a color negro. Pendiente confirmación Javi.", "prioridad": "alta"},
+      {"gremio": "⚡ Electricidad", "descripcion": "Presupuesto con visto bueno. Pendiente firma Luis (Elecrea).", "prioridad": "normal"}
+    ],
+    "gremios_incidencia": ["♿ Hersan", "🖼️ Vinilos", "⚡ Electricidad"],
+    "prioridad": "alta",
+    "estado": "borrador",
+    "creado_por": "Darío A. López",
+    "created_at": "2026-06-05T18:00:00"
+  },
+  {
     "id": "ACT-20260604-1800",
     "fecha": "2026-06-04",
     "semana_obra": 11,

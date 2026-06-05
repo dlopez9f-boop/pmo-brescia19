@@ -1,5 +1,198 @@
 [
   {
+    "id": "ACT-SEM-S11-2026",
+    "semana_obra": 11,
+    "semana_ano": "S11/2026",
+    "fecha_inicio": "2026-06-01",
+    "fecha_fin": "2026-06-07",
+    "obra": "Brescia 19",
+    "estado_aprobacion": "borrador",
+    "aprobado_por": "Darío A. López",
+    "estado_gantt": "EN PLAZO CON ALERTAS",
+    "resumen_ejecutivo": "Semana S11 de alta densidad técnica y cierre de definiciones. Hitos ejecutados: recuperadora Daikin posicionada y anclada en azotea sobre perfiles UPN (AT-06); PCI (Leo/Troser) entrada a obra con 51 detectores y replanteo BIES completado; estructura de tabiquería 100% completada por Munir; saunas integradas y replanteadas en baños, planos actualizados. Acuerdos técnicos cerrados: maquinaria (Daikin 27kW + Thermoven 16kW), domótica pedida, cuadro general 80x1.20m, cortina de aire eliminada del proyecto (AT-05). Presupuestos: PCI aprobado y cerrado, Electricidad con visto bueno pendiente firma. La ruta crítica mantiene el plazo hacia apertura (3-5 agosto), con una alerta crítica activa: Hersan (salvaescaleras PMR) con deadline 05/06 VENCIDO sin firma — riesgo directo sobre licencia de apertura.",
+    "alertas_criticas": [
+      {
+        "codigo": "ALERTA-S11-01",
+        "tipo": "RIESGO CRÍTICO LICENCIA",
+        "gremio": "♿ Hersan / Accesibilidad PMR",
+        "descripcion": "Salvaescaleras sin firma. Deadline 05/06 VENCIDO. Plazo de ejecución Hersan: 5-6 semanas. Hito obligatorio: 1ª semana de julio. Si la firma no se produce antes del 10/06, el hito de instalación en julio queda comprometido y puede bloquear la licencia de apertura.",
+        "accion_requerida": "Escalar LUNES 08/06: contactar Pedro (Hersan). Definir nuevo plazo máximo antes del 10/06.",
+        "responsable": "Darío A. López",
+        "deadline": "2026-06-10",
+        "impacto": "Retraso apertura 3-5 agosto 2026 — licencia comprometida"
+      },
+      {
+        "codigo": "ALERTA-S11-02",
+        "tipo": "PENDIENTE CONFIRMACIÓN",
+        "gremio": "🖼️ Fachada / Vinilos",
+        "descripcion": "Vinilos exteriores pausados por cambio a color negro definitivo. Sin confirmación de Javi, la instalación permanece bloqueada. Riesgo de retraso en imagen exterior durante S12.",
+        "accion_requerida": "Confirmar color negro con Javi antes del martes 09/06.",
+        "responsable": "Javi / Darío A. López",
+        "deadline": "2026-06-09",
+        "impacto": "Instalación vinilos bloqueada otra semana"
+      },
+      {
+        "codigo": "ALERTA-S11-03",
+        "tipo": "CONTROL CONTABILIDAD",
+        "gremio": "💰 Valentina / Contabilidad",
+        "descripcion": "Presupuesto PCI Troser CERRADO con incremento. Bloquear nuevas modificaciones no previstas. Cualquier extra adicional requiere aprobación expresa de Dirección antes de procesar.",
+        "accion_requerida": "Valentina: bloquear contabilidad PCI — sin nuevas modificaciones sin aprobación expresa de Dirección.",
+        "responsable": "Valentina",
+        "deadline": "2026-06-09",
+        "impacto": "Control presupuestario PCI"
+      }
+    ],
+    "hitos_cumplidos": [
+      "Recuperadora Daikin izada y posicionada en azotea (03/06)",
+      "Anclaje recuperadora sobre perfiles UPN completado (04/06)",
+      "Conductos climatización 100% completados (02/06)",
+      "PCI (Leo/Troser) entrada a obra — inicio instalación (04/06)",
+      "51 detectores definidos con doble detector en zonas falso techo (04/06)",
+      "Replanteo BIES completado por Leo (04/06)",
+      "Estructura tabiquería 100% completada — Munir (05/06)",
+      "Baños replanteados con saunas integradas — planos actualizados (03/06)",
+      "Cortina de aire ELIMINADA del proyecto — AT-05 (03/06)",
+      "Maquinaria definitiva cerrada: Daikin 27kW + Thermoven 16kW (02/06)",
+      "Sistema domótica cerrado y pedido (02/06)",
+      "Cuadro general dimensionado: 80x1.20m integra rack+cuadro+domótica (02/06)",
+      "Presupuesto PCI Troser APROBADO Y CERRADO (05/06)",
+      "Fuga agua vecino: responsabilidad NULA — incidencia CERRADA (05/06)",
+      "Guardia Municipal — salida emergencia despejada: RESUELTO (04/06)"
+    ],
+    "desviaciones_criticas": [
+      "♿ Hersan — deadline 05/06 VENCIDO sin firma",
+      "🖼️ Vinilos — pausados por cambio a color negro (pendiente Javi)",
+      "⚡ Electricidad — múltiples ausencias semana S11 (Luis/Elecrea)",
+      "❄️ Climatización — múltiples ausencias (sin actividad desde 04/06)",
+      "💰 Electricidad — firma presupuesto pendiente Luis"
+    ],
+    "avance_contratas": {
+      "albañileria_munir": {
+        "estado": "EN PLAZO",
+        "avance_semana": "Replanteo sala colectiva y cuartos técnicos completado (01/06). Baños redistribuidos con saunas integradas, planos actualizados (03/06). Estructura tabiquería 100% completada (05/06).",
+        "proximo_s12": "Ejecución tabiquería EI-120 con placa de yeso. Coordinación con Leo (PCI) para protocolo cableado antes de cerrar falsos techos.",
+        "estado_gantt": "Tabiquería EI-120 prevista inicio 15/06 — en plazo"
+      },
+      "electricidad_elecrea": {
+        "estado": "ATENCIÓN — múltiples ausencias",
+        "avance_semana": "Avance cableado y definición puntos de servicio según planos (03/06). Múltiples ausencias (01/06, 04/06, 05/06). Presupuesto revisado con ajustes técnicos — visto bueno Dirección.",
+        "proximo_s12": "Retoma trabajos S12. Firma presupuesto definitivo ANTES de arrancar (antes reunión martes 09/06).",
+        "estado_gantt": "Canalización eléctrica — en ejecución hasta 14/06"
+      },
+      "climatizacion_servitec": {
+        "estado": "HITOS ALCANZADOS — pausa fin de semana",
+        "avance_semana": "Conductos 100% completados (02/06). Recuperadora izada y posicionada azotea (03/06). Anclaje UPN realizado (04/06). Maquinaria Daikin+Thermoven cerrada. Domótica pedida.",
+        "proximo_s12": "ARRANQUE MARTES 09/06: finalizar cassettes + tirado tuberías + conexión final recuperadora azotea. Puesta en tensión recuperadora coordinada con Luis (AT-04).",
+        "estado_gantt": "Conductos Daikin P-01 — en ejecución hasta 25/06"
+      },
+      "pci_troser": {
+        "estado": "EN EJECUCIÓN — en plazo",
+        "avance_semana": "Entrada a obra 04/06. 51 detectores instalados (doble en zonas falso techo). 21 estructuras auxiliares (normativa distancia forjado ≤30cm). Replanteo BIES completado. Presupuesto modificado APROBADO Y CERRADO.",
+        "proximo_s12": "Continúa instalación detectores y BIES. Previsión cierre: viernes 12/06. CRÍTICO: coordinar con Munir para protocolo falsos techos — cables deben quedar vistos.",
+        "estado_gantt": "PCI detectores — en ejecución hasta 12/06"
+      },
+      "carpinteria_josevi": {
+        "estado": "PREPARACIÓN — entra S12",
+        "avance_semana": "Replanteo mamparas y cristalería completado (02/06).",
+        "proximo_s12": "INCORPORACIÓN LUNES 09/06: estructuras de puertas + cerramiento sala colectiva.",
+        "estado_gantt": "Josevi S12: estructuras puertas (09-13/06), cerramiento sala colectiva (09-20/06)"
+      },
+      "vinilos_julio": {
+        "estado": "PAUSADO — cambio color",
+        "avance_semana": "Inicio colocación vinilos exteriores (04/06). PAUSADO 05/06 por cambio definitivo a color negro.",
+        "proximo_s12": "Reanudar tras confirmación definitiva de Javi (color negro). Sin confirmación = otra semana bloqueada.",
+        "estado_gantt": "Vinilos — retrasado a semana 13/06 pendiente color"
+      }
+    },
+    "control_economico": {
+      "aprobados_semana": [
+        {
+          "contrata": "PCI — Troser (Leo)",
+          "estado": "APROBADO Y CERRADO",
+          "detalle": "Presupuesto modificado aprobado 05/06. Incluye: 51 detectores totales (antes menor número) + 21 estructuras auxiliares de soporte (cumplimiento normativa distancia al forjado ≤30cm). Control contable establecido: sin nuevas modificaciones no previstas sin aprobación expresa.",
+          "nota_valentina": "BLOQUEAR nuevas modificaciones PCI. Cualquier extra requiere aprobación Dirección (Darío) antes de procesar."
+        }
+      ],
+      "pendientes_firma": [
+        {
+          "contrata": "Electricidad — Elecrea (Luis)",
+          "estado": "REVISADO — PENDIENTE FIRMA LUIS",
+          "detalle": "Presupuesto revisado con todos los ajustes técnicos finales. Visto bueno de Dirección dado 05/06. Pendiente firma formal de Luis para formalización definitiva.",
+          "accion": "Solicitar firma antes de reunión martes 09/06."
+        }
+      ],
+      "modificaciones_proyecto_semana": [
+        {"codigo": "AT-05 / MOD-05", "elemento": "Cortina de aire — ELIMINADA", "impacto": "Ahorro de partida", "estado": "CERRADO"},
+        {"codigo": "AT-06", "elemento": "Anclaje recuperadora sobre perfiles UPN", "impacto": "Coste operario adicional 04/06", "estado": "EJECUTADO"},
+        {"codigo": "MOD-06", "elemento": "Replanteo baños + acceso saunas", "impacto": "Tabiquería, fontanería, planos", "estado": "EJECUTADO"}
+      ]
+    },
+    "incidencias": [
+      {
+        "codigo": "INC-S11-01",
+        "descripcion": "Hersan (Salvaescaleras PMR) — deadline 05/06 VENCIDO sin confirmación firma.",
+        "estado": "ACTIVO CRÍTICO",
+        "responsable": "Darío A. López",
+        "deadline_nuevo": "2026-06-10",
+        "impacto": "Hito julio comprometido — licencia apertura en riesgo"
+      },
+      {
+        "codigo": "INC-S11-02",
+        "descripcion": "Vinilos exteriores pausados — cambio color negro definitivo. Pendiente confirmación Javi.",
+        "estado": "PAUSADO",
+        "responsable": "Javi / Darío A. López",
+        "deadline_nuevo": "2026-06-09",
+        "impacto": "Imagen exterior bloqueada"
+      },
+      {
+        "codigo": "INC-S11-03",
+        "descripcion": "Guardia Municipal — requerimiento libre salida de emergencia compartida (04/06).",
+        "estado": "RESUELTO",
+        "responsable": "Darío A. López",
+        "deadline_nuevo": null,
+        "impacto": "Sin impacto — resuelto el mismo día"
+      },
+      {
+        "codigo": "INC-S11-04",
+        "descripcion": "Fuga agua local colindante — revisada in situ 05/06. Responsabilidad NULA confirmada.",
+        "estado": "CERRADA",
+        "responsable": "Vecino (su fontanero)",
+        "deadline_nuevo": null,
+        "impacto": "Sin impacto en obra"
+      },
+      {
+        "codigo": "INC-S11-05",
+        "descripcion": "Protocolo falsos techos — cableado PCI debe quedar visto antes de cerrar. Coordinar Leo + Munir en S12.",
+        "estado": "ACTIVO TÉCNICO",
+        "responsable": "Leo (Troser) + Munir",
+        "deadline_nuevo": "2026-06-12",
+        "impacto": "Riesgo de tener que abrir falsos techos si no se coordina"
+      }
+    ],
+    "planificacion_s12": {
+      "objetivos_criticos": [
+        "Escalar Hersan: firma o nuevo plazo firme antes del 10/06 — sin excusas",
+        "Climatización (José): cassettes + tuberías + conexión final recuperadora azotea",
+        "PCI (Leo): finalizar detectores + BIES — apertura fase BIEs legalización 15/06"
+      ],
+      "entradas_obra": [
+        {"gremio": "Climatización (Servitec/José)", "dia": "Martes 09/06", "objetivo": "Cassettes + tuberías + conexión recuperadora"},
+        {"gremio": "Josevi (Carpintería)", "dia": "Lunes 09/06", "objetivo": "Estructuras puertas + cerramiento sala colectiva"},
+        {"gremio": "PCI (Leo/Troser)", "dia": "Continúa", "objetivo": "Detectores + BIES — previsión cierre vie 12/06"},
+        {"gremio": "Electricidad (Elecrea/Luis)", "dia": "Retoma S12", "objetivo": "Firma presupuesto ANTES de arrancar"}
+      ],
+      "coordinacion_gremios": [
+        "Leo (PCI) + Munir: CRÍTICO — verificar rozas y cables detectores VISTOS antes de cualquier cierre de falsos techos",
+        "José (Clima) + Luis (Elec): puesta en tensión recuperadora esta semana (AT-04)",
+        "Luis (Elec): firma presupuesto definitivo antes de retomar trabajos (antes reunión martes)"
+      ],
+      "reunion_semanal": "Martes 09/06/2026 a las 13:00h — presencia obligatoria todas las contratas"
+    },
+    "actas_diarias_ids": "ACT-20260605-1800,ACT-20260604-1800,ACT-20260603-1800,ACT-20260602-1300,ACT-20260601-0900",
+    "creado_por": "Darío A. López",
+    "creado_en": "2026-06-05"
+  },
+  {
     "id": "ACT-SEM-S10-2026",
     "semana_obra": 10,
     "semana_ano": "S10/2026",
