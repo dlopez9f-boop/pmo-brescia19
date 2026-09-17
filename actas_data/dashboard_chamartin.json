@@ -1,0 +1,24 @@
+{
+  "actualizado": "2026-09-17",
+  "contratas": [
+    {"empresa": "Munir (Ziad)",           "rol": "Demolición + Obra civil",        "visita": "✓", "mediciones": "Propias",  "presupuesto": "Parcial",     "importe": "60.476 € +pte", "estado": "aprobacion",   "notas": "Prep ✓ · Demol ✓ · Parte 3 sin recibir"},
+    {"empresa": "Cador (Luis/Nacho)",     "rol": "Llave en mano (ex. clima)",      "visita": "✓", "mediciones": "Enviadas", "presupuesto": "Pendiente",   "importe": "—",             "estado": "bloqueado",    "notas": "Falta: as-built · clima · sol. S-2"},
+    {"empresa": "Elecrea (Luis)",         "rol": "Electricidad",                   "visita": "~", "mediciones": "Enviadas", "presupuesto": "Recibido",    "importe": "En revisión",   "estado": "revision",     "notas": "xlsx en carpeta ELECREA-LUIS"},
+    {"empresa": "Josevi",                 "rol": "Cerrajería metálica",            "visita": "✗", "mediciones": "—",        "presupuesto": "Pendiente",   "importe": "—",             "estado": "sin_contacto", "notas": "Pendiente coordinar visita"},
+    {"empresa": "Álvaro Medina",          "rol": "Llave en mano",                  "visita": "✗", "mediciones": "Enviadas", "presupuesto": "Pendiente",   "importe": "—",             "estado": "pendiente",    "notas": "Mediciones xlsx enviadas"},
+    {"empresa": "Álvaro Chuso",           "rol": "Piscina + Zona húmeda",          "visita": "✓", "mediciones": "v02 ✓",   "presupuesto": "Pendiente",   "importe": "—",             "estado": "bloqueado",    "notas": "Bloqueado: renders piscina"},
+    {"empresa": "Thomas Wellness (Enr.)", "rol": "Sauna · Vestuarios · Pilates",   "visita": "✗", "mediciones": "—",        "presupuesto": "Pendiente",   "importe": "—",             "estado": "sin_contacto", "notas": "Pendiente primer contacto"},
+    {"empresa": "Constherba (David)",     "rol": "Llave en mano",                  "visita": "✗", "mediciones": "Enviadas", "presupuesto": "Pendiente",   "importe": "—",             "estado": "pendiente",    "notas": "Mediciones xlsx enviadas"},
+    {"empresa": "Robisipe",               "rol": "Llave en mano",                  "visita": "✓", "mediciones": "Enviadas", "presupuesto": "Pendiente",   "importe": "—",             "estado": "pendiente",    "notas": "Visita realizada, esperando oferta"},
+    {"empresa": "Rafael Cifuentes",       "rol": "Llave en mano",                  "visita": "~", "mediciones": "Enviadas", "presupuesto": "Recibido v02","importe": "En revisión",   "estado": "revision",     "notas": "Presupuesto v02 en carpeta"},
+    {"empresa": "Dario Roblan",           "rol": "Iluminación",                    "visita": "~", "mediciones": "Enviadas", "presupuesto": "Recibido",    "importe": "En revisión",   "estado": "revision",     "notas": "xlsx iluminación v02"}
+  ],
+  "decisiones": [
+    {"nivel": "critico", "titulo": "Bajante fibrocemento/AMIANTO — notificar comunidad", "sub": "S-2 · Empresa RERA obligatoria · RD 396/2006 · URGENTE",                            "resuelta": false},
+    {"nivel": "critico", "titulo": "Saneamiento S-2: gravedad vs bombeo",                "sub": "Bloqueante para Cador · Requiere cata de cotas arqueta comunitaria",                "resuelta": false},
+    {"nivel": "imp",     "titulo": "Proyecto climatización — pendiente de Ángel (TWAO)", "sub": "Sin proyecto no hay presupuesto de ninguna contrata de clima",                      "resuelta": false},
+    {"nivel": "imp",     "titulo": "Escalera: planos de sección → Cador",               "sub": "Hormigón visto propuesto · Ángel → Luis Cador",                                     "resuelta": false},
+    {"nivel": "imp",     "titulo": "Renders zona piscina → Álvaro Chuso",               "sub": "Bloqueante para presupuesto definitivo de piscina",                                  "resuelta": false},
+    {"nivel": "imp",     "titulo": "As-Built del local → Cador y Gonzalo",              "sub": "Sin as-built no pueden dimensionar la red de saneamiento",                           "resuelta": false}
+  ]
+}
