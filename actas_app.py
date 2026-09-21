@@ -90,6 +90,15 @@ DECISIONES_CHAMARTIN = [
     {"nivel":"imp",     "titulo":"As-Built del local → Cador y Gonzalo",              "sub":"Sin as-built no pueden dimensionar la red de saneamiento"},
 ]
 
+# ─── MANTENIMIENTO: CONSTANTES ────────────────────────────────────
+CENTROS_OPERATIVOS = ["Acacias","Valdebebas","Cañaveral","Retiro","Guindalera","Chamberí","Pozuelo","Brescia 19"]
+CATEGORIAS_MANT    = ["Climatización","Fontanería","Electricidad","Accesos/Seguridad","Piscina","PCI","General"]
+PRIO_OPTS          = ["P1 · Crítica (<4h)","P2 · Urgente (<24h)","P3 · Normal (72h)"]
+PRIO_SLA           = {"P1 · Crítica (<4h)":4,"P2 · Urgente (<24h)":24,"P3 · Normal (72h)":72}
+TIPO_FAC_OPTS      = ["Mano de obra","Material","Desplazamiento","Preventivo"]
+COSTE_DESPL_SLA    = 25.0   # € por visita según contrato marco
+MARGEN_MAT_MAX     = 15.0   # % máximo sobre tarifa fabricante
+
 PENDIENTES_CHAMARTIN = {
     "Darío — HOY": [
         ("u","Dar OK formal a Munir preparación — Presu 43 (20.546 €)"),
@@ -147,6 +156,19 @@ def save_dashboard(contratas: list, decisiones: list):
         "decisiones":  decisiones,
     }
     DASH_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+# ─── MANTENIMIENTO STORAGE ─────────────────────────────────────────
+def _mant_path(mes: str) -> Path:
+    return DATA_DIR / f"mant_{mes.replace('/','_')}.json"
+
+def load_mant(mes: str) -> dict:
+    p = _mant_path(mes)
+    if not p.exists():
+        return {"ots": [], "factura": {"proveedor":"","numero":"","lineas":[]}}
+    return json.loads(p.read_text(encoding="utf-8"))
+
+def save_mant(mes: str, data: dict):
+    _mant_path(mes).write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 def semana_proyecto(d: date, inicio_ref: date) -> int:
     return max(1, (d - inicio_ref).days // 7 + 1)
@@ -307,24 +329,34 @@ with st.sidebar:
     st.markdown("### 🏗️ PMO · The Nine")
     st.markdown("---")
     pkey = st.radio(
-        "Proyecto activo",
-        options=["chamartin", "brescia"],
-        format_func=lambda k: {"chamartin": "🟢 The Nine Chamartín", "brescia": "⚪ Brescia 19 (archivo)"}[k],
+        "Vista activa",
+        options=["chamartin","mantenimiento","brescia"],
+        format_func=lambda k: {
+            "chamartin":     "🟢 Chamartín (obra)",
+            "mantenimiento": "🔧 Red de Centros",
+            "brescia":       "⚪ Brescia 19 (archivo)",
+        }[k],
     )
-    proyecto = PROYECTOS[pkey]
-    st.markdown(f"**{proyecto['nombre']}**  \n`{proyecto['ref']}`")
-    st.caption(proyecto["direccion"])
-    st.markdown(f"**Fase:** `{proyecto['fase']}`")
-    st.markdown(f"**Apertura:** {proyecto['apertura']}")
+    if pkey != "mantenimiento":
+        proyecto = PROYECTOS[pkey]
+        st.markdown(f"**{proyecto['nombre']}**  \n`{proyecto['ref']}`")
+        st.caption(proyecto["direccion"])
+        st.markdown(f"**Fase:** `{proyecto['fase']}`")
+        st.markdown(f"**Apertura:** {proyecto['apertura']}")
+    else:
+        proyecto = None
+        st.markdown("**7 centros operativos**")
+        st.caption("Acacias · Valdebebas · Cañaveral · Retiro · Guindalera · Chamberí · Pozuelo")
+        st.markdown("**Modo:** `MANTENIMIENTO OPEX`")
     st.markdown("---")
     st.caption("The Nine Group · PMO · Darío A. López")
 
 # ─── HEADER ───────────────────────────────────────────────────────
 hoy   = date.today()
-sem   = semana_proyecto(hoy, proyecto["inicio_ref"])
-lunes = hoy - timedelta(days=hoy.weekday())
-
-st.markdown(f"""
+if pkey != "mantenimiento":
+    sem   = semana_proyecto(hoy, proyecto["inicio_ref"])
+    lunes = hoy - timedelta(days=hoy.weekday())
+    st.markdown(f"""
 <div class="pmo-header">
   <div>
     <div class="brand">{proyecto['nombre'].upper()}</div>
@@ -333,13 +365,246 @@ st.markdown(f"""
   <div class="fase-badge">{proyecto['fase']}</div>
 </div>
 """, unsafe_allow_html=True)
+else:
+    st.markdown(f"""
+<div class="pmo-header">
+  <div>
+    <div class="brand">NINE GROUP · RED DE CENTROS</div>
+    <div class="meta">7 centros operativos · OPEX Mantenimiento · {hoy.strftime('%d/%m/%Y')}</div>
+  </div>
+  <div class="fase-badge">MANTENIMIENTO</div>
+</div>
+""", unsafe_allow_html=True)
 
 # ─── TABS ─────────────────────────────────────────────────────────
 if pkey == "chamartin":
     tab_actas, tab_dash, tab_semanal = st.tabs(["📋 Actas", "📊 Dashboard", "📄 Semanal"])
+    tab_ots = tab_fac = tab_audit = tab_apr_v = None
+elif pkey == "mantenimiento":
+    tab_ots, tab_fac, tab_audit, tab_apr_v = st.tabs(["📋 OTs del mes", "🧾 Factura", "🔍 Auditoría", "✅ → Valentina"])
 else:
     tab_actas, tab_semanal = st.tabs(["📋 Actas", "📄 Semanal"])
     tab_dash = None
+
+# ══════════════════════════════════════════════════════════════════
+# MODO: MANTENIMIENTO (Red de Centros)
+# ══════════════════════════════════════════════════════════════════
+if pkey == "mantenimiento":
+    mes_sel = hoy.strftime("%m/%Y")
+    mant_data = load_mant(mes_sel)
+    ots_saved = mant_data.get("ots", [])
+    fac_saved = mant_data.get("factura", {"proveedor":"","numero":"","lineas":[]})
+
+    # ── TAB OTs ──────────────────────────────────────────────────
+    with tab_ots:
+        st.markdown("### 📋 Órdenes de Trabajo — " + mes_sel)
+        st.caption("Introduce los tickets cerrados de Partner este mes. Guarda al terminar.")
+
+        col_sel, col_add = st.columns([3,1])
+        with col_sel:
+            proveedor_sel = st.selectbox("Proveedor del mes", ["Climatec Madrid","Natalio (Fontanería)","Elecrea","Control Accesos","Álvaro Chuso (Piscina)","Troser PCI","Otro"])
+        with col_add:
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("➕ Añadir fila OT"):
+                ots_saved.append({
+                    "Centro":"Valdebebas","Categoría":"Climatización","Prioridad":"P3 · Normal (72h)",
+                    "Técnico":"","Descripción":"","Apertura":mes_sel[:2]+"/09/2026","Cierre":mes_sel[:2]+"/09/2026",
+                    "Horas":1.0,"Material":"","€_Fab":0.0,"€_Fac":0.0,
+                    "Garantía":False,"G_hasta":"","Albarán":True,"Fotos":True,"Firma":True
+                })
+                save_mant(mes_sel, {"ots": ots_saved, "factura": fac_saved})
+                st.rerun()
+
+        if ots_saved:
+            df_ots = pd.DataFrame(ots_saved)
+            edited_ots = st.data_editor(
+                df_ots,
+                column_config={
+                    "Centro":     st.column_config.SelectboxColumn("Centro",     options=CENTROS_OPERATIVOS, width="small"),
+                    "Categoría":  st.column_config.SelectboxColumn("Categoría",  options=CATEGORIAS_MANT,    width="small"),
+                    "Prioridad":  st.column_config.SelectboxColumn("Prioridad",  options=PRIO_OPTS,          width="medium"),
+                    "Técnico":    st.column_config.TextColumn("Técnico",   width="small"),
+                    "Descripción":st.column_config.TextColumn("Descripción",width="large"),
+                    "Apertura":   st.column_config.TextColumn("Apertura",  width="small"),
+                    "Cierre":     st.column_config.TextColumn("Cierre",    width="small"),
+                    "Horas":      st.column_config.NumberColumn("Horas",   format="%.1f", width="small"),
+                    "Material":   st.column_config.TextColumn("Material",  width="medium"),
+                    "€_Fab":      st.column_config.NumberColumn("€ Fabricante", format="%.2f €", width="small"),
+                    "€_Fac":      st.column_config.NumberColumn("€ Facturado",  format="%.2f €", width="small"),
+                    "Garantía":   st.column_config.CheckboxColumn("Garantía?",  width="small"),
+                    "G_hasta":    st.column_config.TextColumn("Garantía hasta", width="small"),
+                    "Albarán":    st.column_config.CheckboxColumn("Albarán ✓",  width="small"),
+                    "Fotos":      st.column_config.CheckboxColumn("Fotos ✓",    width="small"),
+                    "Firma":      st.column_config.CheckboxColumn("Firma ✓",    width="small"),
+                },
+                use_container_width=True, hide_index=True, num_rows="dynamic", key="ots_editor"
+            )
+            if st.button("💾 Guardar OTs", type="primary"):
+                save_mant(mes_sel, {"ots": edited_ots.to_dict("records"), "factura": fac_saved})
+                st.success(f"✅ {len(edited_ots)} OTs guardadas — {mes_sel}")
+                st.rerun()
+        else:
+            st.info("Sin OTs este mes. Pulsa '➕ Añadir fila OT' para empezar.")
+
+    # ── TAB FACTURA ───────────────────────────────────────────────
+    with tab_fac:
+        st.markdown("### 🧾 Factura del proveedor — " + mes_sel)
+        st.caption("Introduce las líneas de la factura recibida para cruzarlas con las OTs.")
+
+        c1, c2 = st.columns(2)
+        with c1:
+            prov_nombre = st.text_input("Proveedor", value=fac_saved.get("proveedor",""))
+        with c2:
+            prov_num = st.text_input("Nº Factura", value=fac_saved.get("numero",""))
+
+        lineas = fac_saved.get("lineas", [])
+        if st.button("➕ Añadir línea factura"):
+            lineas.append({"Concepto":"","Unidades":1.0,"€_ud":0.0,"Total":0.0,"Tipo":"Mano de obra"})
+            save_mant(mes_sel, {"ots": ots_saved, "factura": {"proveedor":prov_nombre,"numero":prov_num,"lineas":lineas}})
+            st.rerun()
+
+        if lineas:
+            df_fac = pd.DataFrame(lineas)
+            edited_fac = st.data_editor(
+                df_fac,
+                column_config={
+                    "Concepto":  st.column_config.TextColumn("Concepto",   width="large"),
+                    "Unidades":  st.column_config.NumberColumn("Uds",      format="%.2f", width="small"),
+                    "€_ud":      st.column_config.NumberColumn("€/ud",     format="%.2f €", width="small"),
+                    "Total":     st.column_config.NumberColumn("Total €",  format="%.2f €", width="small"),
+                    "Tipo":      st.column_config.SelectboxColumn("Tipo",  options=TIPO_FAC_OPTS, width="medium"),
+                },
+                use_container_width=True, hide_index=True, num_rows="dynamic", key="fac_editor"
+            )
+            total_base = edited_fac["Total"].sum()
+            st.markdown(f"**Base imponible: `{total_base:,.2f} €` · IVA 21%: `{total_base*0.21:,.2f} €` · Total: `{total_base*1.21:,.2f} €`**")
+            if st.button("💾 Guardar factura", type="primary"):
+                save_mant(mes_sel, {"ots": ots_saved, "factura": {"proveedor":prov_nombre,"numero":prov_num,"lineas":edited_fac.to_dict("records")}})
+                st.success("✅ Factura guardada")
+                st.rerun()
+        else:
+            st.info("Sin líneas de factura. Añade al menos una línea.")
+
+    # ── TAB AUDITORÍA ─────────────────────────────────────────────
+    with tab_audit:
+        st.markdown("### 🔍 Auditoría — 3 Filtros automáticos")
+        if not ots_saved:
+            st.warning("Introduce y guarda las OTs en la pestaña anterior primero.")
+        else:
+            df = pd.DataFrame(ots_saved)
+
+            # Filtro 1: Garantías
+            st.markdown("#### Filtro 1 · Garantías")
+            gdf = df[df["Garantía"] == True]
+            if gdf.empty:
+                st.success("✓ Ninguna OT en período de garantía — todo facturable.")
+            else:
+                st.error(f"⚠ {len(gdf)} OT(s) sobre equipo en garantía — NO cobrable(s):")
+                st.dataframe(gdf[["Centro","Descripción","G_hasta","€_Fac"]], use_container_width=True, hide_index=True)
+
+            # Filtro 2: SLA tiempos
+            st.markdown("#### Filtro 2 · SLA Tiempos de respuesta")
+            sla_rows = []
+            for _, r in df.iterrows():
+                p = r.get("Prioridad","")
+                sla_max = PRIO_SLA.get(p, 72)
+                sla_rows.append({**r, "SLA máx (h)": sla_max})
+            st.caption("Comprueba manualmente que los tiempos de respuesta (Apertura→Cierre) cumplen el SLA según prioridad.")
+            sla_df = pd.DataFrame(sla_rows)[["Centro","Prioridad","Apertura","Cierre","SLA máx (h)","Horas"]]
+            st.dataframe(sla_df, use_container_width=True, hide_index=True)
+
+            # Filtro 3: Márgenes materiales
+            st.markdown("#### Filtro 3 · Margen de materiales (límite 15%)")
+            mat_df = df[df["€_Fab"] > 0].copy()
+            if mat_df.empty:
+                st.info("Sin materiales con precio de fabricante registrado.")
+            else:
+                mat_df["Margen %"] = ((mat_df["€_Fac"] - mat_df["€_Fab"]) / mat_df["€_Fab"] * 100).round(1)
+                alertas_mat = mat_df[mat_df["Margen %"] > MARGEN_MAT_MAX]
+                if alertas_mat.empty:
+                    st.success(f"✓ Todos los márgenes dentro del límite ({MARGEN_MAT_MAX}%)")
+                else:
+                    st.warning(f"⚠ {len(alertas_mat)} material(es) superan el margen del {MARGEN_MAT_MAX}%:")
+                    st.dataframe(alertas_mat[["Centro","Material","€_Fab","€_Fac","Margen %"]], use_container_width=True, hide_index=True)
+
+            # Desplazamientos
+            lineas = fac_saved.get("lineas", [])
+            despl = [l for l in lineas if l.get("Tipo") == "Desplazamiento"]
+            if despl:
+                st.markdown("#### Filtro 3b · Desplazamientos (contrato: 25 €/visita)")
+                for d in despl:
+                    n_vis = len(ots_saved)
+                    max_despl = n_vis * COSTE_DESPL_SLA
+                    fac_despl = d.get("Total", 0)
+                    diff = fac_despl - max_despl
+                    if diff > 0:
+                        st.error(f"⚠ Desplazamientos facturados: **{fac_despl:.0f} €** · Máx. contractual ({n_vis} visitas × {COSTE_DESPL_SLA}€): **{max_despl:.0f} €** · Sobrecoste: **{diff:.0f} €**")
+                    else:
+                        st.success(f"✓ Desplazamientos OK: {fac_despl:.0f} € ≤ máx. {max_despl:.0f} €")
+
+    # ── TAB APROBACIÓN ────────────────────────────────────────────
+    with tab_apr_v:
+        st.markdown("### ✅ Aprobación y envío a Valentina")
+        if not ots_saved or not fac_saved.get("lineas"):
+            st.warning("Completa primero las OTs y la factura.")
+        else:
+            lineas_fac = fac_saved.get("lineas", [])
+            total_base = sum(l.get("Total", 0) for l in lineas_fac)
+            garantia_descuento = sum(r.get("€_Fac", 0) for r in ots_saved if r.get("Garantía"))
+
+            st.markdown(f"**Proveedor:** {fac_saved.get('proveedor','—')} · **Factura:** {fac_saved.get('numero','—')} · **Mes:** {mes_sel}")
+            st.divider()
+
+            k1, k2, k3 = st.columns(3)
+            k1.metric("Total facturado (base)", f"{total_base:,.2f} €")
+            k2.metric("Descuento garantías", f"-{garantia_descuento:,.2f} €", delta=f"-{garantia_descuento:,.2f} €", delta_color="inverse")
+            k3.metric("Total a pagar (base)", f"{(total_base - garantia_descuento):,.2f} €")
+
+            st.markdown("#### Asignación de centros de coste")
+            cc_data = []
+            for l in lineas_fac:
+                tipo = l.get("Tipo","MO")
+                prefijo = "CAPEX" if tipo == "Inversión" else "OPEX"
+                cat_code = {"Mano de obra":"MO","Material":"MAT","Desplazamiento":"DESPL","Preventivo":"PREV"}.get(tipo, "MO")
+                cc_data.append({
+                    "Concepto": l.get("Concepto",""),
+                    "Total €":  l.get("Total", 0.0),
+                    "Código coste": f"{prefijo}-XXX-{cat_code}",
+                    "Notas validación": "",
+                })
+            cc_df = pd.DataFrame(cc_data)
+            edited_cc = st.data_editor(
+                cc_df,
+                column_config={
+                    "Concepto":         st.column_config.TextColumn(disabled=True, width="large"),
+                    "Total €":          st.column_config.NumberColumn(disabled=True, format="%.2f €", width="small"),
+                    "Código coste":     st.column_config.TextColumn("Código coste (edita)", width="medium"),
+                    "Notas validación": st.column_config.TextColumn("Notas", width="large"),
+                },
+                use_container_width=True, hide_index=True, num_rows="fixed", key="cc_editor"
+            )
+
+            total_ajustado_iva = (total_base - garantia_descuento) * 1.21
+            st.markdown(f"### Total a pagar con IVA: **{total_ajustado_iva:,.2f} €**")
+
+            if st.button("📤 Marcar como enviado a Valentina", type="primary"):
+                aprobacion = {
+                    "fecha": str(hoy),
+                    "proveedor": fac_saved.get("proveedor",""),
+                    "factura": fac_saved.get("numero",""),
+                    "total_base": total_base,
+                    "descuento_garantias": garantia_descuento,
+                    "total_pagar_iva": total_ajustado_iva,
+                    "codigos_coste": edited_cc.to_dict("records"),
+                    "aprobado_por": "Darío A. López",
+                }
+                mant_data_updated = load_mant(mes_sel)
+                mant_data_updated["aprobacion"] = aprobacion
+                save_mant(mes_sel, mant_data_updated)
+                st.success(f"✅ Enviado a Valentina — {total_ajustado_iva:,.2f} € · {str(hoy)}")
+                st.balloons()
+
+    st.stop()  # mantenimiento mode: no renderizar secciones de obra
 
 # ══════════════════════════════════════════════════════════════════
 # TAB: ACTAS
