@@ -124,6 +124,39 @@ PENDIENTES_CHAMARTIN = {
     ],
 }
 
+# ─── CAPEX/OPEX TRACKER: CONSTANTES ──────────────────────────────
+TODOS_CENTROS = ["Chamartín (WAK-13)","Brescia 19","Acacias","Valdebebas",
+                 "Cañaveral","Retiro","Guindalera","Chamberí","Pozuelo"]
+TODOS_PROVEEDORES = ["Munir (Ziad)","Cador (Luis/Nacho)","Elecrea (Luis)",
+                     "Josevi","Álvaro Medina","Álvaro Chuso","Thomas Wellness",
+                     "Constherba","Robisipe","Rafael Cifuentes","Dario Roblan",
+                     "Climatec","Natalio (Fontanería)","Troser PCI","Otro"]
+ESTADO_PET_OPTS  = ["Esperando precio","Recibido","Revisión técnica","Aprobado","Rechazado"]
+ESTADO_EJEC_OPTS = ["No iniciado","En curso","Bloqueado","Terminado in situ"]
+ESTADO_CIER_OPTS = ["Pendiente factura","Validado Darío","Traspasado Contabilidad"]
+TIPO_OPTS        = ["CAPEX","OPEX"]
+
+CAPEX_FILE = Path("actas_data/capex_opex.json")
+
+def load_capex() -> list:
+    if not CAPEX_FILE.exists():
+        return []
+    return json.loads(CAPEX_FILE.read_text(encoding="utf-8"))
+
+def save_capex(data: list):
+    CAPEX_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def nueva_peticion(ref: str) -> dict:
+    return {
+        "ref": ref, "centro": "Chamartín (WAK-13)", "tipo": "CAPEX",
+        "concepto": "", "proveedor": "",
+        "fecha_solicitud": str(date.today()),
+        "estado_peticion": "Esperando precio", "importe_presupuestado": 0.0,
+        "fecha_fin_estimada": "", "estado_ejecucion": "No iniciado", "notas": "",
+        "importe_facturado": 0.0, "estado_cierre": "Pendiente factura",
+        "fecha_recepcion": "", "garantia_meses": 12, "vencimiento_garantia": "",
+    }
+
 # ─── STORAGE ──────────────────────────────────────────────────────
 DATA_DIR = Path("actas_data")
 DATA_DIR.mkdir(exist_ok=True)
@@ -330,30 +363,39 @@ with st.sidebar:
     st.markdown("---")
     pkey = st.radio(
         "Vista activa",
-        options=["chamartin","mantenimiento","brescia"],
+        options=["chamartin","mantenimiento","capex_opex","brescia"],
         format_func=lambda k: {
-            "chamartin":     "🟢 Chamartín (obra)",
-            "mantenimiento": "🔧 Red de Centros",
-            "brescia":       "⚪ Brescia 19 (archivo)",
+            "chamartin":    "🟢 Chamartín (obra)",
+            "mantenimiento":"🔧 Red de Centros",
+            "capex_opex":   "📊 Control CAPEX/OPEX",
+            "brescia":      "⚪ Brescia 19 (archivo)",
         }[k],
     )
-    if pkey != "mantenimiento":
+    if pkey in PROYECTOS:
         proyecto = PROYECTOS[pkey]
         st.markdown(f"**{proyecto['nombre']}**  \n`{proyecto['ref']}`")
         st.caption(proyecto["direccion"])
         st.markdown(f"**Fase:** `{proyecto['fase']}`")
         st.markdown(f"**Apertura:** {proyecto['apertura']}")
-    else:
+    elif pkey == "mantenimiento":
         proyecto = None
         st.markdown("**7 centros operativos**")
         st.caption("Acacias · Valdebebas · Cañaveral · Retiro · Guindalera · Chamberí · Pozuelo")
         st.markdown("**Modo:** `MANTENIMIENTO OPEX`")
+    else:  # capex_opex
+        proyecto = None
+        reqs = load_capex()
+        st.markdown(f"**{len(reqs)} peticiones registradas**")
+        cap = len([r for r in reqs if r.get('tipo') == 'CAPEX'])
+        op  = len([r for r in reqs if r.get('tipo') == 'OPEX'])
+        st.caption(f"CAPEX: {cap} · OPEX: {op}")
+        st.markdown("**Modo:** `CICLO DE VIDA`")
     st.markdown("---")
     st.caption("The Nine Group · PMO · Darío A. López")
 
 # ─── HEADER ───────────────────────────────────────────────────────
 hoy   = date.today()
-if pkey != "mantenimiento":
+if pkey in PROYECTOS:
     sem   = semana_proyecto(hoy, proyecto["inicio_ref"])
     lunes = hoy - timedelta(days=hoy.weekday())
     st.markdown(f"""
@@ -365,7 +407,7 @@ if pkey != "mantenimiento":
   <div class="fase-badge">{proyecto['fase']}</div>
 </div>
 """, unsafe_allow_html=True)
-else:
+elif pkey == "mantenimiento":
     st.markdown(f"""
 <div class="pmo-header">
   <div>
@@ -375,6 +417,16 @@ else:
   <div class="fase-badge">MANTENIMIENTO</div>
 </div>
 """, unsafe_allow_html=True)
+else:  # capex_opex
+    st.markdown(f"""
+<div class="pmo-header">
+  <div>
+    <div class="brand">NINE GROUP · CONTROL CAPEX / OPEX</div>
+    <div class="meta">Ciclo de vida de presupuestos · Licitación → Ejecución → Facturación → Garantía · {hoy.strftime('%d/%m/%Y')}</div>
+  </div>
+  <div class="fase-badge">CICLO DE VIDA</div>
+</div>
+""", unsafe_allow_html=True)
 
 # ─── TABS ─────────────────────────────────────────────────────────
 if pkey == "chamartin":
@@ -382,6 +434,10 @@ if pkey == "chamartin":
     tab_ots = tab_fac = tab_audit = tab_apr_v = None
 elif pkey == "mantenimiento":
     tab_ots, tab_fac, tab_audit, tab_apr_v = st.tabs(["📋 OTs del mes", "🧾 Factura", "🔍 Auditoría", "✅ → Valentina"])
+elif pkey == "capex_opex":
+    tab_pipeline, tab_licita, tab_ejec, tab_factura_cv, tab_garantia = st.tabs([
+        "🗂 Pipeline", "1️⃣ Licitación", "2️⃣ Ejecución", "3️⃣ Facturación", "4️⃣ Garantías"
+    ])
 else:
     tab_actas, tab_semanal = st.tabs(["📋 Actas", "📄 Semanal"])
     tab_dash = None
@@ -604,7 +660,231 @@ if pkey == "mantenimiento":
                 st.success(f"✅ Enviado a Valentina — {total_ajustado_iva:,.2f} € · {str(hoy)}")
                 st.balloons()
 
-    st.stop()  # mantenimiento mode: no renderizar secciones de obra
+    st.stop()  # mantenimiento: no renderizar secciones de obra
+
+# ══════════════════════════════════════════════════════════════════
+# MODO: CAPEX/OPEX — CICLO DE VIDA
+# ══════════════════════════════════════════════════════════════════
+if pkey == "capex_opex":
+    reqs = load_capex()
+
+    # ── BOTÓN NUEVA PETICIÓN ──────────────────────────────────────
+    col_hdr, col_btn = st.columns([5,1])
+    with col_btn:
+        if st.button("➕ Nueva petición", type="primary"):
+            ref_nueva = f"REQ-{hoy.strftime('%y%m%d')}-{len(reqs)+1:03d}"
+            reqs.append(nueva_peticion(ref_nueva))
+            save_capex(reqs)
+            st.rerun()
+
+    # ── KPIs ──────────────────────────────────────────────────────
+    n_total   = len(reqs)
+    n_esper   = len([r for r in reqs if r.get("estado_peticion") == "Esperando precio"])
+    n_ejec    = len([r for r in reqs if r.get("estado_ejecucion") == "En curso"])
+    n_bloq    = len([r for r in reqs if r.get("estado_ejecucion") == "Bloqueado"])
+    n_contab  = len([r for r in reqs if r.get("estado_cierre") == "Traspasado Contabilidad"])
+    tot_pres  = sum(r.get("importe_presupuestado", 0) for r in reqs)
+    tot_fac   = sum(r.get("importe_facturado", 0) for r in reqs)
+    # garantías próximas a vencer (< 90 días)
+    from datetime import datetime as dt_
+    n_garantia_alert = 0
+    for r in reqs:
+        vg = r.get("vencimiento_garantia","")
+        if vg:
+            try:
+                dias = (dt_.strptime(vg, "%Y-%m-%d").date() - hoy).days
+                if 0 <= dias <= 90:
+                    n_garantia_alert += 1
+            except ValueError:
+                pass
+
+    k1,k2,k3,k4,k5 = st.columns(5)
+    k1.markdown(f'<div class="kpi-box"><div class="kpi-val" style="color:var(--blue,#1A5C8A)">{n_total}</div><div class="kpi-lbl">Total peticiones</div></div>', unsafe_allow_html=True)
+    k2.markdown(f'<div class="kpi-box"><div class="kpi-val" style="color:var(--amber,#B7610A)">{n_esper}</div><div class="kpi-lbl">Esperando precio</div></div>', unsafe_allow_html=True)
+    k3.markdown(f'<div class="kpi-box"><div class="kpi-val" style="color:var(--amber,#B7610A)">{n_ejec}</div><div class="kpi-lbl">En ejecución</div></div>', unsafe_allow_html=True)
+    k4.markdown(f'<div class="kpi-box"><div class="kpi-val" style="color:#C0392B">{n_bloq}</div><div class="kpi-lbl">Bloqueadas</div></div>', unsafe_allow_html=True)
+    k5.markdown(f'<div class="kpi-box"><div class="kpi-val" style="color:#C0392B">{n_garantia_alert}</div><div class="kpi-lbl">Garantías próx. vencer</div></div>', unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── TAB PIPELINE (vista global) ───────────────────────────────
+    with tab_pipeline:
+        st.markdown("#### Vista completa — todas las fases")
+        if not reqs:
+            st.info("Sin peticiones. Pulsa '➕ Nueva petición' para empezar.")
+        else:
+            # Filtros
+            fc1, fc2, fc3, fc4 = st.columns(4)
+            with fc1:
+                f_centro = st.selectbox("Centro", ["Todos"] + TODOS_CENTROS, key="f_centro_pip")
+            with fc2:
+                f_tipo = st.selectbox("Tipo", ["Todos","CAPEX","OPEX"], key="f_tipo_pip")
+            with fc3:
+                f_pet = st.selectbox("Estado petición", ["Todos"] + ESTADO_PET_OPTS, key="f_pet_pip")
+            with fc4:
+                f_ejec = st.selectbox("Estado ejecución", ["Todos"] + ESTADO_EJEC_OPTS, key="f_ejec_pip")
+
+            reqs_f = reqs
+            if f_centro != "Todos": reqs_f = [r for r in reqs_f if r.get("centro") == f_centro]
+            if f_tipo   != "Todos": reqs_f = [r for r in reqs_f if r.get("tipo")   == f_tipo]
+            if f_pet    != "Todos": reqs_f = [r for r in reqs_f if r.get("estado_peticion") == f_pet]
+            if f_ejec   != "Todos": reqs_f = [r for r in reqs_f if r.get("estado_ejecucion") == f_ejec]
+
+            df_pip = pd.DataFrame(reqs_f)[[
+                "ref","centro","tipo","concepto","proveedor",
+                "estado_peticion","importe_presupuestado",
+                "estado_ejecucion","notas",
+                "importe_facturado","estado_cierre",
+                "vencimiento_garantia"
+            ]] if reqs_f else pd.DataFrame()
+
+            if not df_pip.empty:
+                st.dataframe(df_pip, use_container_width=True, hide_index=True,
+                    column_config={
+                        "ref":                  st.column_config.TextColumn("Ref", width="small"),
+                        "centro":               st.column_config.TextColumn("Centro", width="small"),
+                        "tipo":                 st.column_config.TextColumn("Tipo", width="small"),
+                        "concepto":             st.column_config.TextColumn("Concepto", width="large"),
+                        "proveedor":            st.column_config.TextColumn("Proveedor", width="medium"),
+                        "estado_peticion":      st.column_config.TextColumn("F1 · Estado", width="medium"),
+                        "importe_presupuestado":st.column_config.NumberColumn("Presup. €", format="%.0f €", width="small"),
+                        "estado_ejecucion":     st.column_config.TextColumn("F2 · Ejecución", width="medium"),
+                        "notas":                st.column_config.TextColumn("Notas", width="medium"),
+                        "importe_facturado":    st.column_config.NumberColumn("Facturado €", format="%.0f €", width="small"),
+                        "estado_cierre":        st.column_config.TextColumn("F3 · Cierre", width="medium"),
+                        "vencimiento_garantia": st.column_config.TextColumn("F4 · Garantía hasta", width="small"),
+                    })
+                tot_p = sum(r.get("importe_presupuestado",0) for r in reqs_f)
+                tot_f = sum(r.get("importe_facturado",0) for r in reqs_f)
+                desv = tot_f - tot_p
+                st.markdown(f"**Presupuestado: `{tot_p:,.0f} €` · Facturado: `{tot_f:,.0f} €` · Desviación: `{'+'if desv>=0 else ''}{desv:,.0f} €`**")
+            else:
+                st.info("Sin resultados para ese filtro.")
+
+    # ── TAB F1 LICITACIÓN ─────────────────────────────────────────
+    with tab_licita:
+        st.markdown("#### Fase 1 · Licitación — Peticiones de presupuesto")
+        st.caption("Edita directamente. Guarda al terminar.")
+        if reqs:
+            df_f1 = pd.DataFrame(reqs)
+            edited_f1 = st.data_editor(
+                df_f1[["ref","centro","tipo","concepto","proveedor","fecha_solicitud","estado_peticion","importe_presupuestado"]],
+                column_config={
+                    "ref":                   st.column_config.TextColumn("Ref", disabled=True, width="small"),
+                    "centro":                st.column_config.SelectboxColumn("Centro",    options=TODOS_CENTROS, width="small"),
+                    "tipo":                  st.column_config.SelectboxColumn("Tipo",      options=TIPO_OPTS, width="small"),
+                    "concepto":              st.column_config.TextColumn("Concepto",       width="large"),
+                    "proveedor":             st.column_config.SelectboxColumn("Proveedor", options=TODOS_PROVEEDORES, width="medium"),
+                    "fecha_solicitud":       st.column_config.TextColumn("Fecha solicitud",width="small"),
+                    "estado_peticion":       st.column_config.SelectboxColumn("Estado",    options=ESTADO_PET_OPTS, width="medium"),
+                    "importe_presupuestado": st.column_config.NumberColumn("Importe €",    format="%.2f €", width="small"),
+                },
+                use_container_width=True, hide_index=True, num_rows="fixed", key="f1_editor"
+            )
+            if st.button("💾 Guardar Fase 1", type="primary", key="save_f1"):
+                for i, row in edited_f1.iterrows():
+                    reqs[i].update({k: row[k] for k in edited_f1.columns})
+                save_capex(reqs)
+                st.success("✅ Fase 1 guardada")
+                st.rerun()
+        else:
+            st.info("Añade peticiones con el botón '➕ Nueva petición'.")
+
+    # ── TAB F2 EJECUCIÓN ──────────────────────────────────────────
+    with tab_ejec:
+        st.markdown("#### Fase 2 · Ejecución — Trabajos activos")
+        if reqs:
+            df_f2 = pd.DataFrame(reqs)
+            edited_f2 = st.data_editor(
+                df_f2[["ref","centro","concepto","proveedor","fecha_fin_estimada","estado_ejecucion","notas"]],
+                column_config={
+                    "ref":               st.column_config.TextColumn("Ref", disabled=True, width="small"),
+                    "centro":            st.column_config.TextColumn("Centro", disabled=True, width="small"),
+                    "concepto":          st.column_config.TextColumn("Concepto", disabled=True, width="large"),
+                    "proveedor":         st.column_config.TextColumn("Proveedor", disabled=True, width="medium"),
+                    "fecha_fin_estimada":st.column_config.TextColumn("Fin estimado", width="small"),
+                    "estado_ejecucion":  st.column_config.SelectboxColumn("Estado", options=ESTADO_EJEC_OPTS, width="medium"),
+                    "notas":             st.column_config.TextColumn("Notas / restricciones", width="large"),
+                },
+                use_container_width=True, hide_index=True, num_rows="fixed", key="f2_editor"
+            )
+            if st.button("💾 Guardar Fase 2", type="primary", key="save_f2"):
+                for i, row in edited_f2.iterrows():
+                    reqs[i].update({k: row[k] for k in edited_f2.columns if k not in ["ref","centro","concepto","proveedor"]})
+                save_capex(reqs)
+                st.success("✅ Fase 2 guardada")
+                st.rerun()
+
+    # ── TAB F3 FACTURACIÓN ────────────────────────────────────────
+    with tab_factura_cv:
+        st.markdown("#### Fase 3 · Facturación — Control económico")
+        if reqs:
+            df_f3 = pd.DataFrame(reqs)
+            edited_f3 = st.data_editor(
+                df_f3[["ref","centro","concepto","importe_presupuestado","importe_facturado","estado_cierre"]],
+                column_config={
+                    "ref":                   st.column_config.TextColumn("Ref", disabled=True, width="small"),
+                    "centro":                st.column_config.TextColumn("Centro", disabled=True, width="small"),
+                    "concepto":              st.column_config.TextColumn("Concepto", disabled=True, width="large"),
+                    "importe_presupuestado": st.column_config.NumberColumn("Presup. €", format="%.2f €", width="small"),
+                    "importe_facturado":     st.column_config.NumberColumn("Facturado €", format="%.2f €", width="small"),
+                    "estado_cierre":         st.column_config.SelectboxColumn("Estado cierre", options=ESTADO_CIER_OPTS, width="medium"),
+                },
+                use_container_width=True, hide_index=True, num_rows="fixed", key="f3_editor"
+            )
+            # Desviaciones
+            df_tmp = edited_f3.copy()
+            df_tmp["Desv. €"] = df_tmp["importe_facturado"] - df_tmp["importe_presupuestado"]
+            alertas_desv = df_tmp[df_tmp["Desv. €"] > 0]
+            if not alertas_desv.empty:
+                st.warning(f"⚠ {len(alertas_desv)} partida(s) con sobrecoste:")
+                st.dataframe(alertas_desv[["ref","concepto","importe_presupuestado","importe_facturado","Desv. €"]], use_container_width=True, hide_index=True)
+            if st.button("💾 Guardar Fase 3", type="primary", key="save_f3"):
+                for i, row in edited_f3.iterrows():
+                    reqs[i].update({k: row[k] for k in ["importe_presupuestado","importe_facturado","estado_cierre"]})
+                save_capex(reqs)
+                st.success("✅ Fase 3 guardada")
+                st.rerun()
+
+    # ── TAB F4 GARANTÍAS ──────────────────────────────────────────
+    with tab_garantia:
+        st.markdown("#### Fase 4 · Garantías — Asset Management")
+        st.caption("Registra fecha de recepción y vencimiento. El sistema alertará cuando queden < 90 días.")
+        if reqs:
+            df_f4 = pd.DataFrame(reqs)
+            edited_f4 = st.data_editor(
+                df_f4[["ref","centro","concepto","proveedor","fecha_recepcion","garantia_meses","vencimiento_garantia"]],
+                column_config={
+                    "ref":                  st.column_config.TextColumn("Ref", disabled=True, width="small"),
+                    "centro":               st.column_config.TextColumn("Centro", disabled=True, width="small"),
+                    "concepto":             st.column_config.TextColumn("Concepto", disabled=True, width="large"),
+                    "proveedor":            st.column_config.TextColumn("Proveedor", disabled=True, width="medium"),
+                    "fecha_recepcion":      st.column_config.TextColumn("Recepción real", width="small"),
+                    "garantia_meses":       st.column_config.NumberColumn("Garantía (meses)", format="%d m", width="small"),
+                    "vencimiento_garantia": st.column_config.TextColumn("Vence (YYYY-MM-DD)", width="small"),
+                },
+                use_container_width=True, hide_index=True, num_rows="fixed", key="f4_editor"
+            )
+            # Alertas garantías próximas
+            alertas_g = []
+            for _, row in edited_f4.iterrows():
+                vg = row.get("vencimiento_garantia","")
+                if vg:
+                    try:
+                        dias = (dt_.strptime(vg, "%Y-%m-%d").date() - hoy).days
+                        if 0 <= dias <= 90:
+                            alertas_g.append({"Ref": row["ref"], "Concepto": row["concepto"], "Días restantes": dias, "Vence": vg})
+                    except ValueError:
+                        pass
+            if alertas_g:
+                st.warning(f"⚠ {len(alertas_g)} garantía(s) vencen en menos de 90 días:")
+                st.dataframe(pd.DataFrame(alertas_g), use_container_width=True, hide_index=True)
+            if st.button("💾 Guardar Fase 4", type="primary", key="save_f4"):
+                for i, row in edited_f4.iterrows():
+                    reqs[i].update({k: row[k] for k in ["fecha_recepcion","garantia_meses","vencimiento_garantia"]})
+                save_capex(reqs)
+                st.success("✅ Fase 4 guardada")
+                st.rerun()
+    st.stop()  # capex_opex: no renderizar secciones de obra
 
 # ══════════════════════════════════════════════════════════════════
 # TAB: ACTAS
