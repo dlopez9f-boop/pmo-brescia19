@@ -19,6 +19,7 @@ require_auth()
 # ── ESTILOS GLOBALES ──────────────────────────────────────────────────────────
 st.markdown("""
 <style>
+  #MainMenu, footer, header { visibility: hidden; }
   [data-testid="stAppViewContainer"]{background:#0e1117}
   [data-testid="stSidebar"]{background:#161b27}
   [data-testid="stSidebar"] *{color:#e0e3ed!important}
