@@ -21,83 +21,105 @@ def require_auth():
     logo = _logo_b64()
     logo_tag = (
         f'<img src="data:image/png;base64,{logo}" '
-        f'style="height:52px;margin-bottom:18px;filter:brightness(0)" />'
+        f'style="height:48px;margin-bottom:20px;filter:brightness(0)" />'
         if logo else
-        '<div style="font-size:32px;font-weight:900;color:#0B1F3A;margin-bottom:18px">9</div>'
+        '<div style="font-size:28px;font-weight:900;color:#0B1F3A;margin-bottom:16px">NINE FITNESS</div>'
     )
 
-    st.markdown(f"""
+    st.markdown("""
     <style>
-      #MainMenu, footer, header {{ visibility: hidden; }}
-      [data-testid="stSidebar"] {{ display: none; }}
-      [data-testid="stAppViewContainer"] {{ background: #F2F3F5; }}
-      [data-testid="stAppViewBlockContainer"] {{ padding-top: 0 !important; }}
+      /* Ocultar chrome Streamlit */
+      #MainMenu, footer, header { visibility: hidden !important; }
+      [data-testid="stSidebar"] { display: none !important; }
 
-      /* Botón rojo corporativo */
-      .stButton > button {{
-        background-color: #D31224 !important;
-        color: #fff !important;
+      /* Fondo blanco total */
+      html, body,
+      [data-testid="stAppViewContainer"],
+      [data-testid="stAppViewBlockContainer"],
+      [data-testid="block-container"],
+      .main, .block-container,
+      section[data-testid="stMain"] {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
+      }
+      [data-testid="stAppViewBlockContainer"] { padding-top: 0 !important; }
+
+      /* Botón gold corporativo */
+      .stButton > button {
+        background-color: #C9A96E !important;
+        color: #0B1F3A !important;
         border: none !important;
-        border-radius: 7px !important;
+        border-radius: 8px !important;
         font-weight: 700 !important;
         font-size: 14px !important;
-        letter-spacing: .04em !important;
-        padding: 11px 0 !important;
+        letter-spacing: .06em !important;
+        padding: 12px 0 !important;
         width: 100% !important;
+        box-shadow: 0 2px 10px rgba(201,169,110,.30) !important;
         transition: background .2s, box-shadow .2s !important;
-        box-shadow: 0 2px 8px rgba(211,18,36,.18) !important;
-      }}
-      .stButton > button:hover {{
-        background-color: #B00E1D !important;
-        box-shadow: 0 4px 16px rgba(211,18,36,.35) !important;
-      }}
+      }
+      .stButton > button:hover {
+        background-color: #B8935A !important;
+        box-shadow: 0 4px 18px rgba(201,169,110,.45) !important;
+      }
 
-      /* Input */
-      [data-testid="stTextInput"] input {{
-        background: #fff !important;
-        border: 1.5px solid #DDE1E8 !important;
-        border-radius: 7px !important;
+      /* Input limpio */
+      [data-testid="stTextInput"] input {
+        background: #F8F6F1 !important;
+        border: 1.5px solid #DDD5C0 !important;
+        border-radius: 8px !important;
         color: #0B1F3A !important;
-        padding: 10px 14px !important;
+        padding: 11px 14px !important;
         font-size: 14px !important;
-      }}
-      [data-testid="stTextInput"] input:focus {{
-        border-color: #D31224 !important;
-        box-shadow: 0 0 0 3px rgba(211,18,36,.12) !important;
-      }}
-      [data-testid="stTextInput"] label {{
-        color: #6B7280 !important;
+      }
+      [data-testid="stTextInput"] input:focus {
+        border-color: #C9A96E !important;
+        box-shadow: 0 0 0 3px rgba(201,169,110,.18) !important;
+        background: #FFFDF8 !important;
+      }
+      [data-testid="stTextInput"] input::placeholder { color: #AAA08A !important; }
+      [data-testid="stTextInput"] label {
+        color: #5A5040 !important;
         font-size: 12px !important;
-        font-weight: 500 !important;
-      }}
+        font-weight: 600 !important;
+        letter-spacing: .03em !important;
+      }
     </style>
     """, unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1, 1.3, 1])
+    col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
-        st.markdown("<div style='height:64px'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height:60px'></div>", unsafe_allow_html=True)
 
         st.markdown(f"""
         <div style="
-          background:#fff;
-          border-radius:16px;
-          border:1px solid #E5E8EF;
-          box-shadow:0 8px 32px rgba(11,31,58,.08);
-          padding:40px 36px 32px;
-          text-align:center;
-          margin-bottom:20px
+          background: #FFFFFF;
+          border-radius: 16px;
+          border: 1px solid #E8E0CE;
+          box-shadow: 0 8px 40px rgba(11,31,58,.10);
+          padding: 44px 38px 36px;
+          text-align: center;
+          margin-bottom: 22px;
         ">
           {logo_tag}
-          <div style="font-size:10px;color:#9CA3AF;text-transform:uppercase;
-                      letter-spacing:3px;margin-bottom:8px">
-            Nine Fitness Group S.L.
+          <div style="
+            display:inline-block;
+            border-top: 1px solid #E8E0CE;
+            border-bottom: 1px solid #E8E0CE;
+            padding: 5px 16px;
+            margin-bottom: 14px;
+          ">
+            <span style="font-size:9px;color:#C9A96E;text-transform:uppercase;
+                         letter-spacing:4px;font-weight:700">
+              Nine Fitness Group S.L.
+            </span>
           </div>
-          <div style="font-size:20px;font-weight:800;color:#0B1F3A;
-                      letter-spacing:.02em;margin-bottom:4px">
+          <div style="font-size:22px;font-weight:800;color:#0B1F3A;
+                      letter-spacing:.03em;margin-bottom:6px">
             DIRECCIÓN DE OBRA
           </div>
-          <div style="font-size:10px;color:#C0C5CF;text-transform:uppercase;
-                      letter-spacing:2px;margin-top:2px">
+          <div style="font-size:10px;color:#AAA08A;text-transform:uppercase;
+                      letter-spacing:2.5px">
             Acceso restringido · PMO
           </div>
         </div>
@@ -111,15 +133,16 @@ def require_auth():
             placeholder="Introduce la contraseña...",
         )
         st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
-        if st.button("Acceder al Panel →", use_container_width=True):
+        if st.button("ACCEDER AL PANEL →", use_container_width=True):
             _submit()
 
         if "_pwd_ok" in st.session_state and not st.session_state["_pwd_ok"]:
             st.error("Contraseña incorrecta.")
 
         st.markdown("""
-        <p style="text-align:center;color:#C0C5CF;font-size:11px;margin-top:18px">
-          Plataforma exclusiva · Equipo PMO y Dirección Técnica
+        <p style="text-align:center;color:#C8BFA8;font-size:11px;margin-top:20px;
+                  text-transform:uppercase;letter-spacing:1.5px">
+          Plataforma exclusiva · PMO y Dirección Técnica
         </p>
         """, unsafe_allow_html=True)
 

@@ -19,12 +19,18 @@ require_auth()
 # ── ESTILOS GLOBALES ──────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-  #MainMenu, footer, header { visibility: hidden; }
-  [data-testid="stAppViewContainer"] { background: #F2F3F5; }
-  [data-testid="stSidebar"] { background: #fff; border-right: 1px solid #E5E8EF; }
+  #MainMenu, footer, header { visibility: hidden !important; }
+  html, body,
+  [data-testid="stAppViewContainer"],
+  [data-testid="stAppViewBlockContainer"],
+  .main, .block-container,
+  section[data-testid="stMain"] {
+    background-color: #FDFCF9 !important;
+  }
+  [data-testid="stSidebar"] { background: #fff !important; border-right: 1px solid #E8E0CE !important; }
   .mod-card {
     background: #fff;
-    border: 1px solid #E5E8EF;
+    border: 1px solid #E8E0CE;
     border-radius: 12px;
     padding: 24px 20px 16px;
     text-align: center;
@@ -32,23 +38,23 @@ st.markdown("""
     box-shadow: 0 2px 12px rgba(11,31,58,.06);
     transition: box-shadow .2s, border-color .2s;
   }
-  .mod-card:hover { border-color: #D31224; box-shadow: 0 6px 24px rgba(211,18,36,.10); }
-  /* Botones de tarjeta en rojo */
+  .mod-card:hover { border-color: #C9A96E; box-shadow: 0 6px 24px rgba(201,169,110,.18); }
   div[data-testid="column"] .stButton > button {
-    background: #D31224 !important;
-    color: #fff !important;
+    background: #C9A96E !important;
+    color: #0B1F3A !important;
     border: none !important;
     border-radius: 7px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     font-size: 13px !important;
-    padding: 8px 0 !important;
+    letter-spacing: .04em !important;
+    padding: 9px 0 !important;
     width: 100% !important;
     margin-top: 6px !important;
-    box-shadow: 0 2px 8px rgba(211,18,36,.15) !important;
+    box-shadow: 0 2px 8px rgba(201,169,110,.25) !important;
     transition: background .15s !important;
   }
   div[data-testid="column"] .stButton > button:hover {
-    background: #B00E1D !important;
+    background: #B8935A !important;
   }
 </style>
 """, unsafe_allow_html=True)
