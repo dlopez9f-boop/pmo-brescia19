@@ -29,12 +29,19 @@ init_db()
 NAVY = "#0B1F3A"
 GOLD = "#C9A96E"
 
+st.markdown("""
+<style>
+  #MainMenu, footer, header { visibility: hidden !important; }
+  [data-testid="stSidebar"] { border-right: 1px solid #E8E0CE !important; }
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown(
     f"<div style='background:{NAVY};padding:12px 20px;border-bottom:2px solid {GOLD};"
     f"margin:-1rem -1rem 1rem -1rem;display:flex;align-items:center;gap:12px'>"
     f"<span style='color:{GOLD};font-weight:700;font-size:15px;letter-spacing:.08em'>"
     f"📝 ACTAS Y CERTIFICACIONES</span>"
-    f"<span style='color:#3a5a80;font-size:11px'>Backend: {backend_info()}</span>"
+    f"<span style='color:#6a8aaa;font-size:11px'>Backend: {backend_info()}</span>"
     f"</div>",
     unsafe_allow_html=True,
 )
@@ -42,11 +49,11 @@ st.markdown(
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-  .acta-card{border-left:4px solid #e94560;padding:10px 14px;background:#1a1f2e;
+  .acta-card{border-left:4px solid #C9A96E;padding:10px 14px;background:#F5F0E8;
              border-radius:0 8px 8px 0;margin-bottom:8px}
   .acta-card.urgente{border-left-color:#c0392b}
   .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
-  .b-red{background:#3d1515;color:#e74c3c} .b-amber{background:#3d2e0a;color:#f39c12}
+  .b-red{background:#fde8e8;color:#c0392b} .b-amber{background:#fef3e2;color:#d68910}
   .b-green{background:#0d2e1a;color:#27ae60} .b-blue{background:#0d1f3d;color:#3498db}
 </style>
 """, unsafe_allow_html=True)

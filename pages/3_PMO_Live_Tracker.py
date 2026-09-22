@@ -49,12 +49,19 @@ NAVY = "#0B1F3A"
 GOLD = "#C9A96E"
 
 # ── HEADER ────────────────────────────────────────────────────────────────────
+st.markdown("""
+<style>
+  #MainMenu, footer, header { visibility: hidden !important; }
+  [data-testid="stSidebar"] { border-right: 1px solid #E8E0CE !important; }
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown(
     f"<div style='background:{NAVY};padding:12px 20px;border-bottom:2px solid {GOLD};"
     f"margin:-1rem -1rem 1rem -1rem;display:flex;align-items:center;gap:12px'>"
     f"<span style='color:{GOLD};font-weight:700;font-size:15px;letter-spacing:.08em'>"
     f"📋 PMO LIVE TRACKER</span>"
-    f"<span style='color:#3a5a80;font-size:11px'>Centros operativos · excluye Chamartín y Brescia 19</span>"
+    f"<span style='color:#6a8aaa;font-size:11px'>Centros operativos · excluye Chamartín y Brescia 19</span>"
     f"</div>",
     unsafe_allow_html=True,
 )

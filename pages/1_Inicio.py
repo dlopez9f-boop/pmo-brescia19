@@ -22,12 +22,19 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
+st.markdown("""
+<style>
+  #MainMenu, footer, header { visibility: hidden !important; }
+  [data-testid="stSidebar"] { border-right: 1px solid #E8E0CE !important; }
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown(
     f"<div style='background:{NAVY};padding:12px 20px;border-bottom:2px solid {GOLD};"
     f"margin:-1rem -1rem 1rem -1rem'>"
     f"<span style='color:{GOLD};font-weight:700;font-size:15px;letter-spacing:.08em'>"
     f"📊 INICIO · RESUMEN EJECUTIVO</span>"
-    f"<span style='color:#3a5a80;font-size:11px;margin-left:14px'>Estado operativo de la red — {pd.Timestamp.now().strftime('%d/%m/%Y')}</span>"
+    f"<span style='color:#6a8aaa;font-size:11px;margin-left:14px'>Estado operativo de la red — {pd.Timestamp.now().strftime('%d/%m/%Y')}</span>"
     f"</div>",
     unsafe_allow_html=True,
 )
