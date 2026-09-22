@@ -9,6 +9,12 @@ venv/
 # Streamlit
 .streamlit/secrets.toml
 
+# Credenciales Google — NUNCA al repo
+*.json
+!.devcontainer/devcontainer.json
+!actas_data/*.json
+!brescia19_state.json
+
 # Sistema
 .DS_Store
 Thumbs.db
@@ -18,10 +24,15 @@ desktop.ini
 ~$*.xlsx
 ~$*.docx
 
-# Archivos grandes que no van a GitHub
+# Archivos grandes y carpetas que no van a GitHub
 *.mp4
 *.avi
 *.mov
+*.zip
+"F1_NINE FITNESS/"
+F1_NINE FITNESS/
+scratch_excel/node_modules/
+node_modules/
 CAÑAVERAL_II/
 RETIRO/
 BRESCIA_19/01_ANTEPROYECTO/

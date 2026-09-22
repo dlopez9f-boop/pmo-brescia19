@@ -7,8 +7,8 @@ Flujo: Dictar/Pegar → Parsear → Editar formulario → Exportar JSON + HTML
 """
 
 import json
-import uuid
 import streamlit as st
+import pandas as pd
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
